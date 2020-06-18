@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "askForPassword": false,
+            "connectionTimeout": 3600,
+            "database": "posts",
+            "dialect": "MySQL",
+            "name": "askookie",
+            "port": 3306,
+            "server": "localhost",
+            "username": "root"
+        }
+    ]
+}
