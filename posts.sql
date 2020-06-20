@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2020 at 08:22 AM
+-- Generation Time: Jun 20, 2020 at 10:11 AM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.5
+-- PHP Version: 7.4.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,16 +33,20 @@ CREATE TABLE `feeds` (
   `asker` varchar(15) NOT NULL,
   `post` text NOT NULL,
   `answerer` varchar(15) DEFAULT NULL,
-  `answer` text DEFAULT NULL
+  `answer` text DEFAULT NULL,
+  `type` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `feeds`
 --
 
-INSERT INTO `feeds` (`postID`, `category`, `asker`, `post`, `answerer`, `answer`) VALUES
-(1, 'accomodation', 'user1', 'how', NULL, NULL),
-(2, 'modules', 'user1', 'what', NULL, NULL);
+INSERT INTO `feeds` (`postID`, `category`, `asker`, `post`, `answerer`, `answer`, `type`) VALUES
+(1, 'accomodation', 'user1', 'What is the difference between each Residential Colleges?', 'user0', 'The art and cultures are different', ''),
+(2, 'modules', 'user1', 'How is life in NUS?', 'user2', 'Life is good', ''),
+(3, 'faculties', 'user0', 'Why choose SOC?', 'user1', 'Because it is good', ''),
+(4, 'faculties', 'user0', 'Why choose SDE?', NULL, NULL, ''),
+(5, 'Exchange/NOC', 'user0', 'What should I prepare for Exchange?', NULL, NULL, '');
 
 -- --------------------------------------------------------
 
@@ -92,7 +96,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `feeds`
 --
 ALTER TABLE `feeds`
-  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
