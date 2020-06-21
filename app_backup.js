@@ -197,7 +197,7 @@ router.post('/ask', (req, res) => {
 
 //add answer
 router.post('/answer', (req, res) => {
-    let  { postID, answererId, ans } = req.body;
+    let  { postID, answererId, answer } = req.body;
     let errors = [];
     
     //validate input
@@ -211,7 +211,7 @@ router.post('/answer', (req, res) => {
             errors
         });
     } else {
-    connection.query("UPDATE feeds SET answerer = answererId, answer = ans WHERE postId = postID");
+    connection.query("UPDATE feeds SET answerer = answererId, answer = answer WHERE postId = postID");
     res.send('Answer added');
    // res.render('/home');
     }
