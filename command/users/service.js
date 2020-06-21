@@ -155,11 +155,11 @@ module.exports = {
     },
     answer:(data, callBack) => {
         pool.query(
-            'UPDATE feeds SET answerer = ?, answer = ? WHERE postId = ?',
+            'UPDATE feeds SET answerer = ?, answer = ? WHERE postID = ?',
             [
                 data.answerer,
                 data.answer,
-                data.postId
+                data.postID
             ],
             (error, results, fields) => {
                 if(error) {

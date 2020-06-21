@@ -75,18 +75,20 @@ module.exports = {
                });
            }
            const result = compareSync(body.password, results.password);
+           console.log(body.password);
            if(result) {
                results.password = undefined;
                const jsontoken = sign({ result: results }, "qwe1234", {
                    expiresIn: "1h"
                });
                return res.json({
+                   success: 1,
                    message: "login successfully",
                    token: jsontoken
                });
            } else {
              return res.json({
-                success: 1,
+                success: 2,
                 data: "Invalid username or password"
             });
            }
