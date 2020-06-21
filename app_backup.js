@@ -101,9 +101,9 @@ router.get('/category/modules', (req, res) => {
     });
 });
 
-//accomodation category
-router.get('/category/accomodation', (req, res) => {
-    connection.query("SELECT * FROM feeds WHERE category LIKE 'accomodation'", (error, rows, field) => {
+//accommodation category
+router.get('/category/accommodation', (req, res) => {
+    connection.query("SELECT * FROM feeds WHERE category LIKE 'accommodation'", (error, rows, field) => {
         if(!!error) {
             console.log('Error in the query');
         } else {
@@ -130,8 +130,8 @@ router.get('/category/student_life', (req, res) => {
 });
 
 //job/internship category
-router.get('/category/career', (req, res) => {
-    connection.query("SELECT * FROM feeds WHERE category LIKE 'career'", (error, rows, field) => {//change to job_internship
+router.get('/category/job_intern', (req, res) => {
+    connection.query("SELECT * FROM feeds WHERE category LIKE 'job_intern'", (error, rows, field) => {//change to job_internship
         if(!!error) {
             console.log('Error in the query');
         } else {
@@ -144,8 +144,8 @@ router.get('/category/career', (req, res) => {
 });
 
 //exchange/NOC category
-router.get('/category/exchange', (req, res) => {
-    connection.query("SELECT * FROM feeds WHERE category LIKE 'exchange'", (error, rows, field) => {//change to exchange_noc
+router.get('/category/exchange_noc', (req, res) => {
+    connection.query("SELECT * FROM feeds WHERE category LIKE 'exchange_noc'", (error, rows, field) => {//change to exchange_noc
         if(!!error) {
             console.log('Error in the query');
         } else {

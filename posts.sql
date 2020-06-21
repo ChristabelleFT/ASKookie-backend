@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 20, 2020 at 10:11 AM
+-- Generation Time: Jun 21, 2020 at 09:27 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -42,11 +42,11 @@ CREATE TABLE `feeds` (
 --
 
 INSERT INTO `feeds` (`postID`, `category`, `asker`, `post`, `answerer`, `answer`, `type`) VALUES
-(1, 'accomodation', 'user1', 'What is the difference between each Residential Colleges?', 'user0', 'The art and cultures are different', ''),
-(2, 'modules', 'user1', 'How is life in NUS?', 'user2', 'Life is good', ''),
+(1, 'accommodation', 'user1', 'What is the difference between each Residential Colleges?', 'user0', 'The art and cultures are different', ''),
+(2, 'student_life', 'user1', 'How is life in NUS?', 'user2', 'Life is good', ''),
 (3, 'faculties', 'user0', 'Why choose SOC?', 'user1', 'Because it is good', ''),
 (4, 'faculties', 'user0', 'Why choose SDE?', NULL, NULL, ''),
-(5, 'Exchange/NOC', 'user0', 'What should I prepare for Exchange?', NULL, NULL, '');
+(5, 'exchange_noc', 'user0', 'What should I prepare for Exchange?', NULL, NULL, '');
 
 -- --------------------------------------------------------
 
@@ -68,7 +68,8 @@ INSERT INTO `users` (`username`, `password`) VALUES
 ('user1', '01'),
 ('user2', '02'),
 ('user3', '03'),
-('user4', '04');
+('user4', '04'),
+('user5', '05');
 
 --
 -- Indexes for dumped tables

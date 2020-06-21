@@ -4,7 +4,7 @@ const {
     getUserByName,
     getFeeds,
     getFaculties,
-    getAccomodation,
+    getAccommodation,
     getStudentLife,
     getJobIntern,
     getExchangeNoc,
@@ -114,8 +114,8 @@ module.exports = {
             });
         });
     },
-    getAccomodation: (req, res) => {
-        getAccomodation((err, results) => {
+    getAccommodation: (req, res) => {
+        getAccommodation((err, results) => {
             if(err) {
                 console.log(err);
                 return;
