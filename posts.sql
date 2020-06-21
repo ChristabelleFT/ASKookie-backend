@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 20, 2020 at 10:11 AM
+-- Generation Time: Jun 21, 2020 at 10:00 AM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.6
+-- PHP Version: 7.4.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -56,19 +56,22 @@ INSERT INTO `feeds` (`postID`, `category`, `asker`, `post`, `answerer`, `answer`
 
 CREATE TABLE `users` (
   `username` varchar(12) NOT NULL,
-  `password` varchar(12) NOT NULL
+  `password` varchar(12) NOT NULL,
+  `email` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`username`, `password`) VALUES
-('user0', '00'),
-('user1', '01'),
-('user2', '02'),
-('user3', '03'),
-('user4', '04');
+INSERT INTO `users` (`username`, `password`, `email`) VALUES
+('', '$2b$10$qC.hZ', ''),
+('test', '$2b$10$OgNh9', 'test@test.com'),
+('user0', '00', ''),
+('user1', '01', ''),
+('user2', '02', ''),
+('user3', '03', ''),
+('user4', '04', '');
 
 --
 -- Indexes for dumped tables
