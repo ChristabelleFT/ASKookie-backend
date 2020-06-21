@@ -65,9 +65,9 @@ module.exports = {
             }
         );
     },
-    getAccomodation: callBack => {
+    getAccommodation: callBack => {
         pool.query(
-            "SELECT * FROM feeds WHERE category = 'accomodation'",
+            "SELECT * FROM feeds WHERE category = 'accommodation'",
             [],
             (error, results, fields) => {
                 if(error) {
@@ -79,7 +79,7 @@ module.exports = {
     },
     getStudentLife: callBack => {
         pool.query(
-            "SELECT * FROM feeds WHERE category = 'studentLife'",
+            "SELECT * FROM feeds WHERE category = 'student_life'",
             [],
             (error, results, fields) => {
                 if(error) {
@@ -91,7 +91,7 @@ module.exports = {
     },
     getJobIntern: callBack => {
         pool.query(
-            "SELECT * FROM feeds WHERE category = 'jobIntern'",
+            "SELECT * FROM feeds WHERE category = 'job_intern'",
             [],
             (error, results, fields) => {
                 if(error) {
@@ -103,7 +103,7 @@ module.exports = {
     },
     getExchangeNoc: callBack => {
         pool.query(
-            "SELECT * FROM feeds WHERE category = 'exchangeNoc'",
+            "SELECT * FROM feeds WHERE category = 'exchange_noc'",
             [],
             (error, results, fields) => {
                 if(error) {

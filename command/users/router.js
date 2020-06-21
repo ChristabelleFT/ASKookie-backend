@@ -5,7 +5,7 @@ const {
      login,
      getFeeds,
      getFaculties,
-     getAccomodation,
+     getAccommodation,
      getStudentLife,
      getJobIntern,
      getExchangeNoc,
@@ -22,7 +22,7 @@ router.get("/home", getFeeds);
 router.get("/:username", getUserByName);
 router.post("/login", login);
 router.get("/feeds/faculties", getFaculties);
-router.get("/feeds/accomodation", getAccomodation);
+router.get("/feeds/accommodation", getAccommodation);
 router.get("/feeds/student_life", getStudentLife);
 router.get("/feeds/job_intern", getJobIntern);
 router.get("/feeds/exchange_noc", getExchangeNoc);
