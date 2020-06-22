@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 21, 2020 at 07:45 PM
+-- Generation Time: Jun 22, 2020 at 07:56 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -50,7 +50,13 @@ INSERT INTO `feeds` (`postID`, `category`, `asker`, `post`, `answerer`, `answer`
 (6, 'modules', 'user2', 'What module should I take?', NULL, NULL, ''),
 (7, 'Exchange/NOC', 'user2', 'Should I go for NOC?', 'test3', 'Absolutely!', ''),
 (8, 'job_intern', 'user0', 'What are the opportunities out there?', NULL, NULL, ''),
-(10, 'accommodation', 'user0', 'How is living in NUS?', 'test3', 'It\'s the best', '');
+(10, 'accommodation', 'user0', 'How is living in NUS?', 'test3', 'It\'s the best', ''),
+(11, 'accommodation', 'user7', 'Is it expensive to live on-campus?', 'user7', 'Yes', ''),
+(12, 'job_intern', 'user7', 'Is it hard to get internships?', NULL, NULL, ''),
+(15, 'faculties', 'test4', 'How many faculties are there is NUS?', NULL, NULL, ''),
+(19, 'student_life', 'test4', 'Is it hard to get into CCA in NUS?', NULL, NULL, ''),
+(20, 'exchange_noc', 'test4', 'Is NOC beter than exchange?', NULL, NULL, ''),
+(23, 'faculties', 'test4', 'What is the most popular major in NUS', NULL, NULL, '');
 
 -- --------------------------------------------------------
 
@@ -73,12 +79,14 @@ INSERT INTO `users` (`username`, `password`, `email`) VALUES
 ('test', '$2b$10$OgNh9', 'test@test.com'),
 ('test2', '$2b$10$Ml/kO', 'test2@test2.com'),
 ('test3', '$2b$10$fAla6AseoTy/lwa4shyDT.UfydcDDoaCeshS6jpad.s.d57lwgV8i', 'test3@gmail.com'),
+('test4', '$2b$10$7MjFLDiCUuuHB/oTeL9fB.09XQ.ybypdVZBTCIbF4I1YD6SxNnKWC', 'test4@test.com'),
 ('user0', '00', ''),
 ('user1', '01', ''),
 ('user2', '02', ''),
 ('user3', '03', ''),
 ('user4', '04', ''),
-('user6', '$2b$10$bbfD1', 'user6@user6.com');
+('user6', '$2b$10$bbfD1', 'user6@user6.com'),
+('user7', '$2b$10$HTDXdfMd852dT3NmS1xLo.o8b9abkmWwpwitMElI6cxUsdzpVrnqe', 'user7@user.com');
 
 --
 -- Indexes for dumped tables
@@ -106,7 +114,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `feeds`
 --
 ALTER TABLE `feeds`
-  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `postID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Constraints for dumped tables
