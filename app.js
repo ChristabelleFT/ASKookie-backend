@@ -7,7 +7,9 @@ app.use(express.json());
 
 app.use("", userRouter);
 //app.listen(process.env.PORT, '0.0.0.0');
-app.listen(process.env.PORT || 5000, () => {
+//app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || '5000', () => {
+    console.log("host", process.env.DB_HOST);
     if(process.env.PORT){
         console.log("Server is running on port: ", process.env.PORT);
     } else {
