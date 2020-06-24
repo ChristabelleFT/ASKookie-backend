@@ -6,6 +6,6 @@ const userRouter = require("./command/users/router");
 app.use(express.json());
 
 app.use("", userRouter);
-app.listen(process.env.APP_PORT, () => {
-    console.log("Server is running on port: ", process.env.APP_PORT);
+app.listen(process.env.PORT || 5000, () => {
+    console.log("Server is running on port: ", process.env.PORT);
 });
