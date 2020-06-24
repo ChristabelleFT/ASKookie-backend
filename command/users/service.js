@@ -139,11 +139,12 @@ module.exports = {
     },
     ask:(data, callBack) => {
         pool.query(
-            'INSERT INTO feeds(category, asker, post, title) values(?,?,?,?)',
+            'INSERT INTO feeds(category, asker, post, type, title) values(?,?,?,?,?)',
             [
                 data.category,
                 data.asker,
                 data.post,
+                data.type,
                 data.title
             ],
             (error, results, fields) => {
