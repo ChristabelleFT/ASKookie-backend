@@ -7,5 +7,9 @@ app.use(express.json());
 
 app.use("", userRouter);
 app.listen(process.env.PORT || 5000, () => {
-    console.log("Server is running on port: ", process.env.PORT);
+    if(process.env.PORT){
+        console.log("Server is running on port: ", process.env.PORT);
+    } else {
+        console.log("Server is running on port: 5000");
+    }
 });
