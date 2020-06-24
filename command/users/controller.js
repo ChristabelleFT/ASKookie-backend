@@ -20,8 +20,27 @@ const { sign } = require("jsonwebtoken");
 module.exports = {
     createUser: (req, res) => {
         const body = req.body;
-        const salt = genSaltSync(10);//generatetoken
+        const salt = genSaltSync(10);//generate token for password
         body.password = hashSync(body.password, salt);
+        //create token for verification
+        /*jwt.sign(
+            {
+                user: body.username,
+            },
+            body.email,
+            {
+                expiresIn: '1d',
+            },
+            (err, emailToken) => {
+                const url = `http://localhost:3000/confirmation/${emailToken}`;
+
+                transporter.sendMail({
+                    to: args.email,
+                    subject: 'ASKookie Email Confirmation',
+                    html: `Please click this link to confirm your email: <a href="${url}">${url}</a>`
+                });
+            },
+        );*/
         create(body, (err, results) =>{
             if(err) {
                 console.log(err);
@@ -34,6 +53,11 @@ module.exports = {
             });
         });
     },
+    /*confirmation: (req, res) => {
+        try {
+            const {user:{id}} = jwt.verify(req.params.token, )
+        }
+    },*/
     getUserByName: (req, res) => {
         const username = req.params.username;
         getUserByName(username, (err, results) => {
@@ -74,6 +98,12 @@ module.exports = {
                    data: "Invalid username or password"
                });
            }
+           /*if(body.verified == 0) {
+               return res.json({
+                   success: 1,
+                   data: "Email is not verified"
+               });
+           }*/
            const result = compareSync(body.password, results.password);
            console.log(body.password);
            if(result) {
@@ -82,13 +112,13 @@ module.exports = {
                    expiresIn: "1h"
                });
                return res.json({
-                   success: 1,
+                   success: 2,
                    message: "login successfully",
                    token: jsontoken
                });
            } else {
              return res.json({
-                success: 2,
+                success: 3,
                 data: "Invalid username or password"
             });
            }
@@ -199,7 +229,7 @@ module.exports = {
             }
             return res.status(200).json({
                 data: results,
-                message: "Question added"
+                message: "Post added"
             });
         });
     },
