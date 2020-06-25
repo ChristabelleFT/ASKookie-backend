@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix ASKookie_frontend && npm run build --prefix ASKookie_frontend"
+    "start": "nodemon app.js"
   },
   "keywords": [
     "heroku"
