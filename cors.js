@@ -5,6 +5,8 @@ const allowedOrigin = [
     'http://localhost:5000',
     'http://localhost:3000/',
     'http://localhost:5000/',
+    'https://whispering-hamlet-08619.herokuapp.com/',
+    'https://whispering-hamlet-08619.herokuapp.com',
     'https://compassionate-shockley-c03462.netlify.app/',
     'https://compassionate-shockley-c03462.netlify.app'
 ];
