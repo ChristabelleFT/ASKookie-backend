@@ -266,7 +266,8 @@ module.exports = {
         });
     },
     getUserByPostId: (req, res) => {
-        getUserbyPostId((err, results) => {
+        const postId = req.params.postId;
+        getUserbyPostId(postId, (err, results) => {
             if(err) {
                 console.log(err);
                 return;
