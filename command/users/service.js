@@ -186,7 +186,7 @@ module.exports = {
     },
     getUserbyPostId: (postId, callBack) => {
         pool.query(
-            'SELECT * FROM users WHERE postID = ?',
+            'SELECT username FROM feeds WHERE postID = ?',
             [postId],
             (error, results, fields) => {
                 if(error) {
