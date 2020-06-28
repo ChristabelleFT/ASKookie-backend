@@ -251,8 +251,8 @@ module.exports = {
         });
     },
     deletePost: (req, res) => {
-        const body = req.body;
-        deletePost(body, (err, results) =>{
+        const id = req.params.id;
+        deletePost(id, (err, results) =>{
             if(err) {
                 console.log(err);
                 return res.status(500).json({

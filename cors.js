@@ -5,6 +5,7 @@ const allowedOrigin = [
     'http://localhost:5000',
     'http://localhost:3000/',
     'http://localhost:5000/',
+    'chrome-extension://fhbjgbiflinjbdggehcddcbncdddomop',
     'https://whispering-hamlet-08619.herokuapp.com/',
     'https://whispering-hamlet-08619.herokuapp.com',
     'https://compassionate-shockley-c03462.netlify.app/',

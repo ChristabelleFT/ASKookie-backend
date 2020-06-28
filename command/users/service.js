@@ -172,10 +172,10 @@ module.exports = {
             }
         );
     },
-    deletePost: (data, callBack) => {
+    deletePost: (id, callBack) => {
         pool.query(
             'DELETE FROM feeds WHERE postID = ?',
-            [ data.postID ],
+            [ id ],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);

@@ -32,7 +32,7 @@ router.get("/feeds/others", getOthers);
 router.get("/search/:term", search);
 router.post("/ask", ask);
 router.post("/answer", answer);
-router.delete("/delete", deletePost);
+router.delete("/delete/:id", deletePost);
 router.get("/user/:postId", getUserByPostId);
 
 module.exports = router;
