@@ -12,7 +12,9 @@ const {
      getOthers,
      search,
      ask,
-     answer
+     answer,
+     deletePost,
+     getUserByPostId
 } = require("./controller");
 const router = require("express").Router();
 
@@ -30,5 +32,7 @@ router.get("/feeds/others", getOthers);
 router.get("/search/:term", search);
 router.post("/ask", ask);
 router.post("/answer", answer);
+router.delete("/delete", deletePost);
+router.get("/user/:postId");
 
 module.exports = router;

@@ -11,7 +11,9 @@ const {
     getOthers,
     search,
     ask,
-    answer
+    answer,
+    deletePost,
+    getUserbyPostId
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -245,6 +247,32 @@ module.exports = {
             return res.status(200).json({
                 data: results,
                 message: "Answer added"
+            });
+        });
+    },
+    deletePost: (req, res) => {
+        const body = req.body;
+        deletePost(body, (err, results) =>{
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Database connection error"
+                });
+            }
+            return res.status(200).json({
+                data: results,
+                message: "Post deleted"
+            });
+        });
+    },
+    getUserByPostId: (req, res) => {
+        getUserbyPostId((err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
             });
         });
     }

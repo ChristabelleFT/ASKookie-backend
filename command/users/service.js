@@ -171,5 +171,29 @@ module.exports = {
                 return callBack(null, results);
             }
         );
+    },
+    deletePost: (data, callBack) => {
+        pool.query(
+            'DELETE FROM feeds WHERE postID = ?',
+            [ data.postID ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    getUserbyPostId: (postId, callBack) => {
+        pool.query(
+            'SELECT * FROM users WHERE postID = ?',
+            [postId],
+            (error, results, fields) => {
+                if(error) {
+                    callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        );
     }
 };
