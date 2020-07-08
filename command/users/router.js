@@ -14,7 +14,15 @@ const {
      ask,
      answer,
      deletePost,
-     getUserByPostId
+     getUserByPostId,
+     likePost,
+     likeAnswer,
+     likeComment,
+     commentPost,
+     commentAnswer,
+     save,
+     report,
+     follow
 } = require("./controller");
 const router = require("express").Router();
 
@@ -34,5 +42,13 @@ router.post("/ask", ask);
 router.post("/answer", answer);
 router.delete("/delete/:id", deletePost);
 router.get("/user/:postId", getUserByPostId);
+router.post("/like/post/:postID", likePost);
+router.post("/like/answer/:answerID", likeAnswer);
+router.post("/like/comment/:commentID", likeComment);
+router.post("/comment/post", commentPost);
+router.post("/comment/answer", commentAnswer);
+router.post("/save", save);
+router.post("/report", report);
+router.post("/follow", follow);
 
 module.exports = router;

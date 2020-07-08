@@ -158,11 +158,17 @@ module.exports = {
     },
     answer:(data, callBack) => {
         pool.query(
-            'UPDATE feeds SET answerer = ?, answer = ? WHERE postID = ?',
+            `SELECT @last_id := answerID from answer where postID = ? order by answerID desc limit 1;
+             SELECT @next_id := IFNULL(@last_id + 1, concat(?,0));
+              INSERT INTO answer (answerID, postID, answer, answerer, time, anonymous) VALUES (@next_id,?,?,?,?,?)`,
             [
-                data.answerer,
+                data.postID,
+                data.postID,
+                data.postID,
                 data.answer,
-                data.postID
+                data.answerer,
+                data.time,
+                data.anonymous
             ],
             (error, results, fields) => {
                 if(error) {
@@ -193,6 +199,132 @@ module.exports = {
                     callBack(error);
                 }
                 return callBack(null, results[0]);
+            }
+        );
+    },
+    likePost: (postID, callBack) => {
+        pool.query(
+            'UPDATE post_question SET like_count = like_count + 1 WHERE postID = ?',
+            [postID],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    likeAnswer: (answerID, callBack) => {
+        pool.query(
+            'UPDATE answer SET like_count = like_count + 1 WHERE answerID = ?',
+            [answerID],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    likeComment: (commentID, callBack) => {
+        pool.query(
+            'UPDATE comment_table SET like_count = like_count + 1 WHERE commentID = ?',
+            [commentID],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    commentPost:(data, callBack) => {
+        pool.query(
+            `SELECT @last_id := commentID from comment_table where postID = ? order by commentID desc limit 1;
+             SELECT @next_id := IFNULL(@last_id + 1, concat(?,0));
+              INSERT INTO comment_table (commentID, postID, username, comment, time, anonymous) VALUES (@next_id,?,?,?,?,?)`,
+            [
+                data.postID,
+                data.postID,
+                data.postID,
+                data.username,
+                data.comment,
+                data.time,
+                data.anonymous
+            ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    commentAnswer:(data, callBack) => {
+        pool.query(
+            `SELECT @last_id := commentID from comment_table where answerID = ? order by commentID desc limit 1;
+             SELECT @next_id := IFNULL(@last_id + 1, concat(?,0));
+              INSERT INTO comment_table (commentID, answerID, username, comment, time, anonymous) VALUES (@next_id,?,?,?,?,?)`,
+            [
+                data.answerID,
+                data.answerID,
+                data.answerID,
+                data.username,
+                data.comment,
+                data.time,
+                data.anonymous
+            ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    save:(data, callBack) => {
+        pool.query(
+            'INSERT INTO save (postID, username) VALUES (?,?)',
+            [
+                data.postID,
+                data.username
+            ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    report:(data, callBack) => {
+        pool.query(
+            'INSERT INTO report_table (postID, username, type) VALUES (?,?,?)',
+            [
+                data.postID,
+                data.username,
+                data.type
+            ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    follow:(data, callBack) => {
+        pool.query(
+            'INSERT INTO follow (username, categoryID) VALUES (?,?)',
+            [
+                data.username,
+                data.categoryID
+            ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
             }
         );
     }

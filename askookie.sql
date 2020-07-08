@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2020 at 04:51 PM
+-- Generation Time: Jul 08, 2020 at 12:08 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -28,12 +28,24 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `answer` (
+  `answerID` int(11) NOT NULL,
   `postID` int(10) DEFAULT NULL,
   `answer` text DEFAULT NULL,
   `answerer` varchar(25) DEFAULT NULL,
   `time` date DEFAULT NULL,
-  `anonymous` tinyint(1) DEFAULT NULL
+  `anonymous` tinyint(1) DEFAULT NULL,
+  `like_count` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `answer`
+--
+
+INSERT INTO `answer` (`answerID`, `postID`, `answer`, `answerer`, `time`, `anonymous`, `like_count`) VALUES
+(20, 2, 'test', 'test', '0000-00-00', 1, 1),
+(21, 2, 'test', 'test', '0000-00-00', 1, 0),
+(22, 2, 'test', 'test', '2012-11-12', 0, 0),
+(23, 2, 'test', 'test', '2012-11-12', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -65,11 +77,22 @@ INSERT INTO `category` (`categoryID`, `name`) VALUES
 --
 
 CREATE TABLE `comment_table` (
+  `commentID` int(12) NOT NULL,
   `postID` int(10) DEFAULT NULL,
+  `answerID` int(11) DEFAULT NULL,
   `username` varchar(25) DEFAULT NULL,
   `comment` text DEFAULT NULL,
-  `time` date DEFAULT NULL
+  `time` date DEFAULT NULL,
+  `anonymous` tinyint(1) DEFAULT NULL,
+  `like_count` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `comment_table`
+--
+
+INSERT INTO `comment_table` (`commentID`, `postID`, `answerID`, `username`, `comment`, `time`, `anonymous`, `like_count`) VALUES
+(210, NULL, 21, 'test', 'testing123', '2012-11-12', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -82,17 +105,12 @@ CREATE TABLE `follow` (
   `categoryID` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `like_table`
+-- Dumping data for table `follow`
 --
 
-CREATE TABLE `like_table` (
-  `postID` int(10) DEFAULT NULL,
-  `username` varchar(25) DEFAULT NULL,
-  `likes` tinyint(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+INSERT INTO `follow` (`username`, `categoryID`) VALUES
+('test', 3);
 
 -- --------------------------------------------------------
 
@@ -129,8 +147,16 @@ CREATE TABLE `post_question` (
   `asker` varchar(25) DEFAULT NULL,
   `time` date DEFAULT NULL,
   `category` int(1) DEFAULT NULL,
-  `anonymous` tinyint(1) DEFAULT NULL
+  `anonymous` tinyint(1) DEFAULT NULL,
+  `like_count` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `post_question`
+--
+
+INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type`, `asker`, `time`, `category`, `anonymous`, `like_count`) VALUES
+(2, 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -163,6 +189,13 @@ CREATE TABLE `report_table` (
   `type` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `report_table`
+--
+
+INSERT INTO `report_table` (`postID`, `username`, `type`) VALUES
+(2, 'test', 'inappropriate');
+
 -- --------------------------------------------------------
 
 --
@@ -173,6 +206,13 @@ CREATE TABLE `save` (
   `postID` int(10) DEFAULT NULL,
   `username` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `save`
+--
+
+INSERT INTO `save` (`postID`, `username`) VALUES
+(2, 'test');
 
 -- --------------------------------------------------------
 
@@ -185,8 +225,15 @@ CREATE TABLE `user` (
   `username` varchar(25) DEFAULT NULL,
   `member_type` varchar(10) DEFAULT NULL,
   `profile_picture` longblob DEFAULT NULL,
-  `password` varchar(20) DEFAULT NULL
+  `password` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`email`, `username`, `member_type`, `profile_picture`, `password`) VALUES
+('test@gmail.com', 'test', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -196,6 +243,7 @@ CREATE TABLE `user` (
 -- Indexes for table `answer`
 --
 ALTER TABLE `answer`
+  ADD PRIMARY KEY (`answerID`),
   ADD KEY `postID` (`postID`),
   ADD KEY `answerer` (`answerer`);
 
@@ -209,22 +257,17 @@ ALTER TABLE `category`
 -- Indexes for table `comment_table`
 --
 ALTER TABLE `comment_table`
-  ADD KEY `postID` (`postID`),
-  ADD KEY `username` (`username`);
+  ADD PRIMARY KEY (`commentID`),
+  ADD KEY `username` (`username`),
+  ADD KEY `comment_table_ibfk_1` (`answerID`),
+  ADD KEY `postID` (`postID`);
 
 --
 -- Indexes for table `follow`
 --
 ALTER TABLE `follow`
-  ADD KEY `categoryID` (`categoryID`),
-  ADD KEY `username` (`username`);
-
---
--- Indexes for table `like_table`
---
-ALTER TABLE `like_table`
-  ADD KEY `postID` (`postID`),
-  ADD KEY `username` (`username`);
+  ADD UNIQUE KEY `follow_idx` (`username`,`categoryID`),
+  ADD KEY `categoryID` (`categoryID`);
 
 --
 -- Indexes for table `member_type`
@@ -250,14 +293,14 @@ ALTER TABLE `post_type`
 -- Indexes for table `report_table`
 --
 ALTER TABLE `report_table`
-  ADD KEY `postID` (`postID`),
+  ADD UNIQUE KEY `report_idx` (`postID`,`username`),
   ADD KEY `username` (`username`);
 
 --
 -- Indexes for table `save`
 --
 ALTER TABLE `save`
-  ADD KEY `postID` (`postID`),
+  ADD UNIQUE KEY `save_idx` (`postID`,`username`),
   ADD KEY `username` (`username`);
 
 --
@@ -275,7 +318,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `post_question`
 --
 ALTER TABLE `post_question`
-  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -292,8 +335,9 @@ ALTER TABLE `answer`
 -- Constraints for table `comment_table`
 --
 ALTER TABLE `comment_table`
-  ADD CONSTRAINT `comment_table_ibfk_1` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`),
-  ADD CONSTRAINT `comment_table_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`);
+  ADD CONSTRAINT `comment_table_ibfk_1` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`),
+  ADD CONSTRAINT `comment_table_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`),
+  ADD CONSTRAINT `comment_table_ibfk_3` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`);
 
 --
 -- Constraints for table `follow`
@@ -301,13 +345,6 @@ ALTER TABLE `comment_table`
 ALTER TABLE `follow`
   ADD CONSTRAINT `follow_ibfk_1` FOREIGN KEY (`categoryID`) REFERENCES `category` (`categoryID`),
   ADD CONSTRAINT `follow_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`);
-
---
--- Constraints for table `like_table`
---
-ALTER TABLE `like_table`
-  ADD CONSTRAINT `like_table_ibfk_1` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`),
-  ADD CONSTRAINT `like_table_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`);
 
 --
 -- Constraints for table `post_question`

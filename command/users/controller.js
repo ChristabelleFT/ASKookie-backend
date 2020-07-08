@@ -13,7 +13,15 @@ const {
     ask,
     answer,
     deletePost,
-    getUserbyPostId
+    getUserbyPostId,
+    likePost,
+    likeAnswer,
+    likeComment,
+    commentPost,
+    commentAnswer,
+    save,
+    report,
+    follow
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -274,6 +282,126 @@ module.exports = {
             }
             return res.json({
                 data: results
+            });
+        });
+    },
+    likePost: (req, res) => {
+        const postID = req.params.postID;
+        likePost(postID, (err, results) =>{
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Database connection error"
+                });
+            }
+            return res.status(200).json({
+                data: results,
+                message: "Post liked"
+            });
+        });
+    },
+    likeAnswer: (req, res) => {
+        const answerID = req.params.answerID;
+        likeAnswer(answerID, (err, results) =>{
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Database connection error"
+                });
+            }
+            return res.status(200).json({
+                data: results,
+                message: "Answer liked"
+            });
+        });
+    },
+    likeComment: (req, res) => {
+        const commentID = req.params.commentID;
+        likeComment(commentID, (err, results) =>{
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Database connection error"
+                });
+            }
+            return res.status(200).json({
+                data: results,
+                message: "Comment liked"
+            });
+        });
+    },
+    commentPost: (req, res) => {
+        const body = req.body;
+        commentPost(body, (err, results) =>{
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Database connection error"
+                });
+            }
+            return res.status(200).json({
+                data: results,
+                message: "Comment added"
+            });
+        });
+    },
+    commentAnswer: (req, res) => {
+        const body = req.body;
+        commentAnswer(body, (err, results) =>{
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Database connection error"
+                });
+            }
+            return res.status(200).json({
+                data: results,
+                message: "Comment added"
+            });
+        });
+    },
+    save: (req, res) => {
+        const body = req.body;
+        save(body, (err, results) => {
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Database connection error"
+                });
+            }
+            return res.status(200).json({
+                data: results,
+                message: "Thread saved"
+            });
+        });
+    },
+    report: (req, res) => {
+        const body = req.body;
+        report(body, (err, results) => {
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Database connection error"
+                });
+            }
+            return res.status(200).json({
+                data: results,
+                message: "Thread reported"
+            });
+        });
+    },
+    follow: (req, res) => {
+        const body = req.body;
+        follow(body, (err, results) => {
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Database connection error"
+                });
+            }
+            return res.status(200).json({
+                data: results,
+                message: "Category followed"
             });
         });
     }
