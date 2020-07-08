@@ -21,7 +21,10 @@ const {
     commentAnswer,
     save,
     report,
-    follow
+    follow,
+    likeCountPost,
+    likeCountAnswer,
+    likeCountComment
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -402,6 +405,42 @@ module.exports = {
             return res.status(200).json({
                 data: results,
                 message: "Category followed"
+            });
+        });
+    },
+    likeCountPost: (req, res) => {
+        const postID = req.params.postID;
+        likeCountPost(postID, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    likeCountAnswer: (req, res) => {
+        const answerID = req.params.answerID;
+        likeCountAnswer(answerID, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    likeCountComment: (req, res) => {
+        const commentID = req.params.comentID;
+        likeCountComment(commentID, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
             });
         });
     }

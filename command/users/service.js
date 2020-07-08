@@ -330,16 +330,40 @@ module.exports = {
             }
         );
     },
-    likeCountPost:callBack => {
+    likeCountPost:(postID, callBack) => {
         pool.query(
-            "SELECT like_count FROM post_question WHERE category = 'exchange_noc'",
-            [],
+            'SELECT like_count FROM post_question WHERE postID = ?',
+            [postID],
             (error, results, fields) => {
                 if(error) {
-                    return callBack(error);
+                    callBack(error);
                 }
-                return callBack(null, results);
+                return callBack(null, results[0]);
             }
         );
     },
+    likeCountAnswer:(answerID, callBack) => {
+        pool.query(
+            'SELECT like_count FROM answer WHERE answerID = ?',
+            [answerID],
+            (error, results, fields) => {
+                if(error) {
+                    callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        );
+    },
+    likeCountComment:(commentID, callBack) => {
+        pool.query(
+            'SELECT like_count FROM post_question WHERE commentID = ?',
+            [commentID],
+            (error, results, fields) => {
+                if(error) {
+                    callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        );
+    }
 };
