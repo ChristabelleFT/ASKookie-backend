@@ -3,7 +3,7 @@ const pool = require("../../config/database");
 module.exports = {
     create: (data, callBack) => {
         pool.query(
-            'INSERT INTO users(username, password, email) values(?,?,?)',
+            'INSERT INTO user(username, password, email) values(?,?,?)',
             [
                 data.username,
                 data.password,
@@ -19,7 +19,7 @@ module.exports = {
     },
     getUsers: callBack => {
         pool.query(
-            'SELECT username FROM users',
+            'SELECT username FROM user',
             [],
             (error, results, fields) => {
                 if(error) {
@@ -31,7 +31,7 @@ module.exports = {
     },
     getUserByName: (username, callBack) => {
         pool.query(
-            'SELECT * FROM users WHERE username = ?',
+            'SELECT * FROM user WHERE username = ?',
             [username],
             (error, results, fields) => {
                 if(error) {
@@ -43,7 +43,7 @@ module.exports = {
     },
     getFeeds: callBack => {
         pool.query(
-            'SELECT * FROM feeds',
+            'SELECT * FROM post_question',
             [],
             (error, results, fields) => {
                 if(error) {
@@ -55,7 +55,7 @@ module.exports = {
     },
     getFaculties: callBack => {
         pool.query(
-            "SELECT * FROM feeds WHERE category = 'faculties'",
+            "SELECT * FROM post_question WHERE category = 1",
             [],
             (error, results, fields) => {
                 if(error) {
@@ -67,7 +67,7 @@ module.exports = {
     },
     getAccommodation: callBack => {
         pool.query(
-            "SELECT * FROM feeds WHERE category = 'accommodation'",
+            "SELECT * FROM post_question WHERE category = 2",
             [],
             (error, results, fields) => {
                 if(error) {
@@ -79,7 +79,7 @@ module.exports = {
     },
     getStudentLife: callBack => {
         pool.query(
-            "SELECT * FROM feeds WHERE category = 'student_life'",
+            "SELECT * FROM post_question WHERE category = 3",
             [],
             (error, results, fields) => {
                 if(error) {
@@ -91,7 +91,7 @@ module.exports = {
     },
     getJobIntern: callBack => {
         pool.query(
-            "SELECT * FROM feeds WHERE category = 'job_intern'",
+            "SELECT * FROM post_question WHERE category = 4",
             [],
             (error, results, fields) => {
                 if(error) {
@@ -103,7 +103,7 @@ module.exports = {
     },
     getExchangeNoc: callBack => {
         pool.query(
-            "SELECT * FROM feeds WHERE category = 'exchange_noc'",
+            "SELECT * FROM post_question WHERE category = 5",
             [],
             (error, results, fields) => {
                 if(error) {
@@ -115,7 +115,7 @@ module.exports = {
     },
     getOthers: callBack => {
         pool.query(
-            "SELECT * FROM feeds WHERE category = 'others'",
+            "SELECT * FROM post_question WHERE category = 6",
             [],
             (error, results, fields) => {
                 if(error) {
@@ -127,7 +127,7 @@ module.exports = {
     },
     search: (term, callBack) => {
         pool.query(
-            "SELECT * FROM feeds WHERE post LIKE ?",
+            "SELECT * FROM post_question WHERE post_content LIKE ?",
             [term],
             (error, results, fields) => {
                 if(error) {
@@ -139,14 +139,16 @@ module.exports = {
     },
     ask:(data, callBack) => {
         pool.query(
-            'INSERT INTO feeds(type, category, asker, post, answerer, answer) values(?,?,?,?,?,?)',
+            'INSERT INTO post_question(question, title, post_content, type, asker, time, category,anonymous) values(?,?,?,?,?,?,?,?)',
             [
+                data.question,
+                data.title,
+                data.post_content,
                 data.type,
-                data.category,
                 data.asker,
-                data.post,
-                data.answerer,
-                data.answer
+                data.time,
+                data.category,
+                data.anonymous
             ],
             (error, results, fields) => {
                 if(error) {
@@ -180,7 +182,7 @@ module.exports = {
     },
     deletePost: (id, callBack) => {
         pool.query(
-            'DELETE FROM feeds WHERE postID = ?',
+            'DELETE FROM post_question WHERE postID = ?',
             [ id ],
             (error, results, fields) => {
                 if(error) {
@@ -192,7 +194,7 @@ module.exports = {
     },
     getUserbyPostId: (postId, callBack) => {
         pool.query(
-            'SELECT asker FROM feeds WHERE postID = ?',
+            'SELECT asker FROM post_question WHERE postID = ?',
             [postId],
             (error, results, fields) => {
                 if(error) {
@@ -327,5 +329,17 @@ module.exports = {
                 return callBack(null, results);
             }
         );
-    }
+    },
+    likeCountPost:callBack => {
+        pool.query(
+            "SELECT like_count FROM post_question WHERE category = 'exchange_noc'",
+            [],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
 };
