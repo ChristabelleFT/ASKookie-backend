@@ -28,7 +28,8 @@ const {
     dislikePost,
     dislikeAnswer,
     dislikeComment,
-    ansPerID
+    ansPerID,
+    threadPerID
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -496,6 +497,23 @@ module.exports = {
     ansPerID: (req, res) => {
         const postID = req.params.postID;
         ansPerID(postID, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            if(!results) {
+                return res.json({
+                    message: "Record not found"
+                });
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    threadPerID: (req, res) => {
+        const postID = req.params.postID;
+        threadPerID(postID, (err, results) => {
             if(err) {
                 console.log(err);
                 return;
