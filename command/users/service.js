@@ -402,13 +402,13 @@ module.exports = {
             }
         );
     },
-    unansQuestion: callBack => {
+    ansPerID: (postID, callBack) => {
         pool.query(
-            `SELECT @count := `,
-            [],
+            "SELECT * FROM answer WHERE postID = ?",
+            [postID],
             (error, results, fields) => {
                 if(error) {
-                    return callBack(error);
+                    callBack(error);
                 }
                 return callBack(null, results);
             }

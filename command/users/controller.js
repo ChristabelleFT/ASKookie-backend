@@ -27,7 +27,8 @@ const {
     likeCountComment,
     dislikePost,
     dislikeAnswer,
-    dislikeComment
+    dislikeComment,
+    ansPerID
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -489,6 +490,23 @@ module.exports = {
             return res.status(200).json({
                 data: results,
                 message: "Comment disliked"
+            });
+        });
+    },
+    ansPerID: (req, res) => {
+        const postID = req.params.postID;
+        search(postID, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            if(!results) {
+                return res.json({
+                    message: "Record not found"
+                });
+            }
+            return res.json({
+                data: results
             });
         });
     }
