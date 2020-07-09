@@ -365,5 +365,53 @@ module.exports = {
                 return callBack(null, results[0]);
             }
         );
+    },
+    dislikePost: (postID, callBack) => {
+        pool.query(
+            'UPDATE post_question SET like_count = like_count - 1 WHERE postID = ?',
+            [postID],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    dislikeAnswer: (answerID, callBack) => {
+        pool.query(
+            'UPDATE answer SET like_count = like_count - 1 WHERE answerID = ?',
+            [answerID],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    dislikeComment: (commentID, callBack) => {
+        pool.query(
+            'UPDATE comment_table SET like_count = like_count - 1 WHERE commentID = ?',
+            [commentID],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    unansQuestion: callBack => {
+        pool.query(
+            `SELECT @count := `,
+            [],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
     }
 };

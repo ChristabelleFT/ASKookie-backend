@@ -24,7 +24,10 @@ const {
     follow,
     likeCountPost,
     likeCountAnswer,
-    likeCountComment
+    likeCountComment,
+    dislikePost,
+    dislikeAnswer,
+    dislikeComment
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -441,6 +444,51 @@ module.exports = {
             }
             return res.json({
                 data: results
+            });
+        });
+    },
+    dislikePost: (req, res) => {
+        const postID = req.params.postID;
+        dislikePost(postID, (err, results) =>{
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Database connection error"
+                });
+            }
+            return res.status(200).json({
+                data: results,
+                message: "Post disliked"
+            });
+        });
+    },
+    dislikeAnswer: (req, res) => {
+        const answerID = req.params.answerID;
+        dislikeAnswer(answerID, (err, results) =>{
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Database connection error"
+                });
+            }
+            return res.status(200).json({
+                data: results,
+                message: "Answer disliked"
+            });
+        });
+    },
+    dislikeComment: (req, res) => {
+        const commentID = req.params.commentID;
+        dislikeComment(commentID, (err, results) =>{
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Database connection error"
+                });
+            }
+            return res.status(200).json({
+                data: results,
+                message: "Comment disliked"
             });
         });
     }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 08, 2020 at 12:08 PM
+-- Generation Time: Jul 09, 2020 at 10:55 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -32,7 +32,7 @@ CREATE TABLE `answer` (
   `postID` int(10) DEFAULT NULL,
   `answer` text DEFAULT NULL,
   `answerer` varchar(25) DEFAULT NULL,
-  `time` date DEFAULT NULL,
+  `time` char(10) DEFAULT NULL,
   `anonymous` tinyint(1) DEFAULT NULL,
   `like_count` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -82,7 +82,7 @@ CREATE TABLE `comment_table` (
   `answerID` int(11) DEFAULT NULL,
   `username` varchar(25) DEFAULT NULL,
   `comment` text DEFAULT NULL,
-  `time` date DEFAULT NULL,
+  `time` char(10) DEFAULT NULL,
   `anonymous` tinyint(1) DEFAULT NULL,
   `like_count` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -111,6 +111,19 @@ CREATE TABLE `follow` (
 
 INSERT INTO `follow` (`username`, `categoryID`) VALUES
 ('test', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `like_table`
+--
+
+CREATE TABLE `like_table` (
+  `username` varchar(25) DEFAULT NULL,
+  `postID` int(10) DEFAULT NULL,
+  `answerID` int(11) DEFAULT NULL,
+  `commentID` int(12) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -145,7 +158,7 @@ CREATE TABLE `post_question` (
   `post_content` text DEFAULT NULL,
   `type` int(1) DEFAULT NULL,
   `asker` varchar(25) DEFAULT NULL,
-  `time` date DEFAULT NULL,
+  `time` char(10) DEFAULT NULL,
   `category` int(1) DEFAULT NULL,
   `anonymous` tinyint(1) DEFAULT NULL,
   `like_count` int(10) DEFAULT 0
@@ -156,7 +169,10 @@ CREATE TABLE `post_question` (
 --
 
 INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type`, `asker`, `time`, `category`, `anonymous`, `like_count`) VALUES
-(2, 'test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+(2, 'test', NULL, NULL, NULL, NULL, '0000-00-00', 1, NULL, 1),
+(3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0),
+(4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0),
+(5, NULL, NULL, NULL, 2, 'chrisya', NULL, 3, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -318,7 +334,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `post_question`
 --
 ALTER TABLE `post_question`
-  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
