@@ -495,7 +495,7 @@ module.exports = {
     },
     ansPerID: (req, res) => {
         const postID = req.params.postID;
-        search(postID, (err, results) => {
+        ansPerID(postID, (err, results) => {
             if(err) {
                 console.log(err);
                 return;
