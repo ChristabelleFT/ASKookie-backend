@@ -437,5 +437,17 @@ module.exports = {
                 return callBack(null, results);
             }
         );
+    },
+    unAnsQuest: (postID, callBack) => {
+        pool.query(
+            "SELECT * FROM post_question WHERE postID = ?",
+            [postID],
+            (error, results, fields) => {
+                if(error) {
+                    callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        );
     }
 };

@@ -38,6 +38,7 @@ const router = require("express").Router();
 router.post("/register", createUser);
 router.get("/users", getUsers);
 router.get("/home", getFeeds);
+router.get("/answers", getAnswers);
 router.get("/:username", getUserByName);
 router.post("/login", login);
 router.get("/feeds/faculties", getFaculties);
@@ -67,6 +68,5 @@ router.get("/like/answer/:answerID", likeCountAnswer);
 router.get("/like/comment/:commentID", likeCountComment);
 router.get("/answer/:postID",ansPerID);
 router.get("/thread/:postID",threadPerID);
-router.get("/answers",getAnswers);
 
 module.exports = router;
