@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2020 at 10:55 AM
+-- Generation Time: Jul 09, 2020 at 10:58 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -32,7 +32,7 @@ CREATE TABLE `answer` (
   `postID` int(10) DEFAULT NULL,
   `answer` text DEFAULT NULL,
   `answerer` varchar(25) DEFAULT NULL,
-  `time` char(10) DEFAULT NULL,
+  `time` varchar(10) DEFAULT NULL,
   `anonymous` tinyint(1) DEFAULT NULL,
   `like_count` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -82,7 +82,7 @@ CREATE TABLE `comment_table` (
   `answerID` int(11) DEFAULT NULL,
   `username` varchar(25) DEFAULT NULL,
   `comment` text DEFAULT NULL,
-  `time` char(10) DEFAULT NULL,
+  `time` varchar(10) DEFAULT NULL,
   `anonymous` tinyint(1) DEFAULT NULL,
   `like_count` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -158,7 +158,7 @@ CREATE TABLE `post_question` (
   `post_content` text DEFAULT NULL,
   `type` int(1) DEFAULT NULL,
   `asker` varchar(25) DEFAULT NULL,
-  `time` char(10) DEFAULT NULL,
+  `time` varchar(10) DEFAULT NULL,
   `category` int(1) DEFAULT NULL,
   `anonymous` tinyint(1) DEFAULT NULL,
   `like_count` int(10) DEFAULT 0
