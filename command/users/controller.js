@@ -30,7 +30,8 @@ const {
     dislikeComment,
     ansPerID,
     threadPerID,
-    getAnswers
+    getAnswers,
+    unAnsQuest
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -531,6 +532,17 @@ module.exports = {
     },
     getAnswers: (req, res) => {
         getAnswers((err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.send({
+                data: results
+            });
+        }); 
+    },
+    unAnsQuest: (req, res) => {
+        unAnsQuest((err, results) => {
             if(err) {
                 console.log(err);
                 return;

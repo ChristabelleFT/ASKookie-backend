@@ -31,7 +31,8 @@ const {
      dislikeComment,
      ansPerID,
      threadPerID,
-     getAnswers
+     getAnswers,
+     unAnsQuest
 } = require("./controller");
 const router = require("express").Router();
 
@@ -39,6 +40,7 @@ router.post("/register", createUser);
 router.get("/users", getUsers);
 router.get("/home", getFeeds);
 router.get("/answers", getAnswers);
+router.get("/unanswered", unAnsQuest);
 router.get("/:username", getUserByName);
 router.post("/login", login);
 router.get("/feeds/faculties", getFaculties);

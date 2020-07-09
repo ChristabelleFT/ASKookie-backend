@@ -438,15 +438,15 @@ module.exports = {
             }
         );
     },
-    unAnsQuest: (postID, callBack) => {
+    unAnsQuest: callBack => {
         pool.query(
-            "SELECT * FROM post_question WHERE postID = ?",
-            [postID],
+            "SELECT * FROM post_question LEFT OUTER JOIN answer ON post_question.postID = answer.postID2 WHERE answer.postID2 is null AND post_question.type = 1",
+            [],
             (error, results, fields) => {
                 if(error) {
                     callBack(error);
                 }
-                return callBack(null, results[0]);
+                return callBack(null, results);
             }
         );
     }
