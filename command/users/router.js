@@ -31,7 +31,8 @@ const {
      dislikeComment,
      ansPerID,
      threadPerID,
-     getAnswers
+     getAnswers,
+     unAnsQuest,
 } = require("./controller");
 const router = require("express").Router();
 
@@ -68,5 +69,6 @@ router.get("/like/answer/:answerID", likeCountAnswer);
 router.get("/like/comment/:commentID", likeCountComment);
 router.get("/answer/:postID",ansPerID);
 router.get("/thread/:postID",threadPerID);
+router.get("/unanswered", unAnsQuest);
 
 module.exports = router;

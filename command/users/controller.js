@@ -30,7 +30,8 @@ const {
     dislikeComment,
     ansPerID,
     threadPerID,
-    getAnswers
+    getAnswers,
+    unAnsQuest
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -539,5 +540,17 @@ module.exports = {
                 data: results
             });
         }); 
+    },
+    unAnsQuest: (postID, callBack) => {
+        pool.query(
+            "SELECT * FROM post_question WHERE postID = ?",
+            [postID],
+            (error, results, fields) => {
+                if(error) {
+                    callBack(error);
+                }
+                return callBack(null, results[0]);
+            }
+        );
     }
 };
