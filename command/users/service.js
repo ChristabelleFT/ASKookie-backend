@@ -425,5 +425,17 @@ module.exports = {
                 return callBack(null, results[0]);
             }
         );
+    },
+    getAnswers: callBack => {
+        pool.query(
+            'SELECT * FROM answer',
+            [],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
     }
 };

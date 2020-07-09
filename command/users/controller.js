@@ -29,7 +29,8 @@ const {
     dislikeAnswer,
     dislikeComment,
     ansPerID,
-    threadPerID
+    threadPerID,
+    getAnswers
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -527,5 +528,16 @@ module.exports = {
                 data: results
             });
         });
+    },
+    getAnswers: (req, res) => {
+        getAnswers((err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.send({
+                data: results
+            });
+        }); 
     }
 };
