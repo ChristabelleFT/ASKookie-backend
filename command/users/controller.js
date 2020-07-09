@@ -31,7 +31,10 @@ const {
     ansPerID,
     threadPerID,
     getAnswers,
-    unAnsQuest
+    unAnsQuest,
+    getAllComments,
+    commentPerPost,
+    commentPerAns
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -551,5 +554,50 @@ module.exports = {
                 data: results
             });
         }); 
+    },
+    getAllComments: (req, res) => {
+        getAllComments((err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.send({
+                data: results
+            });
+        }); 
+    },
+    commentPerPost: (req, res) => {
+        const postID = req.params.postID;
+        commentPerPost(postID, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            if(!results) {
+                return res.json({
+                    message: "Record not found"
+                });
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    commentPerAns: (req, res) => {
+        const answerID = req.params.answerID;
+        commentPerAns(answerID, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            if(!results) {
+                return res.json({
+                    message: "Record not found"
+                });
+            }
+            return res.json({
+                data: results
+            });
+        });
     }
 };

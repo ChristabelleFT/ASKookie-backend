@@ -32,7 +32,10 @@ const {
      ansPerID,
      threadPerID,
      getAnswers,
-     unAnsQuest
+     unAnsQuest,
+     getAllComments,
+     commentPerPost,
+     commentPerAns
 } = require("./controller");
 const router = require("express").Router();
 
@@ -41,6 +44,9 @@ router.get("/users", getUsers);
 router.get("/home", getFeeds);
 router.get("/answers", getAnswers);
 router.get("/unanswered", unAnsQuest);
+router.get("/comments", getAllComments);
+router.get("/comments/post/:postID", commentPerPost);
+router.get("/comments/answer/:answerID", commentPerAns);
 router.get("/:username", getUserByName);
 router.post("/login", login);
 router.get("/feeds/faculties", getFaculties);
@@ -70,6 +76,5 @@ router.get("/like/answer/:answerID", likeCountAnswer);
 router.get("/like/comment/:commentID", likeCountComment);
 router.get("/answer/:postID",ansPerID);
 router.get("/thread/:postID",threadPerID);
-router.get("/unanswered", unAnsQuest);
 
 module.exports = router;

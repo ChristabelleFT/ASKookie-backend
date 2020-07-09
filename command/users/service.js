@@ -404,7 +404,7 @@ module.exports = {
     },
     ansPerID: (postID, callBack) => {
         pool.query(
-            "SELECT * FROM answer WHERE postID = ?",
+            "SELECT * FROM answer WHERE postID2 = ?",
             [postID],
             (error, results, fields) => {
                 if(error) {
@@ -442,6 +442,42 @@ module.exports = {
         pool.query(
             "SELECT * FROM post_question LEFT OUTER JOIN answer ON post_question.postID = answer.postID2 WHERE answer.postID2 is null AND post_question.type = 1",
             [],
+            (error, results, fields) => {
+                if(error) {
+                    callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    getAllComments: callBack => {
+        pool.query(
+            'SELECT * FROM comment_table',
+            [],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    commentPerPost: (postID, callBack) => {
+        pool.query(
+            "SELECT * FROM comment_table WHERE postID = ?",
+            [postID],
+            (error, results, fields) => {
+                if(error) {
+                    callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    commentPerAns: (answerID, callBack) => {
+        pool.query(
+            "SELECT * FROM comment_table WHERE answerID = ?",
+            [answerID],
             (error, results, fields) => {
                 if(error) {
                     callBack(error);
