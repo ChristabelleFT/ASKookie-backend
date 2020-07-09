@@ -35,7 +35,9 @@ const {
      unAnsQuest,
      getAllComments,
      commentPerPost,
-     commentPerAns
+     commentPerAns,
+     countPostComment,
+     countAnsComment
 } = require("./controller");
 const router = require("express").Router();
 
@@ -76,5 +78,7 @@ router.get("/like/answer/:answerID", likeCountAnswer);
 router.get("/like/comment/:commentID", likeCountComment);
 router.get("/answer/:postID",ansPerID);
 router.get("/thread/:postID",threadPerID);
+router.get("/comments/count/post/:postID", countPostComment);
+router.get("/comments/count/answer/:answerID", countAnsComment);
 
 module.exports = router;

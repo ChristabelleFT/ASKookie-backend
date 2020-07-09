@@ -34,7 +34,9 @@ const {
     unAnsQuest,
     getAllComments,
     commentPerPost,
-    commentPerAns
+    commentPerAns,
+    countPostComment,
+    countAnsComment
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -586,6 +588,40 @@ module.exports = {
     commentPerAns: (req, res) => {
         const answerID = req.params.answerID;
         commentPerAns(answerID, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            if(!results) {
+                return res.json({
+                    message: "Record not found"
+                });
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    countPostComment: (req, res) => {
+        const postID = req.params.postID;
+        countPostComment(postID, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            if(!results) {
+                return res.json({
+                    message: "Record not found"
+                });
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    countAnsComment: (req, res) => {
+        const answerID = req.params.answerID;
+        countAnsComment(answerID, (err, results) => {
             if(err) {
                 console.log(err);
                 return;

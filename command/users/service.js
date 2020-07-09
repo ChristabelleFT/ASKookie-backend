@@ -485,5 +485,29 @@ module.exports = {
                 return callBack(null, results);
             }
         );
+    },
+    countPostComment: (postID, callBack) => {
+        pool.query(
+            "SELECT COUNT(commentID) FROM comment_table WHERE postID = ?",
+            [postID],
+            (error, results, fields) => {
+                if(error) {
+                    callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    countAnsComment: (answerID, callBack) => {
+        pool.query(
+            "SELECT COUNT(commentID) FROM comment_table WHERE answerID = ?",
+            [answerID],
+            (error, results, fields) => {
+                if(error) {
+                    callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
     }
 };
