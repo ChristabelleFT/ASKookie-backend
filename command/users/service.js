@@ -500,7 +500,7 @@ module.exports = {
     },
     countAnsComment: (answerID, callBack) => {
         pool.query(
-            "SELECT COUNT(commentID) FROM comment_table WHERE answerID = ?",
+            "SELECT COUNT(commentID) AS count FROM comment_table WHERE answerID = ?",
             [answerID],
             (error, results, fields) => {
                 if(error) {
