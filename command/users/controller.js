@@ -36,7 +36,8 @@ const {
     commentPerPost,
     commentPerAns,
     countPostComment,
-    countAnsComment
+    countAnsComment,
+    answered_post
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -635,5 +636,16 @@ module.exports = {
                 data: results
             });
         });
+    },
+    answered_post: (req, res) => {
+        answered_post((err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.send({
+                data: results
+            });
+        }); 
     }
 };

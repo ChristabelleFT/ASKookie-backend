@@ -37,7 +37,8 @@ const {
      commentPerPost,
      commentPerAns,
      countPostComment,
-     countAnsComment
+     countAnsComment,
+     answered_post
 } = require("./controller");
 const router = require("express").Router();
 
@@ -46,6 +47,7 @@ router.get("/users", getUsers);
 router.get("/home", getFeeds);
 router.get("/answers", getAnswers);
 router.get("/unanswered", unAnsQuest);
+router.get("/answered", answered_post);
 router.get("/comments", getAllComments);
 router.get("/comments/post/:postID", commentPerPost);
 router.get("/comments/answer/:answerID", commentPerAns);

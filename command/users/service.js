@@ -509,5 +509,18 @@ module.exports = {
                 return callBack(null, results);
             }
         );
+    },
+    answered_post: callBack => {
+        pool.query(
+            `SELECT DISTINCT postID, type, question, title, post_content, asker, post_question.time, post_question.anonymous, post_question.like_count FROM post_question
+             LEFT JOIN answer ON post_question.postID = answer.postID2 WHERE type = 2 OR answer IS NOT NULL`,
+            [],
+            (error, results, fields) => {
+                if(error) {
+                    callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
     }
 };
