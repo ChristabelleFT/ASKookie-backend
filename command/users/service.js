@@ -204,10 +204,15 @@ module.exports = {
             }
         );
     },
-    likePost: (postID, callBack) => {
+    likePost: (data, callBack) => {
         pool.query(
-            'UPDATE post_question SET like_count = like_count + 1 WHERE postID = ?',
-            [postID],
+            `UPDATE post_question SET like_count = like_count + 1 WHERE postID = ?;
+            INSERT INTO like_table (postID, username) VALUES (?,?)`,
+            [
+                data.postID,
+                data.postID,
+                data.username
+            ],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);
@@ -216,10 +221,16 @@ module.exports = {
             }
         );
     },
-    likeAnswer: (answerID, callBack) => {
+    likeAnswer: (data, callBack) => {
         pool.query(
-            'UPDATE answer SET like_count = like_count + 1 WHERE answerID = ?',
-            [answerID],
+            `UPDATE answer SET like_count = like_count + 1 WHERE answerID = ?;
+            INSERT INTO like_table (postID,answerID, username) VALUES (?,?,?)`,
+            [
+                data.answerID,
+                data.postID,
+                data.answerID,
+                data.username
+            ],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);
@@ -228,10 +239,17 @@ module.exports = {
             }
         );
     },
-    likeComment: (commentID, callBack) => {
+    likeComment: (data, callBack) => {
         pool.query(
-            'UPDATE comment_table SET like_count = like_count + 1 WHERE commentID = ?',
-            [commentID],
+            `UPDATE comment_table SET like_count = like_count + 1 WHERE commentID = ?;
+            INSERT INTO like_table (postID,answerID,commentID, username) VALUES (?,?,?,?)`,
+            [
+                data.commentID,
+                data.postID,
+                data.answerID,
+                data.commentID,
+                data.username
+            ],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);

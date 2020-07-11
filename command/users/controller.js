@@ -422,8 +422,8 @@ module.exports = {
         });
     },
     likeCountPost: (req, res) => {
-        const postID = req.params.postID;
-        likeCountPost(postID, (err, results) => {
+        const body = req.body;
+        likeCountPost(body, (err, results) => {
             if(err) {
                 console.log(err);
                 return;
@@ -434,8 +434,8 @@ module.exports = {
         });
     },
     likeCountAnswer: (req, res) => {
-        const answerID = req.params.answerID;
-        likeCountAnswer(answerID, (err, results) => {
+        const body = req.body;
+        likeCountAnswer(body, (err, results) => {
             if(err) {
                 console.log(err);
                 return;
@@ -446,8 +446,8 @@ module.exports = {
         });
     },
     likeCountComment: (req, res) => {
-        const commentID = req.params.comentID;
-        likeCountComment(commentID, (err, results) => {
+        const body = req.body;
+        likeCountComment(body, (err, results) => {
             if(err) {
                 console.log(err);
                 return;
