@@ -244,7 +244,8 @@ module.exports = {
         pool.query(
             `SELECT @last_id := commentID from comment_table where postID = ? order by commentID desc limit 1;
              SELECT @next_id := IFNULL(@last_id + 1, concat(?,0));
-              INSERT INTO comment_table (commentID, postID, username, comment, time, anonymous) VALUES (@next_id,?,?,?,?,?)`,
+              INSERT INTO comment_table (commentID, postID, username, comment, time, anonymous) VALUES (@next_id,?,?,?,?,?);
+              UPDATE post_question SET comment_count = comment_count + 1 WHERE postID = ?`,
             [
                 data.postID,
                 data.postID,
@@ -252,7 +253,8 @@ module.exports = {
                 data.username,
                 data.comment,
                 data.time,
-                data.anonymous
+                data.anonymous,
+                data.postID
             ],
             (error, results, fields) => {
                 if(error) {
@@ -266,7 +268,8 @@ module.exports = {
         pool.query(
             `SELECT @last_id := commentID from comment_table where answerID = ? order by commentID desc limit 1;
              SELECT @next_id := IFNULL(@last_id + 1, concat(?,0));
-              INSERT INTO comment_table (commentID, answerID, username, comment, time, anonymous) VALUES (@next_id,?,?,?,?,?)`,
+              INSERT INTO comment_table (commentID, answerID, username, comment, time, anonymous) VALUES (@next_id,?,?,?,?,?);
+              UPDATE answer SET comment_count = comment_count + 1 WHERE answerID = ?`,
             [
                 data.answerID,
                 data.answerID,
@@ -274,7 +277,8 @@ module.exports = {
                 data.username,
                 data.comment,
                 data.time,
-                data.anonymous
+                data.anonymous,
+                data.answerID
             ],
             (error, results, fields) => {
                 if(error) {
@@ -488,7 +492,8 @@ module.exports = {
     },
     countPostComment: (postID, callBack) => {
         pool.query(
-            "SELECT COUNT(commentID) AS count FROM comment_table WHERE postID = ?",
+           // "SELECT COUNT(commentID) AS count FROM comment_table WHERE postID = ?",
+           "SELECT * FROM post_question WHERE postID = ?",
             [postID],
             (error, results, fields) => {
                 if(error) {
@@ -500,7 +505,8 @@ module.exports = {
     },
     countAnsComment: (answerID, callBack) => {
         pool.query(
-            "SELECT COUNT(commentID) AS count FROM comment_table WHERE answerID = ?",
+            //"SELECT COUNT(commentID) AS count FROM comment_table WHERE answerID = ?",
+            "SELECT * FROM answer WHERE answerID = ?",
             [answerID],
             (error, results, fields) => {
                 if(error) {
