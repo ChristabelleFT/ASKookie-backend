@@ -273,7 +273,7 @@ module.exports = {
             [
                 data.answerID,
                 data.answerID,
-                data.postID,
+                data.postID2,
                 data.answerID,
                 data.username,
                 data.comment,
