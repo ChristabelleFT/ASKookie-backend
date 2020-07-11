@@ -268,11 +268,12 @@ module.exports = {
         pool.query(
             `SELECT @last_id := commentID from comment_table where answerID = ? order by commentID desc limit 1;
              SELECT @next_id := IFNULL(@last_id + 1, concat(?,0));
-              INSERT INTO comment_table (commentID, answerID, username, comment, time, anonymous) VALUES (@next_id,?,?,?,?,?);
+              INSERT INTO comment_table (commentID, postID, answerID, username, comment, time, anonymous) VALUES (@next_id,?,?,?,?,?,?);
               UPDATE answer SET comment_count = comment_count + 1 WHERE answerID = ?`,
             [
                 data.answerID,
                 data.answerID,
+                data.postID,
                 data.answerID,
                 data.username,
                 data.comment,
