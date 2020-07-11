@@ -621,8 +621,8 @@ module.exports = {
         });
     },
     countAnsComment: (req, res) => {
-        const answerID = req.params.answerID;
-        countAnsComment(answerID, (err, results) => {
+        const postID = req.params.postID;
+        countAnsComment(postID, (err, results) => {
             if(err) {
                 console.log(err);
                 return;

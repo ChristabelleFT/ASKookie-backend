@@ -81,6 +81,6 @@ router.get("/like/comment/:commentID", likeCountComment);
 router.get("/answer/:postID",ansPerID);
 router.get("/thread/:postID",threadPerID);
 router.get("/comments/count/post/:postID", countPostComment);
-router.get("/comments/count/answer/:answerID", countAnsComment);
+router.get("/comments/count/answer/:postID", countAnsComment);
 
 module.exports = router;

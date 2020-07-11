@@ -504,11 +504,11 @@ module.exports = {
             }
         );
     },
-    countAnsComment: (answerID, callBack) => {
+    countAnsComment: (postID, callBack) => {
         pool.query(
             //"SELECT COUNT(commentID) AS count FROM comment_table WHERE answerID = ?",
-            "SELECT * FROM answer WHERE answerID = ?",
-            [answerID],
+            "SELECT * FROM answer WHERE postID2 = ?",
+            [postID],
             (error, results, fields) => {
                 if(error) {
                     callBack(error);
