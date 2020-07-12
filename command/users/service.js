@@ -162,7 +162,7 @@ module.exports = {
         pool.query(
             `SELECT @last_id := answerID from answer where postID2 = ? order by answerID desc limit 1;
              SELECT @next_id := IFNULL(@last_id + 1, concat(?,0));
-              INSERT INTO answer (answerID, postID2, answer, answerer, time, anonymous) VALUES (@next_id,?,?,?,?,?)`,
+              INSERT INTO answer (answerID, postID2, answer, answerer, time2, anonymous2) VALUES (@next_id,?,?,?,?,?)`,
             [
                 data.postID2,
                 data.postID2,
@@ -183,6 +183,30 @@ module.exports = {
     deletePost: (id, callBack) => {
         pool.query(
             'DELETE FROM post_question WHERE postID = ?',
+            [ id ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    deleteAns: (id, callBack) => {
+        pool.query(
+            'DELETE FROM post_question WHERE answerID = ?',
+            [ id ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    deleteComment: (id, callBack) => {
+        pool.query(
+            'DELETE FROM post_question WHERE commentID = ?',
             [ id ],
             (error, results, fields) => {
                 if(error) {
@@ -223,7 +247,7 @@ module.exports = {
     },
     likeAnswer: (data, callBack) => {
         pool.query(
-            `UPDATE answer SET like_count = like_count + 1 WHERE answerID = ?;
+            `UPDATE answer SET like_count2 = like_count2 + 1 WHERE answerID = ?;
             INSERT INTO like_table (postID,answerID, username) VALUES (?,?,?)`,
             [
                 data.answerID,
@@ -287,7 +311,7 @@ module.exports = {
             `SELECT @last_id := commentID from comment_table where answerID = ? order by commentID desc limit 1;
              SELECT @next_id := IFNULL(@last_id + 1, concat(?,0));
               INSERT INTO comment_table (commentID, postID, answerID, username, comment, time, anonymous) VALUES (@next_id,?,?,?,?,?,?);
-              UPDATE answer SET comment_count = comment_count + 1 WHERE answerID = ?`,
+              UPDATE answer SET comment_count2 = comment_count2 + 1 WHERE answerID = ?`,
             [
                 data.answerID,
                 data.answerID,
@@ -367,7 +391,7 @@ module.exports = {
     },
     likeCountAnswer:(answerID, callBack) => {
         pool.query(
-            'SELECT like_count FROM answer WHERE answerID = ?',
+            'SELECT like_count2 FROM answer WHERE answerID = ?',
             [answerID],
             (error, results, fields) => {
                 if(error) {
@@ -403,7 +427,7 @@ module.exports = {
     },
     dislikeAnswer: (answerID, callBack) => {
         pool.query(
-            'UPDATE answer SET like_count = like_count - 1 WHERE answerID = ?',
+            'UPDATE answer SET like_count2 = like_count2 - 1 WHERE answerID = ?',
             [answerID],
             (error, results, fields) => {
                 if(error) {
@@ -537,10 +561,40 @@ module.exports = {
     },
     answered_post: callBack => {
         pool.query(
-            `SELECT DISTINCT postID, type, question, title, post_content, asker, post_question.time, post_question.anonymous, post_question.like_count FROM post_question
-             LEFT JOIN answer ON post_question.postID = answer.postID2 WHERE type = 2 OR answer IS NOT NULL`,
-            [],
-            (error, results, fields) => {
+            `DROP TABLE IF EXISTS feeds;
+             DROP TABLE IF EXISTS id;
+             DROP TABLE IF EXISTS answered;
+             CREATE TEMPORARY TABLE answered (postID int, type int(1), question text, title text, post_content text, 
+             asker varchar(25), time date, anonymous boolean, like_count int, comment_count int, answer text, answerer varchar(25), 
+             time2 date, anonymous2 boolean, like_count2 int, comment_count2 int);
+             CREATE TEMPORARY TABLE feeds SELECT * FROM answered LIMIT 0;
+             INSERT INTO feeds SELECT DISTINCT postID, type, question, title, post_content, asker, time, anonymous, like_count, comment_count,
+             answer, answerer, time2, anonymous2, like_count2,comment_count2 FROM post_question LEFT JOIN answer ON post_question.postID = answer.postID2 
+             WHERE type = 2 OR answer IS NOT NULL;
+             CREATE TEMPORARY TABLE id (postID int);
+             INSERT INTO id SELECT DISTINCT postID from post_question LEFT JOIN answer ON post_question.postID = answer.postID2 
+             WHERE type = 2 OR answer IS NOT NULL;
+             SET @length = (SELECT COUNT(*) FROM id);
+             DROP PROCEDURE IF EXISTS home;
+             DELIMITER ;;
+             create procedure home()
+             begin
+             declare n int default 0;
+             declare i int default 0;
+             set i = 0;
+             set n = @length;
+             while i < n do
+             select * into @getID from id order by postID limit i,1;
+             insert into answered select * from feeds where postID = @getID order by like_count2 desc limit 1;
+             set i = i+1;
+             end while;
+             end;
+             ;;
+             DELIMITER ;
+             CALL home();
+             SELECT * FROM answered`,
+             [],
+             (error, results, fields) => {
                 if(error) {
                     callBack(error);
                 }
@@ -549,3 +603,4 @@ module.exports = {
         );
     }
 };
+

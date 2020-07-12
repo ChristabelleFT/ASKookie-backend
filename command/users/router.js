@@ -14,6 +14,8 @@ const {
      ask,
      answer,
      deletePost,
+     deleteAns,
+     deleteComment,
      getUserByPostId,
      likePost,
      likeAnswer,
@@ -62,7 +64,9 @@ router.get("/feeds/others", getOthers);
 router.get("/search/:term", search);
 router.post("/ask", ask);
 router.post("/answer", answer);
-router.delete("/delete/:id", deletePost);
+router.delete("/delete/post/:id", deletePost);
+router.delete("/delete/answer/:id", deleteAns);
+router.delete("/delete/comment/:id", deleteComment);
 router.get("/user/:postId", getUserByPostId);
 router.post("/like/post", likePost);
 router.post("/like/answer", likeAnswer);
