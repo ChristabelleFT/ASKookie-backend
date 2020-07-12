@@ -39,7 +39,10 @@ const {
     commentPerAns,
     countPostComment,
     countAnsComment,
-    answered_post
+    answered_post,
+    editPost,
+    editAns,
+    editComment
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -679,5 +682,41 @@ module.exports = {
                 data: results
             });
         }); 
+    },
+    editPost: (req, res) => {
+        const body = req.body;
+        editPost(body, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    editAns: (req, res) => {
+        const body = req.body;
+        editAns(body, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    editComment: (req, res) => {
+        const body = req.body;
+        editComment(body, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
     }
 };

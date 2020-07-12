@@ -601,6 +601,54 @@ module.exports = {
                 return callBack(null, results);
             }
         );
+    },
+    editPost: (data, callBack) => {
+        pool.query(
+            `UPDATE post_question SET question = IF(category = 1, ?, null) WHERE postID = ?;
+             UPDATE post_question SET post_content = IF(category = 2, ?, null) where postID = ?`,
+            [
+                data.content,
+                data.postID,
+                data.content,
+                data.postID
+            ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    editAns: (data, callBack) => {
+        pool.query(
+            'UPDATE answer SET answer = ? WHERE postID = ?',
+            [
+                data.content,
+                data.postID
+            ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    editComment: (data, callBack) => {
+        pool.query(
+            'UPDATE comment_table SET comment = ? WHERE postID = ?',
+            [
+                data.content,
+                data.postID
+            ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
     }
 };
 

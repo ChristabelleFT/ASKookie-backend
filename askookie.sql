@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2020 at 10:58 AM
+-- Generation Time: Jul 12, 2020 at 05:39 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -29,23 +29,25 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `answer` (
   `answerID` int(11) NOT NULL,
-  `postID` int(10) DEFAULT NULL,
+  `postID2` int(10) DEFAULT NULL,
   `answer` text DEFAULT NULL,
   `answerer` varchar(25) DEFAULT NULL,
-  `time` varchar(10) DEFAULT NULL,
-  `anonymous` tinyint(1) DEFAULT NULL,
-  `like_count` int(10) DEFAULT 0
+  `time2` varchar(10) DEFAULT NULL,
+  `anonymous2` tinyint(1) DEFAULT NULL,
+  `like_count2` int(10) DEFAULT 0,
+  `comment_count2` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `answer`
 --
 
-INSERT INTO `answer` (`answerID`, `postID`, `answer`, `answerer`, `time`, `anonymous`, `like_count`) VALUES
-(20, 2, 'test', 'test', '0000-00-00', 1, 1),
-(21, 2, 'test', 'test', '0000-00-00', 1, 0),
-(22, 2, 'test', 'test', '2012-11-12', 0, 0),
-(23, 2, 'test', 'test', '2012-11-12', 0, 0);
+INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
+(20, 2, 'test', 'test', '0000-00-00', 1, 1, 0),
+(21, 2, 'test', 'test', '0000-00-00', 1, 0, 1),
+(22, 2, 'test', 'test', '2012-11-12', 0, 0, 0),
+(23, 2, 'test', 'test', '2012-11-12', 0, 0, 0),
+(30, 3, 'test answer', 'chrisya', '7/11/2020', NULL, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -92,7 +94,9 @@ CREATE TABLE `comment_table` (
 --
 
 INSERT INTO `comment_table` (`commentID`, `postID`, `answerID`, `username`, `comment`, `time`, `anonymous`, `like_count`) VALUES
-(210, NULL, 21, 'test', 'testing123', '2012-11-12', 0, 0);
+(210, NULL, 21, 'test', 'testing123', '2012-11-12', 0, 0),
+(300, NULL, 30, 'chrisya', 'test comment', '7/11/2020', 0, 0),
+(301, NULL, 30, 'test', 'spam', '2000/22/2', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -161,18 +165,20 @@ CREATE TABLE `post_question` (
   `time` varchar(10) DEFAULT NULL,
   `category` int(1) DEFAULT NULL,
   `anonymous` tinyint(1) DEFAULT NULL,
-  `like_count` int(10) DEFAULT 0
+  `like_count` int(10) DEFAULT 0,
+  `comment_count` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `post_question`
 --
 
-INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type`, `asker`, `time`, `category`, `anonymous`, `like_count`) VALUES
-(2, 'test', NULL, NULL, NULL, NULL, '0000-00-00', 1, NULL, 1),
-(3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0),
-(4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0),
-(5, NULL, NULL, NULL, 2, 'chrisya', NULL, 3, NULL, 0);
+INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type`, `asker`, `time`, `category`, `anonymous`, `like_count`, `comment_count`) VALUES
+(2, 'testing', NULL, NULL, 1, NULL, '0000-00-00', 1, NULL, 1, 0),
+(3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0),
+(4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0),
+(5, NULL, NULL, NULL, 2, 'chrisya', NULL, 3, NULL, 0, 0),
+(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -202,7 +208,7 @@ INSERT INTO `post_type` (`id`, `type`) VALUES
 CREATE TABLE `report_table` (
   `postID` int(10) DEFAULT NULL,
   `username` varchar(25) DEFAULT NULL,
-  `type` varchar(30) DEFAULT NULL
+  `type` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -210,7 +216,9 @@ CREATE TABLE `report_table` (
 --
 
 INSERT INTO `report_table` (`postID`, `username`, `type`) VALUES
-(2, 'test', 'inappropriate');
+(2, 'test', 'inappropriate'),
+(5, 'test', 'spam'),
+(6, 'chrisya', 'Plagiarism');
 
 -- --------------------------------------------------------
 
@@ -219,16 +227,9 @@ INSERT INTO `report_table` (`postID`, `username`, `type`) VALUES
 --
 
 CREATE TABLE `save` (
-  `postID` int(10) DEFAULT NULL,
-  `username` varchar(25) DEFAULT NULL
+  `username` varchar(25) NOT NULL,
+  `postID` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `save`
---
-
-INSERT INTO `save` (`postID`, `username`) VALUES
-(2, 'test');
 
 -- --------------------------------------------------------
 
@@ -249,6 +250,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`email`, `username`, `member_type`, `profile_picture`, `password`) VALUES
+('chrisya@gmail.com', 'chrisya', NULL, NULL, '$2b$10$yqzy/tZdzLo8RD0.N/fYJe2cKuLvlFf5.J5kbk1T7Ln2nBHNHreom'),
 ('test@gmail.com', 'test', NULL, NULL, NULL);
 
 --
@@ -260,8 +262,8 @@ INSERT INTO `user` (`email`, `username`, `member_type`, `profile_picture`, `pass
 --
 ALTER TABLE `answer`
   ADD PRIMARY KEY (`answerID`),
-  ADD KEY `postID` (`postID`),
-  ADD KEY `answerer` (`answerer`);
+  ADD KEY `answer_ibfk_1` (`postID2`),
+  ADD KEY `answer_ibfk_2` (`answerer`);
 
 --
 -- Indexes for table `category`
@@ -274,16 +276,25 @@ ALTER TABLE `category`
 --
 ALTER TABLE `comment_table`
   ADD PRIMARY KEY (`commentID`),
-  ADD KEY `username` (`username`),
   ADD KEY `comment_table_ibfk_1` (`answerID`),
-  ADD KEY `postID` (`postID`);
+  ADD KEY `comment_table_ibfk_2` (`username`),
+  ADD KEY `comment_table_ibfk_3` (`postID`);
 
 --
 -- Indexes for table `follow`
 --
 ALTER TABLE `follow`
   ADD UNIQUE KEY `follow_idx` (`username`,`categoryID`),
-  ADD KEY `categoryID` (`categoryID`);
+  ADD KEY `follow_ibfk_1` (`categoryID`);
+
+--
+-- Indexes for table `like_table`
+--
+ALTER TABLE `like_table`
+  ADD KEY `like_table_ibfk_1` (`username`),
+  ADD KEY `like_table_ibfk_2` (`postID`),
+  ADD KEY `like_table_ibfk_3` (`answerID`),
+  ADD KEY `like_table_ibfk_4` (`commentID`);
 
 --
 -- Indexes for table `member_type`
@@ -296,8 +307,8 @@ ALTER TABLE `member_type`
 --
 ALTER TABLE `post_question`
   ADD PRIMARY KEY (`postID`),
-  ADD KEY `category` (`category`),
-  ADD KEY `type` (`type`);
+  ADD KEY `post_question_ibfk_1` (`category`),
+  ADD KEY `post_question_ibfk_2` (`type`);
 
 --
 -- Indexes for table `post_type`
@@ -310,14 +321,14 @@ ALTER TABLE `post_type`
 --
 ALTER TABLE `report_table`
   ADD UNIQUE KEY `report_idx` (`postID`,`username`),
-  ADD KEY `username` (`username`);
+  ADD KEY `report_table_ibfk_2` (`username`);
 
 --
 -- Indexes for table `save`
 --
 ALTER TABLE `save`
-  ADD UNIQUE KEY `save_idx` (`postID`,`username`),
-  ADD KEY `username` (`username`);
+  ADD UNIQUE KEY `save_idx` (`username`,`postID`),
+  ADD KEY `postID` (`postID`);
 
 --
 -- Indexes for table `user`
@@ -334,7 +345,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `post_question`
 --
 ALTER TABLE `post_question`
-  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
@@ -344,44 +355,53 @@ ALTER TABLE `post_question`
 -- Constraints for table `answer`
 --
 ALTER TABLE `answer`
-  ADD CONSTRAINT `answer_ibfk_1` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`),
-  ADD CONSTRAINT `answer_ibfk_2` FOREIGN KEY (`answerer`) REFERENCES `user` (`username`);
+  ADD CONSTRAINT `answer_ibfk_1` FOREIGN KEY (`postID2`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `answer_ibfk_2` FOREIGN KEY (`answerer`) REFERENCES `user` (`username`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `comment_table`
 --
 ALTER TABLE `comment_table`
-  ADD CONSTRAINT `comment_table_ibfk_1` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`),
-  ADD CONSTRAINT `comment_table_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`),
-  ADD CONSTRAINT `comment_table_ibfk_3` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`);
+  ADD CONSTRAINT `comment_table_ibfk_1` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comment_table_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comment_table_ibfk_3` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `follow`
 --
 ALTER TABLE `follow`
-  ADD CONSTRAINT `follow_ibfk_1` FOREIGN KEY (`categoryID`) REFERENCES `category` (`categoryID`),
-  ADD CONSTRAINT `follow_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`);
+  ADD CONSTRAINT `follow_ibfk_1` FOREIGN KEY (`categoryID`) REFERENCES `category` (`categoryID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `follow_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `like_table`
+--
+ALTER TABLE `like_table`
+  ADD CONSTRAINT `like_table_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE,
+  ADD CONSTRAINT `like_table_ibfk_2` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `like_table_ibfk_3` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `like_table_ibfk_4` FOREIGN KEY (`commentID`) REFERENCES `comment_table` (`commentID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `post_question`
 --
 ALTER TABLE `post_question`
-  ADD CONSTRAINT `post_question_ibfk_1` FOREIGN KEY (`category`) REFERENCES `category` (`categoryID`),
-  ADD CONSTRAINT `post_question_ibfk_2` FOREIGN KEY (`type`) REFERENCES `post_type` (`id`);
+  ADD CONSTRAINT `post_question_ibfk_1` FOREIGN KEY (`category`) REFERENCES `category` (`categoryID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `post_question_ibfk_2` FOREIGN KEY (`type`) REFERENCES `post_type` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `report_table`
 --
 ALTER TABLE `report_table`
-  ADD CONSTRAINT `report_table_ibfk_1` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`),
-  ADD CONSTRAINT `report_table_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`);
+  ADD CONSTRAINT `report_table_ibfk_1` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `report_table_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `save`
 --
 ALTER TABLE `save`
-  ADD CONSTRAINT `save_ibfk_1` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`),
-  ADD CONSTRAINT `save_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`);
+  ADD CONSTRAINT `save_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`),
+  ADD CONSTRAINT `save_ibfk_2` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
