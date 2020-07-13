@@ -622,37 +622,38 @@ module.exports = {
     countAnsComment: (postID, callBack) => {
         pool.query(
             //"SELECT COUNT(commentID) AS count FROM comment_table WHERE answerID = ?",
-            "SELECT * FROM answer WHERE postID2 = ?",
+            `update answer set hasLiked = 1 where exists (select username from like_table where answerID = 1) limit 1;
+            SELECT * FROM answer WHERE postID2 = ?`,
             [postID],
             (error, results, fields) => {
                 if(error) {
                     callBack(error);
                 }
-                return callBack(null, results);
+                return callBack(null, results[1]);
             }
         );
     },
     answered_post: callBack => {
         pool.query(
-            `DELIMITER ;;
-             CALL temp_table();;
-             CALL home();;
-             DELIMITER ;`,
+            `CALL temp_table();
+             CALL home();
+             SELECT * from answered`,
              [],
              (error, results, fields) => {
                 if(error) {
                     callBack(error);
                 }
-                 pool.query(
-                    "SELECT * FROM answered",
-                    [],
-                    (error, results, fields) => {
-                        if(error) {
-                            callBack(error);
-                        }
-                        return callBack(null, results);
-                    }
-                );
+                //  pool.query(
+                //     "SELECT * FROM answered",
+                //     [],
+                //     (error, results, fields) => {
+                //         if(error) {
+                //             callBack(error);
+                //         }
+                //         return callBack(null, results);
+                //     }
+                // );
+                return callBack(null, results);
             }
         );
         // pool.query(
