@@ -68,7 +68,7 @@ router.get("/search/:term", search);
 router.post("/ask", ask);
 router.post("/answer", answer);
 router.delete("/delete/post/:id", deletePost);
-router.delete("/delete/answer/:id", deleteAns);
+router.delete("/delete/answer/:answerID", deleteAns);
 router.delete("/delete/comment/:id", deleteComment);
 router.get("/user/:postId", getUserByPostId);
 router.post("/like/post", likePost);

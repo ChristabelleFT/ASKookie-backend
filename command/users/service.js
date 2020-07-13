@@ -192,10 +192,10 @@ module.exports = {
             }
         );
     },
-    deleteAns: (id, callBack) => {
+    deleteAns: (answerID, callBack) => {
         pool.query(
             'DELETE FROM answer WHERE answerID = ?',
-            [ id ],
+            [answerID],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);

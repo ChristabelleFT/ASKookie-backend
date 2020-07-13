@@ -295,8 +295,9 @@ module.exports = {
         });
     },
     deleteAns: (req, res) => {
-        const id = req.params.id;
-        deletePost(id, (err, results) =>{
+        const answerID = req.params.answerID;
+        console.log(answerID);
+        deleteAns(answerID, (err, results) =>{
             if(err) {
                 console.log(err);
                 return res.status(500).json({
@@ -311,7 +312,7 @@ module.exports = {
     },
     deleteComment: (req, res) => {
         const id = req.params.id;
-        deletePost(id, (err, results) =>{
+        deleteComment(id, (err, results) =>{
             if(err) {
                 console.log(err);
                 return res.status(500).json({
