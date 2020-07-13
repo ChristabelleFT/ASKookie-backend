@@ -42,6 +42,7 @@ const {
      countAnsComment,
      answered_post,
      editPost,
+     editQuestion,
      editAns,
      editComment
 } = require("./controller");
@@ -90,6 +91,7 @@ router.get("/thread/:postID",threadPerID);
 router.get("/comments/count/post/:postID", countPostComment);
 router.get("/comments/count/answer/:postID", countAnsComment);
 router.post("/edit/post", editPost);
+router.post("/edit/question", editQuestion);
 router.post("/edit/answer", editAns);
 router.post("/edit/comment", editComment);
 

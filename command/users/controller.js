@@ -41,6 +41,7 @@ const {
     countAnsComment,
     answered_post,
     editPost,
+    editQuestion,
     editAns,
     editComment
 } = require("./service");
@@ -687,6 +688,18 @@ module.exports = {
     editPost: (req, res) => {
         const body = req.body;
         editPost(body, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    editQuestion: (req, res) => {
+        const body = req.body;
+        editQuestion(body, (err, results) => {
             if(err) {
                 console.log(err);
                 return;

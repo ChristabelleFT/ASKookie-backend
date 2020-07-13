@@ -600,12 +600,24 @@ module.exports = {
     },
     editPost: (data, callBack) => {
         pool.query(
-            `UPDATE post_question SET question = IF(category = 1, ?, null) WHERE postID = ?;
-             UPDATE post_question SET post_content = IF(category = 2, ?, null) where postID = ?`,
+            `UPDATE post_question SET post_content = ? WHERE postID = ?`,
             [
-                data.content,
+                data.post_content,
                 data.postID,
-                data.content,
+            ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    editQuestion: (data, callBack) => {
+        pool.query(
+            `UPDATE post_question SET question = ? WHERE postID = ?`,
+            [
+                data.question,
                 data.postID
             ],
             (error, results, fields) => {
@@ -618,10 +630,10 @@ module.exports = {
     },
     editAns: (data, callBack) => {
         pool.query(
-            'UPDATE answer SET answer = ? WHERE postID = ?',
+            'UPDATE answer SET answer = ? WHERE answerID = ?',
             [
                 data.content,
-                data.postID
+                data.answerID
             ],
             (error, results, fields) => {
                 if(error) {
