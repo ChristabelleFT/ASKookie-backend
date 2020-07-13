@@ -194,7 +194,7 @@ module.exports = {
     },
     deleteAns: (id, callBack) => {
         pool.query(
-            'DELETE FROM post_question WHERE answerID = ?',
+            'DELETE FROM answer WHERE answerID = ?',
             [ id ],
             (error, results, fields) => {
                 if(error) {
@@ -206,7 +206,7 @@ module.exports = {
     },
     deleteComment: (id, callBack) => {
         pool.query(
-            'DELETE FROM post_question WHERE commentID = ?',
+            'DELETE FROM comment_table WHERE commentID = ?',
             [ id ],
             (error, results, fields) => {
                 if(error) {
