@@ -160,12 +160,8 @@ module.exports = {
     },
     answer:(data, callBack) => {
         pool.query(
-            `SELECT @last_id := answerID from answer where postID2 = ? order by answerID desc limit 1;
-             SELECT @next_id := IFNULL(@last_id + 1, concat(?,0));
-              INSERT INTO answer (answerID, postID2, answer, answerer, time2, anonymous2) VALUES (@next_id,?,?,?,?,?)`,
+            `INSERT INTO answer (postID2, answer, answerer, time2, anonymous2) VALUES (?,?,?,?,?)`,
             [
-                data.postID2,
-                data.postID2,
                 data.postID2,
                 data.answer,
                 data.answerer,

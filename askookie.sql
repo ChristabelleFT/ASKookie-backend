@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2020 at 05:47 AM
+-- Generation Time: Jul 13, 2020 at 06:26 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -43,12 +43,7 @@ CREATE TABLE `answer` (
 --
 
 INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
-(20, 2, 'test', 'test', '0000-00-00', 1, 1, 0),
-(21, 2, 'test', 'test', '0000-00-00', 1, 0, 1),
-(22, 2, 'test', 'test', '2012-11-12', 0, 0, 0),
-(23, 2, 'test', 'test', '2012-11-12', 0, 0, 0),
-(30, 3, 'test answer', 'chrisya', '7/11/2020', NULL, 0, 2),
-(70, 7, 'on august', 'chrisya', '7/13/2020', 1, 0, 0);
+(1, 2, 'okay', 'chrisya', '7/13/2020', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -89,15 +84,6 @@ CREATE TABLE `comment_table` (
   `anonymous` tinyint(1) DEFAULT NULL,
   `like_count` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `comment_table`
---
-
-INSERT INTO `comment_table` (`commentID`, `postID`, `answerID`, `username`, `comment`, `time`, `anonymous`, `like_count`) VALUES
-(210, NULL, 21, 'test', 'testing123', '2012-11-12', 0, 0),
-(300, NULL, 30, 'chrisya', 'test comment', '7/11/2020', 0, 0),
-(301, NULL, 30, 'test', 'spam', '2000/22/2', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -278,9 +264,9 @@ ALTER TABLE `category`
 --
 ALTER TABLE `comment_table`
   ADD PRIMARY KEY (`commentID`),
-  ADD KEY `comment_table_ibfk_1` (`answerID`),
   ADD KEY `comment_table_ibfk_2` (`username`),
-  ADD KEY `comment_table_ibfk_3` (`postID`);
+  ADD KEY `comment_table_ibfk_3` (`postID`),
+  ADD KEY `answerID` (`answerID`);
 
 --
 -- Indexes for table `follow`
@@ -295,8 +281,8 @@ ALTER TABLE `follow`
 ALTER TABLE `like_table`
   ADD KEY `like_table_ibfk_1` (`username`),
   ADD KEY `like_table_ibfk_2` (`postID`),
-  ADD KEY `like_table_ibfk_3` (`answerID`),
-  ADD KEY `like_table_ibfk_4` (`commentID`);
+  ADD KEY `like_table_ibfk_4` (`commentID`),
+  ADD KEY `answerID` (`answerID`);
 
 --
 -- Indexes for table `member_type`
@@ -344,6 +330,12 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `answer`
+--
+ALTER TABLE `answer`
+  MODIFY `answerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `post_question`
 --
 ALTER TABLE `post_question`
@@ -364,9 +356,9 @@ ALTER TABLE `answer`
 -- Constraints for table `comment_table`
 --
 ALTER TABLE `comment_table`
-  ADD CONSTRAINT `comment_table_ibfk_1` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`) ON DELETE CASCADE,
   ADD CONSTRAINT `comment_table_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE,
-  ADD CONSTRAINT `comment_table_ibfk_3` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `comment_table_ibfk_3` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `comment_table_ibfk_4` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`);
 
 --
 -- Constraints for table `follow`
@@ -381,8 +373,8 @@ ALTER TABLE `follow`
 ALTER TABLE `like_table`
   ADD CONSTRAINT `like_table_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE,
   ADD CONSTRAINT `like_table_ibfk_2` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `like_table_ibfk_3` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `like_table_ibfk_4` FOREIGN KEY (`commentID`) REFERENCES `comment_table` (`commentID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `like_table_ibfk_4` FOREIGN KEY (`commentID`) REFERENCES `comment_table` (`commentID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `like_table_ibfk_5` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`);
 
 --
 -- Constraints for table `post_question`
