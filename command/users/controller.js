@@ -338,8 +338,8 @@ module.exports = {
         });
     },
     likePost: (req, res) => {
-        const postID = req.params.postID;
-        likePost(postID, (err, results) =>{
+        const body = req.body;
+        likePost(body, (err, results) =>{
             if(err) {
                 console.log(err);
                 return res.status(500).json({
@@ -353,8 +353,8 @@ module.exports = {
         });
     },
     likeAnswer: (req, res) => {
-        const answerID = req.params.answerID;
-        likeAnswer(answerID, (err, results) =>{
+        const body = req.body;
+        likeAnswer(body, (err, results) =>{
             if(err) {
                 console.log(err);
                 return res.status(500).json({
@@ -368,8 +368,8 @@ module.exports = {
         });
     },
     likeComment: (req, res) => {
-        const commentID = req.params.commentID;
-        likeComment(commentID, (err, results) =>{
+        const body = req.body;
+        likeComment(body, (err, results) =>{
             if(err) {
                 console.log(err);
                 return res.status(500).json({
@@ -640,8 +640,8 @@ module.exports = {
         });
     },
     countPostComment: (req, res) => {
-        const postID = req.params.postID;
-        countPostComment(postID, (err, results) => {
+        const body = req.body;
+        countPostComment(body, (err, results) => {
             if(err) {
                 console.log(err);
                 return;
@@ -657,8 +657,8 @@ module.exports = {
         });
     },
     countAnsComment: (req, res) => {
-        const postID = req.params.postID;
-        countAnsComment(postID, (err, results) => {
+        const body = req.body;
+        countAnsComment(body, (err, results) => {
             if(err) {
                 console.log(err);
                 return;

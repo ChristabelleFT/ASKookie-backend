@@ -606,15 +606,16 @@ module.exports = {
             }
         );
     },
-    countPostComment: (postID, callBack) => {
+    countPostComment: (data, callBack) => {
         pool.query(
            // "SELECT COUNT(commentID) AS count FROM comment_table WHERE postID = ?",
-           `update post_question set hasLiked = 1 where postID = ? and exists (select username from like_table where postID = ?) limit 1;
+           `update post_question set hasLiked = 1 where postID = ? and exists (select username from like_table where postID = ? and username = ?) limit 1;
             SELECT * FROM answer WHERE postID2 = ?`,
             [
-                postID,
-                postID,
-                postID
+                data.postID,
+                data.postID,
+                data.username,
+                data.postID
             ],
             (error, results, fields) => {
                 if(error) {
@@ -624,15 +625,16 @@ module.exports = {
             }
         );
     },
-    countAnsComment: (postID, callBack) => {
+    countAnsComment: (data, callBack) => {
         pool.query(
             //"SELECT COUNT(commentID) AS count FROM comment_table WHERE answerID = ?",
-            `update answer set hasLiked2 = 1 where postID2 = ? and exists (select username from like_table where answerID = ?) limit 1;
+            `update answer set hasLiked2 = 1 where postID2 = ? and exists (select username from like_table where answerID = ? and username = ?) limit 1;
             SELECT * FROM answer WHERE postID2 = ?`,
             [
-                postID,
-                postID,
-                postID
+                data.postID,
+                data.postID,
+                data.username,
+                data.postID
             ],
             (error, results, fields) => {
                 if(error) {
