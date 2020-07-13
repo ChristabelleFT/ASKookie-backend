@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2020 at 05:38 PM
+-- Generation Time: Jul 13, 2020 at 06:04 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -42,8 +42,8 @@ DROP TABLE IF EXISTS feeds;
              DROP TABLE IF EXISTS id;
              DROP TABLE IF EXISTS answered;
              CREATE TABLE answered (postID int, type int(1), category varchar(20), question text, title text, post_content text, 
-             asker varchar(25), time date, anonymous boolean, like_count int, comment_count int, answer text, answerer varchar(25), 
-             time2 date, anonymous2 boolean, like_count2 int, comment_count2 int);
+             asker varchar(25), time varchar(10), anonymous boolean, like_count int, comment_count int, answer text, answerer varchar(25), 
+             time2 varchar(10), anonymous2 boolean, like_count2 int, comment_count2 int);
              CREATE TABLE feeds SELECT * FROM answered LIMIT 0;
              INSERT INTO feeds SELECT DISTINCT postID, type, category, question, title, post_content, asker, time, anonymous, like_count, comment_count,
              answer, answerer, time2, anonymous2, like_count2,comment_count2 FROM post_question LEFT JOIN answer ON post_question.postID = answer.postID2 
@@ -80,7 +80,8 @@ CREATE TABLE `answer` (
 
 INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`, `hasLiked`) VALUES
 (1, 2, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0, 0),
-(2, 3, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, 0);
+(2, 3, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, 0),
+(4, 7, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -96,13 +97,13 @@ CREATE TABLE `answered` (
   `title` text DEFAULT NULL,
   `post_content` text DEFAULT NULL,
   `asker` varchar(25) DEFAULT NULL,
-  `time` date DEFAULT NULL,
+  `time` varchar(10) DEFAULT NULL,
   `anonymous` tinyint(1) DEFAULT NULL,
   `like_count` int(11) DEFAULT NULL,
   `comment_count` int(11) DEFAULT NULL,
   `answer` text DEFAULT NULL,
   `answerer` varchar(25) DEFAULT NULL,
-  `time2` date DEFAULT NULL,
+  `time2` varchar(10) DEFAULT NULL,
   `anonymous2` tinyint(1) DEFAULT NULL,
   `like_count2` int(11) DEFAULT NULL,
   `comment_count2` int(11) DEFAULT NULL
@@ -113,10 +114,11 @@ CREATE TABLE `answered` (
 --
 
 INSERT INTO `answered` (`postID`, `type`, `category`, `question`, `title`, `post_content`, `asker`, `time`, `anonymous`, `like_count`, `comment_count`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
-(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 1, 0, 'testinggg', 'chrisya', '0000-00-00', 1, 0, 0),
-(3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 'test answer', 'chrisya', '0000-00-00', 1, 0, 0),
+(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 1, 0, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
+(3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-(6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '0000-00-00', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+(6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -172,13 +174,13 @@ CREATE TABLE `feeds` (
   `title` text DEFAULT NULL,
   `post_content` text DEFAULT NULL,
   `asker` varchar(25) DEFAULT NULL,
-  `time` date DEFAULT NULL,
+  `time` varchar(10) DEFAULT NULL,
   `anonymous` tinyint(1) DEFAULT NULL,
   `like_count` int(11) DEFAULT NULL,
   `comment_count` int(11) DEFAULT NULL,
   `answer` text DEFAULT NULL,
   `answerer` varchar(25) DEFAULT NULL,
-  `time2` date DEFAULT NULL,
+  `time2` varchar(10) DEFAULT NULL,
   `anonymous2` tinyint(1) DEFAULT NULL,
   `like_count2` int(11) DEFAULT NULL,
   `comment_count2` int(11) DEFAULT NULL
@@ -189,10 +191,11 @@ CREATE TABLE `feeds` (
 --
 
 INSERT INTO `feeds` (`postID`, `type`, `category`, `question`, `title`, `post_content`, `asker`, `time`, `anonymous`, `like_count`, `comment_count`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
-(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 1, 0, 'testinggg', 'chrisya', '0000-00-00', 1, 0, 0),
-(3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 'test answer', 'chrisya', '0000-00-00', 1, 0, 0),
+(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 1, 0, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
+(3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0),
+(7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
-(6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '0000-00-00', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+(6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -229,6 +232,7 @@ CREATE TABLE `id` (
 INSERT INTO `id` (`postID`) VALUES
 (2),
 (3),
+(7),
 (5),
 (6);
 
@@ -464,7 +468,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `answer`
 --
 ALTER TABLE `answer`
-  MODIFY `answerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `answerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `post_question`
