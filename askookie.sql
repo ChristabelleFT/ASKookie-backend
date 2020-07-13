@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 12, 2020 at 05:39 PM
+-- Generation Time: Jul 13, 2020 at 05:47 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -47,7 +47,8 @@ INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `ano
 (21, 2, 'test', 'test', '0000-00-00', 1, 0, 1),
 (22, 2, 'test', 'test', '2012-11-12', 0, 0, 0),
 (23, 2, 'test', 'test', '2012-11-12', 0, 0, 0),
-(30, 3, 'test answer', 'chrisya', '7/11/2020', NULL, 0, 2);
+(30, 3, 'test answer', 'chrisya', '7/11/2020', NULL, 0, 2),
+(70, 7, 'on august', 'chrisya', '7/13/2020', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -178,7 +179,8 @@ INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `typ
 (3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0),
 (4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0),
 (5, NULL, NULL, NULL, 2, 'chrisya', NULL, 3, NULL, 0, 0),
-(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0);
+(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0),
+(7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -345,7 +347,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `post_question`
 --
 ALTER TABLE `post_question`
-  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
