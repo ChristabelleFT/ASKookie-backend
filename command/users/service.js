@@ -560,7 +560,7 @@ module.exports = {
             `DROP TABLE IF EXISTS feeds;
              DROP TABLE IF EXISTS id;
              DROP TABLE IF EXISTS answered;
-             CREATE TEMPORARY TABLE answered (postID int, type int(1), question text, title text, post_content text, 
+             CREATE TABLE answered (postID int, type int(1), question text, title text, post_content text, 
              asker varchar(25), time date, anonymous boolean, like_count int, comment_count int, answer text, answerer varchar(25), 
              time2 date, anonymous2 boolean, like_count2 int, comment_count2 int);
              CREATE TEMPORARY TABLE feeds SELECT * FROM answered LIMIT 0;
@@ -587,10 +587,20 @@ module.exports = {
              end;
              ;;
              DELIMITER ;
-             CALL home();
-             SELECT * FROM answered`,
+             CALL home()`,
+             //SELECT * FROM answered`,
              [],
              (error, results, fields) => {
+                if(error) {
+                    callBack(error);
+                }
+                //return callBack(null, results);
+            }
+        );
+        pool.query(
+            "SELECT * FROM answered",
+            [],
+            (error, results, fields) => {
                 if(error) {
                     callBack(error);
                 }

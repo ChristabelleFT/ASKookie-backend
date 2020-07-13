@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2020 at 06:26 AM
+-- Generation Time: Jul 13, 2020 at 10:51 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -43,7 +43,32 @@ CREATE TABLE `answer` (
 --
 
 INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
-(1, 2, 'okay', 'chrisya', '7/13/2020', 1, 0, 0);
+(1, 2, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `answered`
+--
+
+CREATE TABLE `answered` (
+  `postID` int(11) DEFAULT NULL,
+  `type` int(1) DEFAULT NULL,
+  `question` text DEFAULT NULL,
+  `title` text DEFAULT NULL,
+  `post_content` text DEFAULT NULL,
+  `asker` varchar(25) DEFAULT NULL,
+  `time` date DEFAULT NULL,
+  `anonymous` tinyint(1) DEFAULT NULL,
+  `like_count` int(11) DEFAULT NULL,
+  `comment_count` int(11) DEFAULT NULL,
+  `answer` text DEFAULT NULL,
+  `answerer` varchar(25) DEFAULT NULL,
+  `time2` date DEFAULT NULL,
+  `anonymous2` tinyint(1) DEFAULT NULL,
+  `like_count2` int(11) DEFAULT NULL,
+  `comment_count2` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -164,7 +189,7 @@ INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `typ
 (2, 'testing', NULL, NULL, 1, NULL, '0000-00-00', 1, NULL, 1, 0),
 (3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0),
 (4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0),
-(5, NULL, NULL, NULL, 2, 'chrisya', NULL, 3, NULL, 0, 0),
+(5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0),
 (6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0),
 (7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0);
 
@@ -266,7 +291,7 @@ ALTER TABLE `comment_table`
   ADD PRIMARY KEY (`commentID`),
   ADD KEY `comment_table_ibfk_2` (`username`),
   ADD KEY `comment_table_ibfk_3` (`postID`),
-  ADD KEY `answerID` (`answerID`);
+  ADD KEY `comment_table_ibfk_4` (`answerID`);
 
 --
 -- Indexes for table `follow`
@@ -282,7 +307,7 @@ ALTER TABLE `like_table`
   ADD KEY `like_table_ibfk_1` (`username`),
   ADD KEY `like_table_ibfk_2` (`postID`),
   ADD KEY `like_table_ibfk_4` (`commentID`),
-  ADD KEY `answerID` (`answerID`);
+  ADD KEY `like_table_ibfk_5` (`answerID`);
 
 --
 -- Indexes for table `member_type`
@@ -358,7 +383,7 @@ ALTER TABLE `answer`
 ALTER TABLE `comment_table`
   ADD CONSTRAINT `comment_table_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE,
   ADD CONSTRAINT `comment_table_ibfk_3` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `comment_table_ibfk_4` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`);
+  ADD CONSTRAINT `comment_table_ibfk_4` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `follow`
@@ -374,7 +399,7 @@ ALTER TABLE `like_table`
   ADD CONSTRAINT `like_table_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE,
   ADD CONSTRAINT `like_table_ibfk_2` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
   ADD CONSTRAINT `like_table_ibfk_4` FOREIGN KEY (`commentID`) REFERENCES `comment_table` (`commentID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `like_table_ibfk_5` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`);
+  ADD CONSTRAINT `like_table_ibfk_5` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `post_question`
