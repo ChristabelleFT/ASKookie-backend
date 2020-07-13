@@ -653,7 +653,7 @@ module.exports = {
                 //         return callBack(null, results);
                 //     }
                 // );
-                return callBack(null, results);
+                return callBack(null, results[2]);
             }
         );
         // pool.query(
