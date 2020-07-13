@@ -297,7 +297,6 @@ module.exports = {
     },
     deleteAns: (req, res) => {
         const answerID = req.params.answerID;
-        console.log(answerID);
         deleteAns(answerID, (err, results) =>{
             if(err) {
                 console.log(err);

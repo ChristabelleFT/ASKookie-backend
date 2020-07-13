@@ -55,80 +55,157 @@ module.exports = {
     },
     getFaculties: callBack => {
         pool.query(
-            "SELECT * FROM post_question WHERE category = 1",
-            [],
-            (error, results, fields) => {
+            `DELIMITER ;;
+             CALL temp_table();;
+             CALL home();;
+             DELIMITER ;`,
+             [],
+             (error, results, fields) => {
                 if(error) {
-                    return callBack(error);
+                    callBack(error);
                 }
-                return callBack(null, results);
+                 pool.query(
+                    "SELECT * FROM answered WHERE category = 1",
+                    [],
+                    (error, results, fields) => {
+                        if(error) {
+                            callBack(error);
+                        }
+                        return callBack(null, results);
+                    }
+                );
             }
         );
     },
     getAccommodation: callBack => {
         pool.query(
-            "SELECT * FROM post_question WHERE category = 2",
-            [],
-            (error, results, fields) => {
+            `DELIMITER ;;
+             CALL temp_table();;
+             CALL home();;
+             DELIMITER ;`,
+             [],
+             (error, results, fields) => {
                 if(error) {
-                    return callBack(error);
+                    callBack(error);
                 }
-                return callBack(null, results);
+                 pool.query(
+                    "SELECT * FROM answered WHERE category = 2",
+                    [],
+                    (error, results, fields) => {
+                        if(error) {
+                            callBack(error);
+                        }
+                        return callBack(null, results);
+                    }
+                );
             }
         );
     },
     getStudentLife: callBack => {
         pool.query(
-            "SELECT * FROM post_question WHERE category = 3",
-            [],
-            (error, results, fields) => {
+            `DELIMITER ;;
+             CALL temp_table();;
+             CALL home();;
+             DELIMITER ;`,
+             [],
+             (error, results, fields) => {
                 if(error) {
-                    return callBack(error);
+                    callBack(error);
                 }
-                return callBack(null, results);
+                 pool.query(
+                    "SELECT * FROM answered WHERE category = 3",
+                    [],
+                    (error, results, fields) => {
+                        if(error) {
+                            callBack(error);
+                        }
+                        return callBack(null, results);
+                    }
+                );
             }
         );
     },
     getJobIntern: callBack => {
         pool.query(
-            "SELECT * FROM post_question WHERE category = 4",
-            [],
-            (error, results, fields) => {
+            `DELIMITER ;;
+             CALL temp_table();;
+             CALL home();;
+             DELIMITER ;`,
+             [],
+             (error, results, fields) => {
                 if(error) {
-                    return callBack(error);
+                    callBack(error);
                 }
-                return callBack(null, results);
+                 pool.query(
+                    "SELECT * FROM answered WHERE category = 4",
+                    [],
+                    (error, results, fields) => {
+                        if(error) {
+                            callBack(error);
+                        }
+                        return callBack(null, results);
+                    }
+                );
             }
         );
     },
     getExchangeNoc: callBack => {
         pool.query(
-            "SELECT * FROM post_question WHERE category = 5",
-            [],
-            (error, results, fields) => {
+            `DELIMITER ;;
+             CALL temp_table();;
+             CALL home();;
+             DELIMITER ;`,
+             [],
+             (error, results, fields) => {
                 if(error) {
-                    return callBack(error);
+                    callBack(error);
                 }
-                return callBack(null, results);
+                 pool.query(
+                    "SELECT * FROM answered WHERE category = 5",
+                    [],
+                    (error, results, fields) => {
+                        if(error) {
+                            callBack(error);
+                        }
+                        return callBack(null, results);
+                    }
+                );
             }
         );
     },
     getOthers: callBack => {
         pool.query(
-            "SELECT * FROM post_question WHERE category = 6",
-            [],
-            (error, results, fields) => {
+            `DELIMITER ;;
+             CALL temp_table();;
+             CALL home();;
+             DELIMITER ;`,
+             [],
+             (error, results, fields) => {
                 if(error) {
-                    return callBack(error);
+                    callBack(error);
                 }
-                return callBack(null, results);
+                 pool.query(
+                    "SELECT * FROM answered WHERE category = 6",
+                    [],
+                    (error, results, fields) => {
+                        if(error) {
+                            callBack(error);
+                        }
+                        return callBack(null, results);
+                    }
+                );
             }
         );
     },
     search: (term, callBack) => {
         pool.query(
-            "SELECT * FROM post_question WHERE post_content LIKE ?",
-            [term],
+            `SELECT * FROM post_question WHERE post_content LIKE ? UNION ALL SELECT * FROM post_question WHERE title LIKE ? 
+            UNION ALL SELECT * FROM post_question WHERE question LIKE ?`,
+            [
+                term,
+                term,
+                term
+            ],
             (error, results, fields) => {
                 if(error) {
                     callBack(error);
