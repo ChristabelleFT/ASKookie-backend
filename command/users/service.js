@@ -609,8 +609,13 @@ module.exports = {
     countPostComment: (postID, callBack) => {
         pool.query(
            // "SELECT COUNT(commentID) AS count FROM comment_table WHERE postID = ?",
-           "SELECT * FROM post_question WHERE postID = ?",
-            [postID],
+           `update post_question set hasLiked = 1 where postID = ? and exists (select username from like_table where postID = ?) limit 1;
+            SELECT * FROM answer WHERE postID2 = ?`,
+            [
+                postID,
+                postID,
+                postID
+            ],
             (error, results, fields) => {
                 if(error) {
                     callBack(error);
@@ -622,14 +627,18 @@ module.exports = {
     countAnsComment: (postID, callBack) => {
         pool.query(
             //"SELECT COUNT(commentID) AS count FROM comment_table WHERE answerID = ?",
-            `update answer set hasLiked = 1 where exists (select username from like_table where answerID = 1) limit 1;
+            `update answer set hasLiked2 = 1 where postID2 = ? and exists (select username from like_table where answerID = ?) limit 1;
             SELECT * FROM answer WHERE postID2 = ?`,
-            [postID],
+            [
+                postID,
+                postID,
+                postID
+            ],
             (error, results, fields) => {
                 if(error) {
                     callBack(error);
                 }
-                return callBack(null, results[1]);
+                return callBack(null, results);
             }
         );
     },
