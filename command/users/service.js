@@ -557,56 +557,37 @@ module.exports = {
     },
     answered_post: callBack => {
         pool.query(
-            `DROP TABLE IF EXISTS feeds;
-             DROP TABLE IF EXISTS id;
-             DROP TABLE IF EXISTS answered;
-             CREATE TABLE answered (postID int, type int(1), question text, title text, post_content text, 
-             asker varchar(25), time date, anonymous boolean, like_count int, comment_count int, answer text, answerer varchar(25), 
-             time2 date, anonymous2 boolean, like_count2 int, comment_count2 int);
-             CREATE TEMPORARY TABLE feeds SELECT * FROM answered LIMIT 0;
-             INSERT INTO feeds SELECT DISTINCT postID, type, question, title, post_content, asker, time, anonymous, like_count, comment_count,
-             answer, answerer, time2, anonymous2, like_count2,comment_count2 FROM post_question LEFT JOIN answer ON post_question.postID = answer.postID2 
-             WHERE type = 2 OR answer IS NOT NULL;
-             CREATE TEMPORARY TABLE id (postID int);
-             INSERT INTO id SELECT DISTINCT postID from post_question LEFT JOIN answer ON post_question.postID = answer.postID2 
-             WHERE type = 2 OR answer IS NOT NULL;
-             SET @length = (SELECT COUNT(*) FROM id);
-             DROP PROCEDURE IF EXISTS home;
-             DELIMITER ;;
-             create procedure home()
-             begin
-             declare n int default 0;
-             declare i int default 0;
-             set i = 0;
-             set n = @length;
-             while i < n do
-             select * into @getID from id order by postID limit i,1;
-             insert into answered select * from feeds where postID = @getID order by like_count2 desc limit 1;
-             set i = i+1;
-             end while;
-             end;
-             ;;
-             DELIMITER ;
-             CALL home()`,
-             //SELECT * FROM answered`,
+            `DELIMITER ;;
+             CALL temp_table();;
+             CALL home();;
+             DELIMITER ;`,
              [],
              (error, results, fields) => {
                 if(error) {
                     callBack(error);
                 }
-                //return callBack(null, results);
+                 pool.query(
+                    "SELECT * FROM answered",
+                    [],
+                    (error, results, fields) => {
+                        if(error) {
+                            callBack(error);
+                        }
+                        return callBack(null, results);
+                    }
+                );
             }
         );
-        pool.query(
-            "SELECT * FROM answered",
-            [],
-            (error, results, fields) => {
-                if(error) {
-                    callBack(error);
-                }
-                return callBack(null, results);
-            }
-        );
+        // pool.query(
+        //     "SELECT * FROM answered",
+        //     [],
+        //     (error, results, fields) => {
+        //         if(error) {
+        //             callBack(error);
+        //         }
+        //         return callBack(null, results);
+        //     }
+        // );
     },
     editPost: (data, callBack) => {
         pool.query(

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2020 at 10:51 AM
+-- Generation Time: Jul 13, 2020 at 11:45 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -20,6 +20,41 @@ SET time_zone = "+00:00";
 --
 -- Database: `askookie`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `home` ()  begin
+             declare n int default 0;
+             declare i int default 0;
+             set i = 0;
+             set n = @length;
+             while i < n do
+             select * into @getID from id order by postID limit i,1;
+             insert into answered select * from feeds where postID = @getID order by like_count2 desc limit 1;
+             set i = i+1;
+             end while;
+             end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `temp_table` ()  BEGIN
+DROP TABLE IF EXISTS feeds;
+             DROP TABLE IF EXISTS id;
+             DROP TABLE IF EXISTS answered;
+             CREATE TABLE answered (postID int, type int(1), question text, title text, post_content text, 
+             asker varchar(25), time date, anonymous boolean, like_count int, comment_count int, answer text, answerer varchar(25), 
+             time2 date, anonymous2 boolean, like_count2 int, comment_count2 int);
+             CREATE TABLE feeds SELECT * FROM answered LIMIT 0;
+             INSERT INTO feeds SELECT DISTINCT postID, type, question, title, post_content, asker, time, anonymous, like_count, comment_count,
+             answer, answerer, time2, anonymous2, like_count2,comment_count2 FROM post_question LEFT JOIN answer ON post_question.postID = answer.postID2 
+             WHERE type = 2 OR answer IS NOT NULL;
+             CREATE TABLE id (postID int);
+             INSERT INTO id SELECT DISTINCT postID from post_question LEFT JOIN answer ON post_question.postID = answer.postID2 
+             WHERE type = 2 OR answer IS NOT NULL;
+             SET @length = (SELECT COUNT(*) FROM id);
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -43,7 +78,8 @@ CREATE TABLE `answer` (
 --
 
 INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
-(1, 2, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0);
+(1, 2, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
+(2, 3, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -113,6 +149,41 @@ CREATE TABLE `comment_table` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `feeds`
+--
+
+CREATE TABLE `feeds` (
+  `postID` int(11) DEFAULT NULL,
+  `type` int(1) DEFAULT NULL,
+  `question` text DEFAULT NULL,
+  `title` text DEFAULT NULL,
+  `post_content` text DEFAULT NULL,
+  `asker` varchar(25) DEFAULT NULL,
+  `time` date DEFAULT NULL,
+  `anonymous` tinyint(1) DEFAULT NULL,
+  `like_count` int(11) DEFAULT NULL,
+  `comment_count` int(11) DEFAULT NULL,
+  `answer` text DEFAULT NULL,
+  `answerer` varchar(25) DEFAULT NULL,
+  `time2` date DEFAULT NULL,
+  `anonymous2` tinyint(1) DEFAULT NULL,
+  `like_count2` int(11) DEFAULT NULL,
+  `comment_count2` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `feeds`
+--
+
+INSERT INTO `feeds` (`postID`, `type`, `question`, `title`, `post_content`, `asker`, `time`, `anonymous`, `like_count`, `comment_count`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
+(2, 1, 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 1, 0, 'testinggg', 'chrisya', '0000-00-00', 1, 0, 0),
+(3, 1, 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 'test answer', 'chrisya', '0000-00-00', 1, 0, 0),
+(5, 2, NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 2, NULL, 'testtt', 'testtt', 'chrisya', '0000-00-00', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `follow`
 --
 
@@ -127,6 +198,26 @@ CREATE TABLE `follow` (
 
 INSERT INTO `follow` (`username`, `categoryID`) VALUES
 ('test', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `id`
+--
+
+CREATE TABLE `id` (
+  `postID` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `id`
+--
+
+INSERT INTO `id` (`postID`) VALUES
+(2),
+(3),
+(5),
+(6);
 
 -- --------------------------------------------------------
 
@@ -358,7 +449,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `answer`
 --
 ALTER TABLE `answer`
-  MODIFY `answerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `answerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `post_question`
