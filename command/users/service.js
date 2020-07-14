@@ -304,7 +304,7 @@ module.exports = {
     likePost: (data, callBack) => {
         pool.query(
             `UPDATE post_question SET like_count = like_count + 1 WHERE postID = ?;
-            INSERT INTO like_table (postID, username) VALUES (?,?)`,
+            INSERT IGNORE INTO like_table (postID, username) VALUES (?,?)`,
             [
                 data.postID,
                 data.postID,
@@ -321,7 +321,7 @@ module.exports = {
     likeAnswer: (data, callBack) => {
         pool.query(
             `UPDATE answer SET like_count2 = like_count2 + 1 WHERE answerID = ?;
-            INSERT INTO like_table (postID,answerID, username) VALUES (?,?,?)`,
+            INSERT IGNORE INTO like_table (postID,answerID, username) VALUES (?,?,?)`,
             [
                 data.answerID,
                 data.postID,
@@ -339,7 +339,7 @@ module.exports = {
     likeComment: (data, callBack) => {
         pool.query(
             `UPDATE comment_table SET like_count = like_count + 1 WHERE commentID = ?;
-            INSERT INTO like_table (postID,answerID,commentID, username) VALUES (?,?,?,?)`,
+            INSERT IGNORE INTO like_table (postID,answerID,commentID, username) VALUES (?,?,?,?)`,
             [
                 data.commentID,
                 data.postID,

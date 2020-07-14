@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2020 at 06:29 PM
+-- Generation Time: Jul 14, 2020 at 10:10 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -115,7 +115,7 @@ CREATE TABLE `answered` (
 --
 
 INSERT INTO `answered` (`postID`, `type`, `category`, `question`, `title`, `post_content`, `asker`, `time`, `anonymous`, `like_count`, `comment_count`, `answerID`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
-(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 1, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
+(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 2, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -193,7 +193,7 @@ CREATE TABLE `feeds` (
 --
 
 INSERT INTO `feeds` (`postID`, `type`, `category`, `question`, `title`, `post_content`, `asker`, `time`, `anonymous`, `like_count`, `comment_count`, `answerID`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
-(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 1, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
+(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 2, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -251,6 +251,13 @@ CREATE TABLE `like_table` (
   `commentID` int(12) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `like_table`
+--
+
+INSERT INTO `like_table` (`username`, `postID`, `answerID`, `commentID`) VALUES
+('chrisya', 2, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -297,7 +304,7 @@ CREATE TABLE `post_question` (
 --
 
 INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type`, `asker`, `time`, `category`, `anonymous`, `like_count`, `comment_count`, `hasLiked`) VALUES
-(2, 'testing', NULL, NULL, 1, NULL, '0000-00-00', 1, NULL, 1, 0, 0),
+(2, 'testing', NULL, NULL, 1, NULL, '0000-00-00', 1, NULL, 2, 0, 0),
 (3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0, 0),
 (4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0, 0),
 (5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0, 0),
@@ -415,9 +422,6 @@ ALTER TABLE `follow`
 -- Indexes for table `like_table`
 --
 ALTER TABLE `like_table`
-  ADD UNIQUE KEY `like_post` (`username`,`postID`),
-  ADD UNIQUE KEY `like_answer` (`username`,`answerID`),
-  ADD UNIQUE KEY `like_comment` (`username`,`commentID`),
   ADD KEY `like_table_ibfk_2` (`postID`),
   ADD KEY `like_table_ibfk_4` (`commentID`),
   ADD KEY `like_table_ibfk_5` (`answerID`);
