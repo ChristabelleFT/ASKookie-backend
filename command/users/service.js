@@ -606,41 +606,41 @@ module.exports = {
             }
         );
     },
-    countPostComment: (data, callBack) => {
+    countPostComment: (id, name, callBack) => {
         pool.query(
            // "SELECT COUNT(commentID) AS count FROM comment_table WHERE postID = ?",
            `update post_question set hasLiked = 1 where postID = ? and exists (select username from like_table where postID = ? and username = ?) limit 1;
             SELECT * FROM answer WHERE postID2 = ?`,
             [
-                data.postID,
-                data.postID,
-                data.username,
-                data.postID
+                id,
+                id,
+                name,
+                id
             ],
             (error, results, fields) => {
                 if(error) {
                     callBack(error);
                 }
-                return callBack(null, results);
+                return callBack(null, results[1]);
             }
         );
     },
-    countAnsComment: (data, callBack) => {
+    countAnsComment: (id, name, callBack) => {
         pool.query(
             //"SELECT COUNT(commentID) AS count FROM comment_table WHERE answerID = ?",
             `update answer set hasLiked2 = 1 where postID2 = ? and exists (select username from like_table where answerID = ? and username = ?) limit 1;
             SELECT * FROM answer WHERE postID2 = ?`,
             [
-                data.postID,
-                data.postID,
-                data.username,
-                data.postID
+                id,
+                id,
+                name,
+                id
             ],
             (error, results, fields) => {
                 if(error) {
                     callBack(error);
                 }
-                return callBack(null, results);
+                return callBack(null, results[1]);
             }
         );
     },

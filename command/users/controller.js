@@ -640,8 +640,9 @@ module.exports = {
         });
     },
     countPostComment: (req, res) => {
-        const body = req.body;
-        countPostComment(body, (err, results) => {
+        const id = req.params.id;
+        const name = req.params.name;
+        countPostComment(id, name, (err, results) => {
             if(err) {
                 console.log(err);
                 return;
@@ -657,8 +658,9 @@ module.exports = {
         });
     },
     countAnsComment: (req, res) => {
-        const body = req.body;
-        countAnsComment(body, (err, results) => {
+        const id = req.params.id;
+        const name = req.params.name;
+        countAnsComment(id, name, (err, results) => {
             if(err) {
                 console.log(err);
                 return;
