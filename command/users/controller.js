@@ -55,24 +55,24 @@ module.exports = {
         const salt = genSaltSync(10);//generate token for password
         body.password = hashSync(body.password, salt);
         //create token for verification
-        /*jwt.sign(
-            {
-                user: body.username,
-            },
-            body.email,
-            {
-                expiresIn: '1d',
-            },
-            (err, emailToken) => {
-                const url = `http://localhost:3000/confirmation/${emailToken}`;
+        // jwt.sign(
+        //     {
+        //         user: body.username,
+        //     },
+        //     body.email,
+        //     {
+        //         expiresIn: '1d',
+        //     },
+        //     (err, emailToken) => {
+        //         const url = `http://localhost:3000/confirmation/${emailToken}`;
 
-                transporter.sendMail({
-                    to: args.email,
-                    subject: 'ASKookie Email Confirmation',
-                    html: `Please click this link to confirm your email: <a href="${url}">${url}</a>`
-                });
-            },
-        );*/
+        //         transporter.sendMail({
+        //             to: args.email,
+        //             subject: 'ASKookie Email Confirmation',
+        //             html: `Please click this link to confirm your email: <a href="${url}">${url}</a>`
+        //         });
+        //     },
+        // );
         create(body, (err, results) =>{
             if(err) {
                 console.log(err);
@@ -494,8 +494,8 @@ module.exports = {
         });
     },
     dislikePost: (req, res) => {
-        const postID = req.params.postID;
-        dislikePost(postID, (err, results) =>{
+        const body = req.body;
+        dislikePost(body, (err, results) =>{
             if(err) {
                 console.log(err);
                 return res.status(500).json({
@@ -509,8 +509,8 @@ module.exports = {
         });
     },
     dislikeAnswer: (req, res) => {
-        const answerID = req.params.answerID;
-        dislikeAnswer(answerID, (err, results) =>{
+        const body = req.body;
+        dislikeAnswer(body, (err, results) =>{
             if(err) {
                 console.log(err);
                 return res.status(500).json({
@@ -524,8 +524,8 @@ module.exports = {
         });
     },
     dislikeComment: (req, res) => {
-        const commentID = req.params.commentID;
-        dislikeComment(commentID, (err, results) =>{
+        const body = req.body;
+        dislikeComment(body, (err, results) =>{
             if(err) {
                 console.log(err);
                 return res.status(500).json({

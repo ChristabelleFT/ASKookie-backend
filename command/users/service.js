@@ -303,12 +303,12 @@ module.exports = {
     },
     likePost: (data, callBack) => {
         pool.query(
-            `UPDATE post_question SET like_count = like_count + 1 WHERE postID = ?;
-            INSERT IGNORE INTO like_table (postID, username) VALUES (?,?)`,
+            `
+            insert into like_table(username, postID) values (?,?) on duplicate key update postID = postID`,
             [
-                data.postID,
-                data.postID,
-                data.username
+                //data.postID,
+                data.username,
+                data.postID
             ],
             (error, results, fields) => {
                 if(error) {
@@ -321,12 +321,12 @@ module.exports = {
     likeAnswer: (data, callBack) => {
         pool.query(
             `UPDATE answer SET like_count2 = like_count2 + 1 WHERE answerID = ?;
-            INSERT IGNORE INTO like_table (postID,answerID, username) VALUES (?,?,?)`,
+            insert into like_table(username, postID, answerID) values (?,?,?) on duplicate key update answerID = answerID`,
             [
                 data.answerID,
+                data.username,
                 data.postID,
-                data.answerID,
-                data.username
+                data.answerID
             ],
             (error, results, fields) => {
                 if(error) {
@@ -339,13 +339,13 @@ module.exports = {
     likeComment: (data, callBack) => {
         pool.query(
             `UPDATE comment_table SET like_count = like_count + 1 WHERE commentID = ?;
-            INSERT IGNORE INTO like_table (postID,answerID,commentID, username) VALUES (?,?,?,?)`,
+            insert into like_table(username, postID, answerID,commentID) values (?,?,?,?) on duplicate key update commentID = commentID`,
             [
                 data.commentID,
+                data.username,
                 data.postID,
                 data.answerID,
                 data.commentID,
-                data.username
             ],
             (error, results, fields) => {
                 if(error) {
@@ -486,10 +486,15 @@ module.exports = {
             }
         );
     },
-    dislikePost: (postID, callBack) => {
+    dislikePost: (data, callBack) => {
         pool.query(
-            'UPDATE post_question SET like_count = like_count - 1 WHERE postID = ?',
-            [postID],
+            `UPDATE post_question SET like_count = like_count - 1 WHERE postID = ?;
+             DELETE FROM like_table WHERE postID = ? AND username = ?`,
+            [
+                data.postID,
+                data.postID,
+                data.username
+            ],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);
@@ -498,10 +503,15 @@ module.exports = {
             }
         );
     },
-    dislikeAnswer: (answerID, callBack) => {
+    dislikeAnswer: (data, callBack) => {
         pool.query(
-            'UPDATE answer SET like_count2 = like_count2 - 1 WHERE answerID = ?',
-            [answerID],
+            `UPDATE answer SET like_count2 = like_count2 - 1 WHERE answerID = ?;
+             DELETE FROM like_table WHERE answerID = ? AND username = ?`,
+            [
+                data.answerID,
+                data.answerID,
+                data.username
+            ],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);
@@ -510,10 +520,15 @@ module.exports = {
             }
         );
     },
-    dislikeComment: (commentID, callBack) => {
+    dislikeComment: (data, callBack) => {
         pool.query(
-            'UPDATE comment_table SET like_count = like_count - 1 WHERE commentID = ?',
-            [commentID],
+            `UPDATE comment_table SET like_count = like_count - 1 WHERE commentID = ?;
+             DELETE FROM like_table WHERE commentID = ? AND username = ?`,
+            [
+                data.commentID,
+                data.commentID,
+                data.username
+            ],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);
@@ -610,7 +625,7 @@ module.exports = {
         pool.query(
            // "SELECT COUNT(commentID) AS count FROM comment_table WHERE postID = ?",
            `update post_question set hasLiked = 1 where postID = ? and exists (select username from like_table where postID = ? and username = ?) limit 1;
-            SELECT * FROM answer WHERE postID2 = ?`,
+            SELECT * FROM post_question WHERE postID = ?`,
             [
                 id,
                 id,
