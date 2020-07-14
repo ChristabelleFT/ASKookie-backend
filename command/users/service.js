@@ -303,10 +303,13 @@ module.exports = {
     },
     likePost: (data, callBack) => {
         pool.query(
-            `
-            insert into like_table(username, postID) values (?,?) on duplicate key update postID = postID`,
+            `set @bool := not exists(select * from like_table where username = ? and postID = ?);
+             update post_question set like_count=like_count+1 where postID = ? and @bool;
+             insert into like_table(username, postID) values (?,?) on duplicate key update postID = postID`,
             [
-                //data.postID,
+                data.username,
+                data.postID,
+                data.postID,
                 data.username,
                 data.postID
             ],
@@ -320,9 +323,12 @@ module.exports = {
     },
     likeAnswer: (data, callBack) => {
         pool.query(
-            `UPDATE answer SET like_count2 = like_count2 + 1 WHERE answerID = ?;
+            `set @bool := not exists(select * from like_table where username = ? and answerID = ?);
+            update answer set like_count2 = like_count2 + 1 where answerID = ? and @bool;
             insert into like_table(username, postID, answerID) values (?,?,?) on duplicate key update answerID = answerID`,
             [
+                data.username,
+                data.answerID,
                 data.answerID,
                 data.username,
                 data.postID,
@@ -338,10 +344,8 @@ module.exports = {
     },
     likeComment: (data, callBack) => {
         pool.query(
-            `UPDATE comment_table SET like_count = like_count + 1 WHERE commentID = ?;
-            insert into like_table(username, postID, answerID,commentID) values (?,?,?,?) on duplicate key update commentID = commentID`,
+            `insert into like_table(username, postID, answerID, commentID) values (?,?,?,?) on duplicate key update answerID = answerID`,
             [
-                data.commentID,
                 data.username,
                 data.postID,
                 data.answerID,
