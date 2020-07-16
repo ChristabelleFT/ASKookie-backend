@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2020 at 09:48 AM
+-- Generation Time: Jul 16, 2020 at 10:08 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -41,16 +41,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `temp_table` ()  BEGIN
 DROP TABLE IF EXISTS feeds;
              DROP TABLE IF EXISTS id;
              DROP TABLE IF EXISTS answered;
-             CREATE TABLE answered (postID int, type int(1), category varchar(20), question text, title text, post_content text, 
+             CREATE TABLE answered (postID int, type_post int(1), category varchar(20), question text, title text, post_content text, 
              asker varchar(25), time varchar(10), anonymous boolean, like_count int, comment_count int,answerID int(11), answer text, answerer varchar(25), 
              time2 varchar(10), anonymous2 boolean, like_count2 int, comment_count2 int);
              CREATE TABLE feeds SELECT * FROM answered LIMIT 0;
-             INSERT INTO feeds SELECT DISTINCT postID, type, category, question, title, post_content, asker, time, anonymous, like_count, comment_count, answerID,
+             INSERT INTO feeds SELECT DISTINCT postID, type_post, category, question, title, post_content, asker, time, anonymous, like_count, comment_count, answerID,
              answer, answerer, time2, anonymous2, like_count2,comment_count2 FROM post_question LEFT JOIN answer ON post_question.postID = answer.postID2 
-             WHERE type = 2 OR answer IS NOT NULL;
+             WHERE type_post = 2 OR answer IS NOT NULL;
              CREATE TABLE id (postID int);
              INSERT INTO id SELECT DISTINCT postID from post_question LEFT JOIN answer ON post_question.postID = answer.postID2 
-             WHERE type = 2 OR answer IS NOT NULL;
+             WHERE type_post = 2 OR answer IS NOT NULL;
              SET @length = (SELECT COUNT(*) FROM id);
 END$$
 
@@ -92,7 +92,7 @@ INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `ano
 
 CREATE TABLE `answered` (
   `postID` int(11) DEFAULT NULL,
-  `type` int(1) DEFAULT NULL,
+  `type_post` int(1) DEFAULT NULL,
   `category` varchar(20) DEFAULT NULL,
   `question` text DEFAULT NULL,
   `title` text DEFAULT NULL,
@@ -115,13 +115,13 @@ CREATE TABLE `answered` (
 -- Dumping data for table `answered`
 --
 
-INSERT INTO `answered` (`postID`, `type`, `category`, `question`, `title`, `post_content`, `asker`, `time`, `anonymous`, `like_count`, `comment_count`, `answerID`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
+INSERT INTO `answered` (`postID`, `type_post`, `category`, `question`, `title`, `post_content`, `asker`, `time`, `anonymous`, `like_count`, `comment_count`, `answerID`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
 (2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 1, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1);
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, -1, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -178,7 +178,7 @@ INSERT INTO `comment_table` (`commentID`, `postID`, `answerID`, `username`, `com
 
 CREATE TABLE `feeds` (
   `postID` int(11) DEFAULT NULL,
-  `type` int(1) DEFAULT NULL,
+  `type_post` int(1) DEFAULT NULL,
   `category` varchar(20) DEFAULT NULL,
   `question` text DEFAULT NULL,
   `title` text DEFAULT NULL,
@@ -201,11 +201,11 @@ CREATE TABLE `feeds` (
 -- Dumping data for table `feeds`
 --
 
-INSERT INTO `feeds` (`postID`, `type`, `category`, `question`, `title`, `post_content`, `asker`, `time`, `anonymous`, `like_count`, `comment_count`, `answerID`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
+INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `post_content`, `asker`, `time`, `anonymous`, `like_count`, `comment_count`, `answerID`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
 (2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 1, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, -1, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
@@ -396,6 +396,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`email`, `username`, `member_type`, `profile_picture`, `password`) VALUES
 ('chrisya@gmail.com', 'chrisya', NULL, NULL, '$2b$10$yqzy/tZdzLo8RD0.N/fYJe2cKuLvlFf5.J5kbk1T7Ln2nBHNHreom'),
+('fredda@gmail.com', 'fredda', NULL, NULL, '$2b$10$fW9p4Bskikx3LQMmrEfOue/ouKM.lfQnmdM4ZqjBAet1CvOkW.m7G'),
 ('test@gmail.com', 'test', NULL, NULL, NULL);
 
 --
