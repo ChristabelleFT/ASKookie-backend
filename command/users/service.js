@@ -619,20 +619,20 @@ module.exports = {
         );
     },
     countPostComment: (name, id, callBack) => {
-        pool.query(
+        pool.query( "call hasLiked(?,?)",
            // "SELECT COUNT(commentID) AS count FROM comment_table WHERE postID = ?",
-           `select post_question.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, username,
-            hasLiked from post_question left join like_table on post_question.postID = like_table.postID where post_question.postID = ?`,
+           //`select post_question.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, username,
+            //hasLiked from post_question left join like_table on post_question.postID = like_table.postID where post_question.postID = ?`,
            // username = ? and 
             [
+                name,
                 id
-               // name,
             ],
             (error, results, fields) => {
                 if(error) {
                     callBack(error);
                 }
-                return callBack(null, results);
+                return callBack(null, results[0]);
             }
         );
     },

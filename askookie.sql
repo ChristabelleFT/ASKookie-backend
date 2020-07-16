@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2020 at 03:31 PM
+-- Generation Time: Jul 16, 2020 at 05:46 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -25,6 +25,13 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `hasLiked` (IN `name` VARCHAR(25), IN `id` INT(10))  begin
+if exists (select * from like_table where like_table.username = name and like_table.postID = id) then select * from post_question left join like_table on post_question.postID = like_table.postID where post_question.postID = id;
+else
+select * from post_question where postID = id;
+end if;
+end$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `home` ()  begin
              declare n int default 0;
              declare i int default 0;
@@ -120,7 +127,7 @@ INSERT INTO `answered` (`postID`, `type_post`, `category`, `question`, `title`, 
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, -2, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1);
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -204,7 +211,7 @@ INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `po
 (2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 1, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, -2, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
@@ -306,22 +313,23 @@ CREATE TABLE `post_question` (
   `category` int(1) DEFAULT NULL,
   `anonymous` tinyint(1) DEFAULT NULL,
   `like_count` int(10) DEFAULT 0,
-  `comment_count` int(10) DEFAULT 0
+  `comment_count` int(10) DEFAULT 0,
+  `hasLiked` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `post_question`
 --
 
-INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type_post`, `asker`, `time`, `category`, `anonymous`, `like_count`, `comment_count`) VALUES
-(2, 'testing', NULL, NULL, 1, NULL, '0000-00-00', 1, NULL, 1, 0),
-(3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0),
-(4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0),
-(5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0),
-(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0),
-(7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0),
-(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, -2, 0),
-(9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0);
+INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type_post`, `asker`, `time`, `category`, `anonymous`, `like_count`, `comment_count`, `hasLiked`) VALUES
+(2, 'testing', NULL, NULL, 1, NULL, '0000-00-00', 1, NULL, 1, 0, NULL),
+(3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0, NULL),
+(4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0, NULL),
+(5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0, NULL),
+(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0, NULL),
+(7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, NULL),
+(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 0, 0, NULL),
+(9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
