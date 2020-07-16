@@ -638,20 +638,20 @@ module.exports = {
         );
     },
     countAnsComment: (id, name, callBack) => {
-        pool.query(
+        pool.query("call hasLikedAns(?,?)",
             //"SELECT COUNT(commentID) AS count FROM comment_table WHERE answerID = ?",
-            `select answer.answerID, postID2, answer, answerer, time2, anonymous2, like_count2, comment_count2, username, hasLiked
-             from answer left join like_table on answer.answerID = like_table.answerID where postID2 = ?`,
+            //`select answer.answerID, postID2, answer, answerer, time2, anonymous2, like_count2, comment_count2, username, hasLiked
+             //from answer left join like_table on answer.answerID = like_table.answerID where postID2 = ?`,
              // username = ? and 
             [
-                id,
-               // name,
+                name,
+                id
             ],
             (error, results, fields) => {
                 if(error) {
                     callBack(error);
                 }
-                return callBack(null, results);
+                return callBack(null, results[0]);
             }
         );
     },

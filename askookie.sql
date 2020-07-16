@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2020 at 05:46 PM
+-- Generation Time: Jul 16, 2020 at 07:18 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -29,6 +29,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `hasLiked` (IN `name` VARCHAR(25), I
 if exists (select * from like_table where like_table.username = name and like_table.postID = id) then select * from post_question left join like_table on post_question.postID = like_table.postID where post_question.postID = id;
 else
 select * from post_question where postID = id;
+end if;
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `hasLikedAns` (IN `name` VARCHAR(25), IN `id` INT(10))  begin
+if exists (select * from like_table where like_table.username = name and like_table.postID = id) then select * from answer left join like_table on answer.answerID = like_table.answerID where postID2 = id;
+else
+select * from answer where postID2 = id;
 end if;
 end$$
 
@@ -77,18 +84,19 @@ CREATE TABLE `answer` (
   `time2` varchar(10) DEFAULT NULL,
   `anonymous2` tinyint(1) DEFAULT NULL,
   `like_count2` int(10) DEFAULT 0,
-  `comment_count2` int(10) DEFAULT 0
+  `comment_count2` int(10) DEFAULT 0,
+  `hasLiked` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `answer`
 --
 
-INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
-(1, 2, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
-(2, 3, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0),
-(4, 7, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
-(5, 8, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1);
+INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`, `hasLiked`) VALUES
+(1, 2, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0, NULL),
+(2, 3, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, NULL),
+(4, 7, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, NULL),
+(5, 8, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -274,7 +282,8 @@ CREATE TABLE `like_table` (
 --
 
 INSERT INTO `like_table` (`username`, `postID`, `answerID`, `commentID`, `hasLiked`) VALUES
-('chrisya', 2, NULL, NULL, 1);
+('chrisya', 2, NULL, NULL, 1),
+('fredda', 8, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -328,7 +337,7 @@ INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `typ
 (5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0, NULL),
 (6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0, NULL),
 (7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, NULL),
-(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 0, 0, NULL),
+(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 1, 0, NULL),
 (9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL);
 
 -- --------------------------------------------------------
