@@ -297,8 +297,9 @@ module.exports = {
     },
     likePost: (data, callBack) => {
         pool.query(
-            `update post_question set like_count = like_count+1 where postID = ? and answer.;
-             insert into like_table(username, postID) values (?,?) on duplicate key update postID = postID`,
+            `set @bool := not exists(select * from like_table where username = ? and postID = ?);
+            update post_question set like_count = like_count + 1 where postID = ? and @bool;
+            insert into like_table(username, postID) values (?,?) on duplicate key update postID = postID`,
             [
                 data.username,
                 data.postID,
