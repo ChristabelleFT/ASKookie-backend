@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2020 at 10:08 AM
+-- Generation Time: Jul 16, 2020 at 03:31 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -70,19 +70,18 @@ CREATE TABLE `answer` (
   `time2` varchar(10) DEFAULT NULL,
   `anonymous2` tinyint(1) DEFAULT NULL,
   `like_count2` int(10) DEFAULT 0,
-  `comment_count2` int(10) DEFAULT 0,
-  `hasLiked2` tinyint(1) DEFAULT 0
+  `comment_count2` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `answer`
 --
 
-INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`, `hasLiked2`) VALUES
-(1, 2, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0, 0),
-(2, 3, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, 0),
-(4, 7, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, 0),
-(5, 8, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1, 0);
+INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
+(1, 2, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
+(2, 3, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0),
+(4, 7, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
+(5, 8, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -121,7 +120,7 @@ INSERT INTO `answered` (`postID`, `type_post`, `category`, `question`, `title`, 
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, -1, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1);
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, -2, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -205,7 +204,7 @@ INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `po
 (2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 1, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, -1, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, -2, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
@@ -321,7 +320,7 @@ INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `typ
 (5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0),
 (6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0),
 (7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0),
-(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, -1, 0),
+(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, -2, 0),
 (9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0);
 
 -- --------------------------------------------------------
@@ -376,6 +375,13 @@ CREATE TABLE `save` (
   `hasSave` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `save`
+--
+
+INSERT INTO `save` (`username`, `postID`, `hasSave`) VALUES
+('fredda', 8, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -396,6 +402,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`email`, `username`, `member_type`, `profile_picture`, `password`) VALUES
 ('chrisya@gmail.com', 'chrisya', NULL, NULL, '$2b$10$yqzy/tZdzLo8RD0.N/fYJe2cKuLvlFf5.J5kbk1T7Ln2nBHNHreom'),
+('fredda2@gmail.com', 'fredda2', NULL, NULL, '$2b$10$2ncoq./TF1r9ejlcdCct5OkZbB9IEyirIuQ.7H7fOk34Z67GGUOWu'),
 ('fredda@gmail.com', 'fredda', NULL, NULL, '$2b$10$fW9p4Bskikx3LQMmrEfOue/ouKM.lfQnmdM4ZqjBAet1CvOkW.m7G'),
 ('test@gmail.com', 'test', NULL, NULL, NULL);
 
