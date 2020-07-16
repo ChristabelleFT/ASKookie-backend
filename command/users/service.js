@@ -221,7 +221,7 @@ module.exports = {
                 data.question,
                 data.title,
                 data.post_content,
-                data.type,
+                data.type_post,
                 data.asker,
                 data.time,
                 data.category,
