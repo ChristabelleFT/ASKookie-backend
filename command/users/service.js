@@ -624,37 +624,37 @@ module.exports = {
             }
         );
     },
-    countPostComment: (id, name, callBack) => {
+    countPostComment: (name, id, callBack) => {
         pool.query(
            // "SELECT COUNT(commentID) AS count FROM comment_table WHERE postID = ?",
            `select post_question.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, username,
             hasLiked from post_question left join like_table on post_question.postID = like_table.postID where username = ? and post_question.postID = ?`,
             [
-                id,
                 name,
+                id
             ],
             (error, results, fields) => {
                 if(error) {
                     callBack(error);
                 }
-                return callBack(null, results[1]);
+                return callBack(null, results);
             }
         );
     },
     countAnsComment: (id, name, callBack) => {
         pool.query(
             //"SELECT COUNT(commentID) AS count FROM comment_table WHERE answerID = ?",
-            `select answer.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, username, hasLiked
+            `select answer.answerID, postID2, answer, answerer, time2,anonymous2, like_count2, comment_count2, username, hasLiked
              from answer left join like_table on answer.answerID = like_table.answerID where username = ? and answer.answerID = ?`,
             [
-                id,
                 name,
+                id
             ],
             (error, results, fields) => {
                 if(error) {
                     callBack(error);
                 }
-                return callBack(null, results[1]);
+                return callBack(null, results);
             }
         );
     },

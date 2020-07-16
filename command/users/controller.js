@@ -645,7 +645,7 @@ module.exports = {
     countPostComment: (req, res) => {
         const id = req.params.id;
         const name = req.params.name;
-        countPostComment(id, name, (err, results) => {
+        countPostComment(name, id, (err, results) => {
             if(err) {
                 console.log(err);
                 return;
