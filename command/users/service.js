@@ -216,7 +216,7 @@ module.exports = {
     },
     ask:(data, callBack) => {
         pool.query(
-            'INSERT INTO post_question(question, title, post_content, type, asker, time, category,anonymous) values(?,?,?,?,?,?,?,?)',
+            'INSERT INTO post_question(question, title, post_content, type_post, asker, time, category,anonymous) values(?,?,?,?,?,?,?,?)',
             [
                 data.question,
                 data.title,
@@ -303,8 +303,7 @@ module.exports = {
     },
     likePost: (data, callBack) => {
         pool.query(
-            `set @bool := not exists(select * from like_table where username = ? and postID = ?);
-             update post_question set like_count=like_count+1 where postID = ? and @bool;
+            `update post_question set like_count = like_count+1 where postID = ? and answer.;
              insert into like_table(username, postID) values (?,?) on duplicate key update postID = postID`,
             [
                 data.username,
@@ -493,7 +492,6 @@ module.exports = {
     dislikePost: (data, callBack) => {
         pool.query(
             `UPDATE post_question SET like_count = like_count - 1 WHERE postID = ?;
-             update post_question set hasLiked = 0 where postID = ?;
              DELETE FROM like_table WHERE postID = ? AND username = ?`,
             [
                 data.postID,
@@ -511,7 +509,6 @@ module.exports = {
     dislikeAnswer: (data, callBack) => {
         pool.query(
             `UPDATE answer SET like_count2 = like_count2 - 1 WHERE answerID = ?;
-             update answer set hasLiked = 0 where answerID = ?;
              DELETE FROM like_table WHERE answerID = ? AND username = ?`,
             [
                 data.answerID,
@@ -581,7 +578,7 @@ module.exports = {
     },
     unAnsQuest: callBack => {
         pool.query(
-            "SELECT * FROM post_question LEFT OUTER JOIN answer ON post_question.postID = answer.postID2 WHERE answer.postID2 is null AND post_question.type = 1",
+            "SELECT * FROM post_question LEFT OUTER JOIN answer ON post_question.postID = answer.postID2 WHERE answer.postID2 is null AND post_question.type_post = 1",
             [],
             (error, results, fields) => {
                 if(error) {
@@ -630,13 +627,11 @@ module.exports = {
     countPostComment: (id, name, callBack) => {
         pool.query(
            // "SELECT COUNT(commentID) AS count FROM comment_table WHERE postID = ?",
-           `update post_question set hasLiked = 1 where postID = ? and exists (select username from like_table where postID = ? and username = ?) limit 1;
-            SELECT * FROM post_question WHERE postID = ?`,
+           `select post_question.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, username,
+            hasLiked from post_question left join like_table on post_question.postID = like_table.postID where username = ? and post_question.postID = ?`,
             [
                 id,
-                id,
                 name,
-                id
             ],
             (error, results, fields) => {
                 if(error) {
@@ -649,13 +644,11 @@ module.exports = {
     countAnsComment: (id, name, callBack) => {
         pool.query(
             //"SELECT COUNT(commentID) AS count FROM comment_table WHERE answerID = ?",
-            `update answer set hasLiked2 = 1 where postID2 = ? and exists (select username from like_table where answerID = ? and username = ?) limit 1;
-            SELECT * FROM answer WHERE postID2 = ?`,
+            `select answer.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, username, hasLiked
+             from answer left join like_table on answer.answerID = like_table.answerID where username = ? and answer.answerID = ?`,
             [
                 id,
-                id,
                 name,
-                id
             ],
             (error, results, fields) => {
                 if(error) {
@@ -751,6 +744,48 @@ module.exports = {
                 data.content,
                 data.postID
             ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    hasSave: (id, name, callBack) => {
+        pool.query(
+            `SELECT hasSave FROM save WHERE postID = ? AND username = ?`,
+            [
+                id,
+                name
+            ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    unsave: (data, callBack) => {
+        pool.query(
+            `DELETE FROM save WHERE postID = ? AND username = ?`,
+            [
+                data.postID,
+                data.username
+            ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    getSave: (name, callBack) => {
+        pool.query(
+            `SELECT * FROM save WHERE username = ?`,
+            [name],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);

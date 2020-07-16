@@ -43,7 +43,10 @@ const {
     editPost,
     editQuestion,
     editAns,
-    editComment
+    editComment,
+    hasSave,
+    unsave,
+    getSave
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -725,6 +728,43 @@ module.exports = {
     editComment: (req, res) => {
         const body = req.body;
         editComment(body, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    hasSave: (req, res) => {
+        const name = req.params.name;
+        const id = req.params.id;
+        hasSave(id, name, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    unsave: (req, res) => {
+        const body = req.body;
+        unsave(body, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    getSave: (req, res) => {
+        const name = req.params.name;
+        getSave(name, (err, results) => {
             if(err) {
                 console.log(err);
                 return;

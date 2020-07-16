@@ -44,7 +44,10 @@ const {
      editPost,
      editQuestion,
      editAns,
-     editComment
+     editComment,
+     hasSave,
+     unsave,
+     getSave
 } = require("./controller");
 const router = require("express").Router();
 
@@ -76,8 +79,8 @@ router.post("/like/post", likePost);
 router.post("/like/answer", likeAnswer);
 router.post("/like/comment", likeComment);
 router.post("/unlike/post", dislikePost);
-router.post("/unlike/answer/", dislikeAnswer);
-router.post("/unlike/comment/", dislikeComment);
+router.post("/unlike/answer", dislikeAnswer);
+router.post("/unlike/comment", dislikeComment);
 router.post("/comment/post", commentPost);
 router.post("/comment/answer", commentAnswer);
 router.post("/save", save);
@@ -94,5 +97,8 @@ router.post("/edit/post", editPost);
 router.post("/edit/question", editQuestion);
 router.post("/edit/answer", editAns);
 router.post("/edit/comment", editComment);
+router.get("/hasSave/:id/:name", hasSave);
+router.post("/unsave", unsave);
+router.get("/save/:name", getSave);
 
 module.exports = router;

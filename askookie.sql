@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2020 at 08:42 PM
+-- Generation Time: Jul 16, 2020 at 09:48 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -259,15 +259,16 @@ CREATE TABLE `like_table` (
   `username` varchar(25) DEFAULT NULL,
   `postID` int(10) DEFAULT NULL,
   `answerID` int(11) DEFAULT NULL,
-  `commentID` int(12) DEFAULT NULL
+  `commentID` int(12) DEFAULT NULL,
+  `hasLiked` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `like_table`
 --
 
-INSERT INTO `like_table` (`username`, `postID`, `answerID`, `commentID`) VALUES
-('chrisya', 2, NULL, NULL);
+INSERT INTO `like_table` (`username`, `postID`, `answerID`, `commentID`, `hasLiked`) VALUES
+('chrisya', 2, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -300,28 +301,28 @@ CREATE TABLE `post_question` (
   `question` text DEFAULT NULL,
   `title` text DEFAULT NULL,
   `post_content` text DEFAULT NULL,
-  `type` int(1) DEFAULT NULL,
+  `type_post` int(1) DEFAULT NULL,
   `asker` varchar(25) DEFAULT NULL,
   `time` varchar(10) DEFAULT NULL,
   `category` int(1) DEFAULT NULL,
   `anonymous` tinyint(1) DEFAULT NULL,
   `like_count` int(10) DEFAULT 0,
-  `comment_count` int(10) DEFAULT 0,
-  `hasLiked` tinyint(1) DEFAULT 0
+  `comment_count` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `post_question`
 --
 
-INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type`, `asker`, `time`, `category`, `anonymous`, `like_count`, `comment_count`, `hasLiked`) VALUES
-(2, 'testing', NULL, NULL, 1, NULL, '0000-00-00', 1, NULL, 1, 0, 0),
-(3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0, 0),
-(4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0, 0),
-(5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0, 0),
-(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0, 0),
-(7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, 0),
-(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 0, 0, 0);
+INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type_post`, `asker`, `time`, `category`, `anonymous`, `like_count`, `comment_count`) VALUES
+(2, 'testing', NULL, NULL, 1, NULL, '0000-00-00', 1, NULL, 1, 0),
+(3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0),
+(4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0),
+(5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0),
+(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0),
+(7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0),
+(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, -1, 0),
+(9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -371,7 +372,8 @@ INSERT INTO `report_table` (`postID`, `username`, `type`) VALUES
 
 CREATE TABLE `save` (
   `username` varchar(25) NOT NULL,
-  `postID` int(10) NOT NULL
+  `postID` int(10) NOT NULL,
+  `hasSave` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -453,7 +455,7 @@ ALTER TABLE `member_type`
 ALTER TABLE `post_question`
   ADD PRIMARY KEY (`postID`),
   ADD KEY `post_question_ibfk_1` (`category`),
-  ADD KEY `post_question_ibfk_2` (`type`);
+  ADD KEY `post_question_ibfk_2` (`type_post`);
 
 --
 -- Indexes for table `post_type`
@@ -496,7 +498,7 @@ ALTER TABLE `answer`
 -- AUTO_INCREMENT for table `post_question`
 --
 ALTER TABLE `post_question`
-  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
@@ -538,7 +540,7 @@ ALTER TABLE `like_table`
 --
 ALTER TABLE `post_question`
   ADD CONSTRAINT `post_question_ibfk_1` FOREIGN KEY (`category`) REFERENCES `category` (`categoryID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `post_question_ibfk_2` FOREIGN KEY (`type`) REFERENCES `post_type` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `post_question_ibfk_2` FOREIGN KEY (`type_post`) REFERENCES `post_type` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `report_table`
