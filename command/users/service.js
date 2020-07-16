@@ -624,14 +624,14 @@ module.exports = {
             }
         );
     },
-    countPostComment: (id, name, callBack) => {
+    countPostComment: (name, id, callBack) => {
         pool.query(
            // "SELECT COUNT(commentID) AS count FROM comment_table WHERE postID = ?",
            `select post_question.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, username,
             hasLiked from post_question left join like_table on post_question.postID = like_table.postID where post_question.postID = ?`,
            // username = ? and 
             [
-                id,
+                id
                // name,
             ],
             (error, results, fields) => {
