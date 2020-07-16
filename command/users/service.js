@@ -493,6 +493,7 @@ module.exports = {
     dislikePost: (data, callBack) => {
         pool.query(
             `UPDATE post_question SET like_count = like_count - 1 WHERE postID = ?;
+             update post_question set hasLiked = 0 where postID = ?;
              DELETE FROM like_table WHERE postID = ? AND username = ?`,
             [
                 data.postID,
@@ -510,6 +511,7 @@ module.exports = {
     dislikeAnswer: (data, callBack) => {
         pool.query(
             `UPDATE answer SET like_count2 = like_count2 - 1 WHERE answerID = ?;
+             update answer set hasLiked = 0 where answerID = ?;
              DELETE FROM like_table WHERE answerID = ? AND username = ?`,
             [
                 data.answerID,
