@@ -198,15 +198,9 @@ module.exports = {
         );
     },
     search: (term, callBack) => {
+        const query = `SELECT * FROM post_question WHERE post_content LIKE '%` + term + `%' UNION ALL SELECT * FROM post_question WHERE title LIKE '%` + term + `%' UNION ALL SELECT * FROM post_question WHERE question LIKE '%` + term + `%';`;
         pool.query(
-            `SELECT * FROM post_question WHERE post_content LIKE ? UNION ALL SELECT * FROM post_question WHERE title LIKE ? 
-            UNION ALL SELECT * FROM post_question WHERE question LIKE ?`,
-            [
-                term,
-                term,
-                term
-            ],
-            (error, results, fields) => {
+      query, (error, results, fields) => {
                 if(error) {
                     callBack(error);
                 }
