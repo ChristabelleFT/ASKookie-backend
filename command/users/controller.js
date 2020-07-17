@@ -660,7 +660,7 @@ module.exports = {
                  question: results[0].question,
                  title: results[0].title,
                  post_content: results[0].post_content,
-                 type_post: results[0].type_post,
+                 test: results[0].type_post,
                  asker: results[0].asker,
                  time: results[0].time,
                  category: results[0].category,
