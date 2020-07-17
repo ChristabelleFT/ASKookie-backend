@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2020 at 09:37 AM
+-- Generation Time: Jul 17, 2020 at 04:46 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -138,7 +138,7 @@ INSERT INTO `answered` (`postID`, `type_post`, `category`, `question`, `title`, 
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1);
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -222,7 +222,7 @@ INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `po
 (2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 1, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
