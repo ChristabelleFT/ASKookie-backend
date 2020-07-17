@@ -749,21 +749,6 @@ module.exports = {
             }
         );
     },
-    hasSave: (id, name, callBack) => {
-        pool.query(
-            `SELECT hasSave FROM save WHERE postID = ? AND username = ?`,
-            [
-                id,
-                name
-            ],
-            (error, results, fields) => {
-                if(error) {
-                    return callBack(error);
-                }
-                return callBack(null, results);
-            }
-        );
-    },
     unsave: (data, callBack) => {
         pool.query(
             `DELETE FROM save WHERE postID = ? AND username = ?`,

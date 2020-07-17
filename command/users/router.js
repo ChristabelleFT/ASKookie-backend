@@ -97,7 +97,6 @@ router.post("/edit/post", editPost);
 router.post("/edit/question", editQuestion);
 router.post("/edit/answer", editAns);
 router.post("/edit/comment", editComment);
-router.get("/hasSave/:id/:name", hasSave);
 router.post("/unsave", unsave);
 router.get("/save/:name", getSave);
 

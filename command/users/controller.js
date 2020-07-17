@@ -44,7 +44,6 @@ const {
     editQuestion,
     editAns,
     editComment,
-    hasSave,
     unsave,
     getSave
 } = require("./service");
@@ -728,19 +727,6 @@ module.exports = {
     editComment: (req, res) => {
         const body = req.body;
         editComment(body, (err, results) => {
-            if(err) {
-                console.log(err);
-                return;
-            }
-            return res.json({
-                data: results
-            });
-        });
-    },
-    hasSave: (req, res) => {
-        const name = req.params.name;
-        const id = req.params.id;
-        hasSave(id, name, (err, results) => {
             if(err) {
                 console.log(err);
                 return;

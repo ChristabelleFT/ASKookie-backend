@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2020 at 07:18 PM
+-- Generation Time: Jul 17, 2020 at 09:37 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -26,9 +26,12 @@ DELIMITER $$
 -- Procedures
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `hasLiked` (IN `name` VARCHAR(25), IN `id` INT(10))  begin
-if exists (select * from like_table where like_table.username = name and like_table.postID = id) then select * from post_question left join like_table on post_question.postID = like_table.postID where post_question.postID = id;
-else
-select * from post_question where postID = id;
+if exists (select * from like_table where like_table.username = name and like_table.postID = id) then
+    if exists (select * from save where save.username = name and save.postID = id) then
+        select * from post_question left join like_table on post_question.postID = like_table.postID left join save on post_question.postID = save.postID where post_question.postID = id;
+    else select * from post_question left join like_table on post_question.postID = like_table.postID where post_question.postID = id;
+    end if;
+else select * from post_question where postID = id;
 end if;
 end$$
 
@@ -323,22 +326,23 @@ CREATE TABLE `post_question` (
   `anonymous` tinyint(1) DEFAULT NULL,
   `like_count` int(10) DEFAULT 0,
   `comment_count` int(10) DEFAULT 0,
-  `hasLiked` tinyint(4) DEFAULT NULL
+  `hasLiked` tinyint(4) DEFAULT NULL,
+  `hasSave` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `post_question`
 --
 
-INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type_post`, `asker`, `time`, `category`, `anonymous`, `like_count`, `comment_count`, `hasLiked`) VALUES
-(2, 'testing', NULL, NULL, 1, NULL, '0000-00-00', 1, NULL, 1, 0, NULL),
-(3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0, NULL),
-(4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0, NULL),
-(5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0, NULL),
-(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0, NULL),
-(7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, NULL),
-(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 1, 0, NULL),
-(9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL);
+INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type_post`, `asker`, `time`, `category`, `anonymous`, `like_count`, `comment_count`, `hasLiked`, `hasSave`) VALUES
+(2, 'testing', NULL, NULL, 1, NULL, '0000-00-00', 1, NULL, 1, 0, NULL, NULL),
+(3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0, NULL, NULL),
+(4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0, NULL, NULL),
+(5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0, NULL, NULL),
+(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0, NULL, NULL),
+(7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, NULL, NULL),
+(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 1, 0, NULL, NULL),
+(9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -397,6 +401,7 @@ CREATE TABLE `save` (
 --
 
 INSERT INTO `save` (`username`, `postID`, `hasSave`) VALUES
+('chrisya', 2, 1),
 ('fredda', 8, 1);
 
 -- --------------------------------------------------------
@@ -479,8 +484,7 @@ ALTER TABLE `member_type`
 --
 ALTER TABLE `post_question`
   ADD PRIMARY KEY (`postID`),
-  ADD KEY `post_question_ibfk_1` (`category`),
-  ADD KEY `post_question_ibfk_2` (`type_post`);
+  ADD KEY `post_question_ibfk_1` (`category`);
 
 --
 -- Indexes for table `post_type`
