@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2020 at 04:46 PM
+-- Generation Time: Jul 17, 2020 at 05:56 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -138,7 +138,8 @@ INSERT INTO `answered` (`postID`, `type_post`, `category`, `question`, `title`, 
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1);
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1),
+(14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -224,7 +225,8 @@ INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `po
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
 (8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -264,7 +266,8 @@ INSERT INTO `id` (`postID`) VALUES
 (7),
 (8),
 (5),
-(6);
+(6),
+(14);
 
 -- --------------------------------------------------------
 
@@ -342,7 +345,8 @@ INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `typ
 (6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0, NULL, NULL),
 (7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, NULL, NULL),
 (8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 1, 0, NULL, NULL),
-(9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL, NULL);
+(9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL, NULL),
+(14, NULL, 'post type', 'integer plz', 2, 'chrisya', '7/17/2020', 6, 0, 0, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -484,7 +488,8 @@ ALTER TABLE `member_type`
 --
 ALTER TABLE `post_question`
   ADD PRIMARY KEY (`postID`),
-  ADD KEY `post_question_ibfk_1` (`category`);
+  ADD KEY `post_question_ibfk_1` (`category`),
+  ADD KEY `asker` (`asker`);
 
 --
 -- Indexes for table `post_type`
@@ -496,7 +501,6 @@ ALTER TABLE `post_type`
 -- Indexes for table `report_table`
 --
 ALTER TABLE `report_table`
-  ADD UNIQUE KEY `report_idx` (`postID`,`username`),
   ADD KEY `report_table_ibfk_2` (`username`);
 
 --
@@ -527,7 +531,7 @@ ALTER TABLE `answer`
 -- AUTO_INCREMENT for table `post_question`
 --
 ALTER TABLE `post_question`
-  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
@@ -568,8 +572,8 @@ ALTER TABLE `like_table`
 -- Constraints for table `post_question`
 --
 ALTER TABLE `post_question`
-  ADD CONSTRAINT `post_question_ibfk_1` FOREIGN KEY (`category`) REFERENCES `category` (`categoryID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `post_question_ibfk_2` FOREIGN KEY (`type_post`) REFERENCES `post_type` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `asker` FOREIGN KEY (`asker`) REFERENCES `user` (`username`) ON DELETE CASCADE,
+  ADD CONSTRAINT `post_question_ibfk_1` FOREIGN KEY (`category`) REFERENCES `category` (`categoryID`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `report_table`
