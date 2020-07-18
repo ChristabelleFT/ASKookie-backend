@@ -654,8 +654,24 @@ module.exports = {
                     message: "Record not found"
                 });
             }
+            console.log(results[0].hasSave);
              return res.json({
-                 data: results,
+                 postID: results[0].postID,
+                 question: results[0].question,
+                 title: results[0].title,
+                 post_content: results[0].post_content,
+                 type_post: results[0].type_post,
+                 asker: results[0].asker,
+                 time: results[0].time,
+                 category: results[0].category,
+                 anonymous: results[0].anonymous,
+                 like_count: results[0].like_count,
+                 comment_count: results[0].comment_count,
+                 hasLiked: results[0].hasLiked,
+                 hasSave: results[0].hasSave,
+                 username: results[0].username,
+                 answerID: results[0].answerID,
+                 commentID: results[0].commentID,
              });
         });
     },
