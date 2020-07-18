@@ -766,7 +766,7 @@ module.exports = {
     },
     getSave: (name, callBack) => {
         pool.query(
-            `SELECT * FROM save WHERE username = ?`,
+            `SELECT post_question.postID, post_content, title, question, username FROM save LEFT JOIN post_question ON save.postID = post_question.postID WHERE username = ?`,
             [name],
             (error, results, fields) => {
                 if(error) {
