@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2020 at 06:24 AM
+-- Generation Time: Jul 19, 2020 at 10:15 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -25,6 +25,15 @@ DELIMITER $$
 --
 -- Procedures
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_comment` (IN `id` INT(12))  begin
+select @postid := postID from comment_table where commentID = id;
+select @answerid := answerID from comment_table where commentID = id;
+if isnull(@postid) then update answer set comment_count2 = comment_count2 - 1 where answerID = @answerid;
+else update post_question set comment_count = comment_count - 1 where postID = @postid;
+end if;
+delete from comment_table where commentID = id;
+end$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `hasLiked` (IN `name` VARCHAR(25), IN `id` INT(10))  begin
 if exists (select * from like_table where like_table.username = name and like_table.postID = id) then
     if exists (select * from save where save.username = name and save.postID = id) then
@@ -117,22 +126,19 @@ CREATE TABLE `answer` (
   `time2` varchar(10) DEFAULT NULL,
   `anonymous2` tinyint(1) DEFAULT NULL,
   `like_count2` int(10) DEFAULT 0,
-  `comment_count2` int(10) DEFAULT 0,
-  `hasLiked2` tinyint(4) DEFAULT NULL,
-  `hasSave2` tinyint(4) DEFAULT NULL,
-  `hasFollow2` tinyint(4) DEFAULT NULL
+  `comment_count2` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `answer`
 --
 
-INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`, `hasLiked2`, `hasSave2`, `hasFollow2`) VALUES
-(1, 2, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
-(2, 3, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
-(4, 7, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
-(5, 8, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1, NULL, NULL, NULL),
-(6, 2, 'another test answer', 'chrisya', '7/19/2020', 1, 1, 0, NULL, NULL, NULL);
+INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
+(1, 2, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
+(2, 3, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0),
+(4, 7, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
+(5, 8, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 0),
+(6, 2, 'another test answer', 'chrisya', '7/19/2020', 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -213,13 +219,6 @@ CREATE TABLE `comment_table` (
   `anonymous` tinyint(1) DEFAULT NULL,
   `like_count` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `comment_table`
---
-
-INSERT INTO `comment_table` (`commentID`, `postID`, `answerID`, `username`, `comment`, `time`, `anonymous`, `like_count`) VALUES
-(50, NULL, 5, 'chrisya', 'test', '7/15/2020', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -356,26 +355,23 @@ CREATE TABLE `post_question` (
   `category` int(1) DEFAULT NULL,
   `anonymous` tinyint(1) DEFAULT NULL,
   `like_count` int(10) DEFAULT 0,
-  `comment_count` int(10) DEFAULT 0,
-  `hasLiked` tinyint(4) DEFAULT NULL,
-  `hasSave` tinyint(4) DEFAULT NULL,
-  `hasFollow` tinyint(4) DEFAULT NULL
+  `comment_count` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `post_question`
 --
 
-INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type_post`, `asker`, `time`, `category`, `anonymous`, `like_count`, `comment_count`, `hasLiked`, `hasSave`, `hasFollow`) VALUES
-(2, 'testing', NULL, NULL, 1, NULL, '0000-00-00', 1, NULL, 0, 0, NULL, NULL, NULL),
-(3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0, NULL, NULL, NULL),
-(4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0, NULL, NULL, NULL),
-(5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0, NULL, NULL, NULL),
-(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0, NULL, NULL, NULL),
-(7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, NULL, NULL, NULL),
-(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 0, 0, NULL, NULL, NULL),
-(9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL, NULL, NULL),
-(14, NULL, 'post type', 'integer plz', 2, 'chrisya', '7/17/2020', 6, 0, 1, 0, NULL, NULL, NULL);
+INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type_post`, `asker`, `time`, `category`, `anonymous`, `like_count`, `comment_count`) VALUES
+(2, 'testing', NULL, NULL, 1, NULL, '0000-00-00', 1, NULL, 0, 0),
+(3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0),
+(4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0),
+(5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0),
+(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0),
+(7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0),
+(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 0, 0),
+(9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0),
+(14, NULL, 'post type', 'integer plz', 2, 'chrisya', '7/17/2020', 6, 0, 1, 0);
 
 -- --------------------------------------------------------
 

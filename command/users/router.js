@@ -45,16 +45,18 @@ const {
      editQuestion,
      editAns,
      editComment,
-     hasSave,
      unsave,
      getSave,
-     hasLiked
+     hasLikedPost,
+     hasFollow,
+     hasSave,
+     hasLikedAns
 } = require("./controller");
 const router = require("express").Router();
 
 router.post("/register", createUser);
 router.get("/users", getUsers);
-router.get("/home", getFeeds);
+//router.get("/home", getFeeds);
 router.get("/answers", getAnswers);
 router.get("/unanswered", unAnsQuest);
 router.get("/answered", answered_post);
@@ -100,6 +102,9 @@ router.post("/edit/answer", editAns);
 router.post("/edit/comment", editComment);
 router.post("/unsave", unsave);
 router.get("/save/:name", getSave);
-router.get("/hasLiked/post/:id/:name",hasLiked)
+router.get("/hasLiked/post/:id/:name",hasLikedPost);
+router.get("/hasSave/post/:id/:name",hasSave);
+router.get("/hasFollow/post/:id/:name",hasFollow);
+router.get("/hasLiked/answer/:id/:name",hasLikedAns);
 
 module.exports = router;

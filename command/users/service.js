@@ -273,8 +273,8 @@ module.exports = {
     },
     deleteComment: (id, callBack) => {
         pool.query(
-            'DELETE FROM comment_table WHERE commentID = ?',
-            [ id ],
+            `call delete_comment(?)`,
+            [id],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);
@@ -665,29 +665,9 @@ module.exports = {
                 if(error) {
                     callBack(error);
                 }
-                //  pool.query(
-                //     "SELECT * FROM answered",
-                //     [],
-                //     (error, results, fields) => {
-                //         if(error) {
-                //             callBack(error);
-                //         }
-                //         return callBack(null, results);
-                //     }
-                // );
                 return callBack(null, results[2]);
             }
         );
-        // pool.query(
-        //     "SELECT * FROM answered",
-        //     [],
-        //     (error, results, fields) => {
-        //         if(error) {
-        //             callBack(error);
-        //         }
-        //         return callBack(null, results);
-        //     }
-        // );
     },
     editPost: (data, callBack) => {
         pool.query(
@@ -736,7 +716,7 @@ module.exports = {
     },
     editComment: (data, callBack) => {
         pool.query(
-            'UPDATE comment_table SET comment = ? WHERE postID = ?',
+            'UPDATE comment_table SET comment = ? WHERE commentID = ?',
             [
                 data.content,
                 data.postID
@@ -776,9 +756,45 @@ module.exports = {
             }
         );
     },
-    hasLiked: (id,name, callBack) => {
+    hasLikedPost: (id,name, callBack) => {
         pool.query(
             `SELECT EXISTS (SELECT * FROM like_table WHERE postID = ? AND username = ?) AS hasLiked`,
+            [id, name],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    hasSave: (id,name, callBack) => {
+        pool.query(
+            `SELECT EXISTS (SELECT * FROM save WHERE postID = ? AND username = ?) AS hasSave`,
+            [id, name],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    hasFollow: (id,name, callBack) => {
+        pool.query(
+            `SELECT EXISTS (SELECT * FROM follow_table WHERE postID = ? AND username = ?) AS hasFollow`,
+            [id, name],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    hasLikedAns: (id,name, callBack) => {
+        pool.query(
+            `SELECT EXISTS (SELECT * FROM like_table WHERE answerID = ? AND username = ?) AS hasLikedAns`,
             [id, name],
             (error, results, fields) => {
                 if(error) {

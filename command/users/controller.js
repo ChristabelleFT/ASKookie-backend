@@ -46,7 +46,10 @@ const {
     editComment,
     unsave,
     getSave,
-    hasLiked
+    hasLikedPost,
+    hasSave,
+    hasFollow,
+    hasLikedAns
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -762,10 +765,49 @@ module.exports = {
             });
         });
     },
-    hasLiked: (req, res) => {
+    hasLikedPost: (req, res) => {
         const id = req.params.id;
         const name = req.params.name;
-        hasLiked(id, name,(err, results) => {
+        hasLikedPost(id, name,(err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    hasSave: (req, res) => {
+        const id = req.params.id;
+        const name = req.params.name;
+        hasSave(id, name,(err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    hasFollow: (req, res) => {
+        const id = req.params.id;
+        const name = req.params.name;
+        hasFollow(id, name,(err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    hasLikedAns: (req, res) => {
+        const id = req.params.id;
+        const name = req.params.name;
+        hasLikedAns(id, name,(err, results) => {
             if(err) {
                 console.log(err);
                 return;
