@@ -45,7 +45,8 @@ const {
     editAns,
     editComment,
     unsave,
-    getSave
+    getSave,
+    hasLiked
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -654,24 +655,9 @@ module.exports = {
                     message: "Record not found"
                 });
             }
-            console.log(results[0].hasSave);
+            //console.log(results[0].hasSave);
              return res.json({
-                 postID: results[0].postID,
-                 question: results[0].question,
-                 title: results[0].title,
-                 post_content: results[0].post_content,
-                 type_post: results[0].type_post,
-                 asker: results[0].asker,
-                 time: results[0].time,
-                 category: results[0].category,
-                 anonymous: results[0].anonymous,
-                 like_count: results[0].like_count,
-                 comment_count: results[0].comment_count,
-                 hasLiked: results[0].hasLiked,
-                 hasSave: results[0].hasSave,
-                 username: results[0].username,
-                 answerID: results[0].answerID,
-                 commentID: results[0].commentID,
+                 data: results,
              });
         });
     },
@@ -767,6 +753,19 @@ module.exports = {
     getSave: (req, res) => {
         const name = req.params.name;
         getSave(name, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    hasLiked: (req, res) => {
+        const id = req.params.id;
+        const name = req.params.name;
+        hasLiked(id, name,(err, results) => {
             if(err) {
                 console.log(err);
                 return;

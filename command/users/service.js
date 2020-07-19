@@ -775,6 +775,18 @@ module.exports = {
                 return callBack(null, results);
             }
         );
+    },
+    hasLiked: (id,name, callBack) => {
+        pool.query(
+            `SELECT EXISTS (SELECT * FROM like_table WHERE postID = ? AND username = ?) AS hasLiked`,
+            [id, name],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
     }
 };
 

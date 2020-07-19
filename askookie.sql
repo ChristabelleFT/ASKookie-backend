@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 18, 2020 at 11:24 AM
+-- Generation Time: Jul 19, 2020 at 06:24 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -28,10 +28,40 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `hasLiked` (IN `name` VARCHAR(25), IN `id` INT(10))  begin
 if exists (select * from like_table where like_table.username = name and like_table.postID = id) then
     if exists (select * from save where save.username = name and save.postID = id) then
-        select post_question.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, like_table.hasLiked, save.hasSave, save.username, like_table.answerID, like_table.commentID from post_question left join like_table on post_question.postID = like_table.postID left join save on post_question.postID = save.postID where post_question.postID = id;
-    else select post_question.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, like_table.hasLiked, post_question.hasSave, like_table.username, like_table.answerID, like_table.commentID from post_question left join like_table on post_question.postID = like_table.postID where post_question.postID = id;
+            if exists (select * from follow_table where follow_table.username = name and follow_table.postID = id) then
+                select post_question.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, like_table.hasLiked, 
+                save.hasSave, follow_table.hasFollow, save.username, like_table.answerID, like_table.commentID from post_question left join like_table 
+                on post_question.postID = like_table.postID left join save on post_question.postID = save.postID left join follow_table on post_question.postID = follow_table.postID
+                where post_question.postID = id;
+            else
+                select post_question.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, like_table.hasLiked, 
+                save.hasSave, post_question.hasFollow, save.username, like_table.answerID, like_table.commentID from post_question left join like_table 
+                on post_question.postID = like_table.postID left join save on post_question.postID = save.postID where post_question.postID = id;
+            end if;
+    elseif exists (select * from follow_table where follow_table.username = name and follow_table.postID = id) then
+        select post_question.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, like_table.hasLiked, 
+        post_question.hasSave, follow_table.hasFollow, follow_table.username, like_table.answerID, like_table.commentID from post_question left join like_table 
+        on post_question.postID = like_table.postID left join follow_table on post_question.postID = follow_table.postID where post_question.postID = id;
+    else 
+        select post_question.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, like_table.hasLiked, 
+        post_question.hasSave, post_question.hasFollow, like_table.username, like_table.answerID, like_table.commentID from post_question left join like_table 
+        on post_question.postID = like_table.postID where post_question.postID = id;
     end if;
-else select * from post_question where postID = id;
+elseif exists (select * from save where save.username = name and save.postID = id) then 
+    if exists (select * from follow_table where follow_table.username = name and follow_table.postID = id) then
+        select post_question.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, post_question.hasLiked,
+        save.hasSave, follow_table.hasFollow, save.username from post_question left join save on post_question.postID = save.postID left join follow_table on
+        post_question.postID = follow_table.postID where post_question.postID = id;
+    else
+        select post_question.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, post_question.hasLiked, 
+        save.hasSave, post_question.hasFollow, save.username from post_question left join save on post_question.postID = save.postID where post_question.postID = id;
+    end if;
+elseif exists (select * from follow_table where follow_table.username = name and follow_table.postID = id) then
+    select post_question.postID, question, title, post_content, type_post, asker, time, category, anonymous, like_count, comment_count, post_question.hasLiked, 
+    post_question.hasSave, follow_table.hasFollow, follow_table.username from post_question left join follow_table on post_question.postID = follow_table.postID 
+    where post_question.postID = id;
+else
+    select * from post_question where postID = id;
 end if;
 end$$
 
@@ -88,18 +118,21 @@ CREATE TABLE `answer` (
   `anonymous2` tinyint(1) DEFAULT NULL,
   `like_count2` int(10) DEFAULT 0,
   `comment_count2` int(10) DEFAULT 0,
-  `hasLiked` tinyint(4) DEFAULT NULL
+  `hasLiked2` tinyint(4) DEFAULT NULL,
+  `hasSave2` tinyint(4) DEFAULT NULL,
+  `hasFollow2` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `answer`
 --
 
-INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`, `hasLiked`) VALUES
-(1, 2, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0, NULL),
-(2, 3, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, NULL),
-(4, 7, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, NULL),
-(5, 8, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1, NULL);
+INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`, `hasLiked2`, `hasSave2`, `hasFollow2`) VALUES
+(1, 2, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
+(2, 3, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
+(4, 7, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
+(5, 8, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1, NULL, NULL, NULL),
+(6, 2, 'another test answer', 'chrisya', '7/19/2020', 1, 1, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -133,7 +166,7 @@ CREATE TABLE `answered` (
 --
 
 INSERT INTO `answered` (`postID`, `type_post`, `category`, `question`, `title`, `post_content`, `asker`, `time`, `anonymous`, `like_count`, `comment_count`, `answerID`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`) VALUES
-(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 0, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0),
+(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 0, 0, 6, 'another test answer', 'chrisya', '7/19/2020', 1, 1, 0),
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -224,6 +257,7 @@ INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `po
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0),
 (8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1),
+(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 0, 0, 6, 'another test answer', 'chrisya', '7/19/2020', 1, 1, 0),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -231,20 +265,14 @@ INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `po
 -- --------------------------------------------------------
 
 --
--- Table structure for table `follow`
+-- Table structure for table `follow_table`
 --
 
-CREATE TABLE `follow` (
+CREATE TABLE `follow_table` (
   `username` varchar(25) DEFAULT NULL,
-  `categoryID` int(1) DEFAULT NULL
+  `postID` int(10) DEFAULT NULL,
+  `hasFollow` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `follow`
---
-
-INSERT INTO `follow` (`username`, `categoryID`) VALUES
-('test', 3);
 
 -- --------------------------------------------------------
 
@@ -288,7 +316,8 @@ CREATE TABLE `like_table` (
 --
 
 INSERT INTO `like_table` (`username`, `postID`, `answerID`, `commentID`, `hasLiked`) VALUES
-('chrisya', 14, NULL, NULL, 1);
+('chrisya', 14, NULL, NULL, 1),
+('chrisya', 2, 6, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -329,23 +358,24 @@ CREATE TABLE `post_question` (
   `like_count` int(10) DEFAULT 0,
   `comment_count` int(10) DEFAULT 0,
   `hasLiked` tinyint(4) DEFAULT NULL,
-  `hasSave` tinyint(4) DEFAULT NULL
+  `hasSave` tinyint(4) DEFAULT NULL,
+  `hasFollow` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `post_question`
 --
 
-INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type_post`, `asker`, `time`, `category`, `anonymous`, `like_count`, `comment_count`, `hasLiked`, `hasSave`) VALUES
-(2, 'testing', NULL, NULL, 1, NULL, '0000-00-00', 1, NULL, 0, 0, NULL, NULL),
-(3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0, NULL, NULL),
-(4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0, NULL, NULL),
-(5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0, NULL, NULL),
-(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0, NULL, NULL),
-(7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, NULL, NULL),
-(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 0, 0, NULL, NULL),
-(9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL, NULL),
-(14, NULL, 'post type', 'integer plz', 2, 'chrisya', '7/17/2020', 6, 0, 1, 0, NULL, NULL);
+INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `type_post`, `asker`, `time`, `category`, `anonymous`, `like_count`, `comment_count`, `hasLiked`, `hasSave`, `hasFollow`) VALUES
+(2, 'testing', NULL, NULL, 1, NULL, '0000-00-00', 1, NULL, 0, 0, NULL, NULL, NULL),
+(3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0, NULL, NULL, NULL),
+(4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0, NULL, NULL, NULL),
+(5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0, NULL, NULL, NULL),
+(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0, NULL, NULL, NULL),
+(7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, NULL, NULL, NULL),
+(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 0, 0, NULL, NULL, NULL),
+(9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL, NULL, NULL),
+(14, NULL, 'post type', 'integer plz', 2, 'chrisya', '7/17/2020', 6, 0, 1, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -399,6 +429,13 @@ CREATE TABLE `save` (
   `hasSave` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `save`
+--
+
+INSERT INTO `save` (`username`, `postID`, `hasSave`) VALUES
+('chrisya', 14, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -451,11 +488,11 @@ ALTER TABLE `comment_table`
   ADD KEY `comment_table_ibfk_4` (`answerID`);
 
 --
--- Indexes for table `follow`
+-- Indexes for table `follow_table`
 --
-ALTER TABLE `follow`
-  ADD UNIQUE KEY `follow_idx` (`username`,`categoryID`),
-  ADD KEY `follow_ibfk_1` (`categoryID`);
+ALTER TABLE `follow_table`
+  ADD UNIQUE KEY `follow` (`username`,`postID`),
+  ADD KEY `postID` (`postID`);
 
 --
 -- Indexes for table `like_table`
@@ -497,7 +534,7 @@ ALTER TABLE `report_table`
 --
 ALTER TABLE `save`
   ADD UNIQUE KEY `save_idx` (`username`,`postID`),
-  ADD KEY `postID` (`postID`);
+  ADD KEY `save_ibfk_2` (`postID`);
 
 --
 -- Indexes for table `user`
@@ -514,7 +551,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `answer`
 --
 ALTER TABLE `answer`
-  MODIFY `answerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `answerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `post_question`
@@ -542,11 +579,11 @@ ALTER TABLE `comment_table`
   ADD CONSTRAINT `comment_table_ibfk_4` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`) ON DELETE CASCADE;
 
 --
--- Constraints for table `follow`
+-- Constraints for table `follow_table`
 --
-ALTER TABLE `follow`
-  ADD CONSTRAINT `follow_ibfk_1` FOREIGN KEY (`categoryID`) REFERENCES `category` (`categoryID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `follow_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE;
+ALTER TABLE `follow_table`
+  ADD CONSTRAINT `postID` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `like_table`
@@ -575,8 +612,8 @@ ALTER TABLE `report_table`
 -- Constraints for table `save`
 --
 ALTER TABLE `save`
-  ADD CONSTRAINT `save_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`),
-  ADD CONSTRAINT `save_ibfk_2` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`);
+  ADD CONSTRAINT `save_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE,
+  ADD CONSTRAINT `save_ibfk_2` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
