@@ -758,7 +758,7 @@ module.exports = {
     },
     hasLikedPost: (id,name, callBack) => {
         pool.query(
-            `SELECT EXISTS (SELECT * FROM like_table WHERE postID = ? AND username = ?) AS hasLiked`,
+            `SELECT EXISTS (SELECT * FROM like_table WHERE postID = ? AND username = ? AND ISNULL(answerID)) AS hasLiked`,
             [id, name],
             (error, results, fields) => {
                 if(error) {
