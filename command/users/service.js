@@ -404,7 +404,7 @@ module.exports = {
     },
     save:(data, callBack) => {
         pool.query(
-            'INSERT INTO save (postID, username) VALUES (?,?)',
+            'INSERT INTO save (postID, username) VALUES (?,?) on duplicate key update postID = postID',
             [
                 data.postID,
                 data.username
@@ -435,10 +435,25 @@ module.exports = {
     },
     follow:(data, callBack) => {
         pool.query(
-            'INSERT INTO follow (username, categoryID) VALUES (?,?)',
+            'INSERT INTO follow_table (username, postID) VALUES (?,?) on duplicate key update postID = postID',
             [
                 data.username,
-                data.categoryID
+                data.postID
+            ],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    unfollow:(data, callBack) => {
+        pool.query(
+            'DELETE FROM follow_table WHERE username = ? AND postID = ?',
+            [
+                data.username,
+                data.postID
             ],
             (error, results, fields) => {
                 if(error) {
@@ -719,7 +734,7 @@ module.exports = {
             'UPDATE comment_table SET comment = ? WHERE commentID = ?',
             [
                 data.content,
-                data.postID
+                data.commentID
             ],
             (error, results, fields) => {
                 if(error) {

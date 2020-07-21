@@ -25,6 +25,7 @@ const {
      save,
      report,
      follow,
+     unfollow,
      likeCountPost,
      likeCountAnswer,
      likeCountComment,
@@ -89,6 +90,7 @@ router.post("/comment/answer", commentAnswer);
 router.post("/save", save);
 router.post("/report", report);
 router.post("/follow", follow);
+router.post("/unfollow", unfollow);
 router.get("/like/post/:postID", likeCountPost);
 router.get("/like/answer/:answerID", likeCountAnswer);
 router.get("/like/comment/:commentID", likeCountComment);

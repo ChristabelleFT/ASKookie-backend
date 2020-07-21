@@ -24,6 +24,7 @@ const {
     save,
     report,
     follow,
+    unfollow,
     likeCountPost,
     likeCountAnswer,
     likeCountComment,
@@ -54,31 +55,39 @@ const {
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
+const nodemailer = require('nodemailer');
+require("dotenv").config();
+const log = console.log;
 
 module.exports = {
     createUser: (req, res) => {
         const body = req.body;
         const salt = genSaltSync(10);//generate token for password
         body.password = hashSync(body.password, salt);
-        //create token for verification
-        // jwt.sign(
-        //     {
-        //         user: body.username,
-        //     },
-        //     body.email,
-        //     {
-        //         expiresIn: '1d',
-        //     },
-        //     (err, emailToken) => {
-        //         const url = `http://localhost:3000/confirmation/${emailToken}`;
+       // let nodemail = require("./emailer");
+        
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'askookieforum@gmail.com',
+                pass: 'ASKookie30!!'
+            }
+        });
+        
+        let mailOptions = {
+            from: 'askookieforum@gmail.com',
+            to: 'christabelle.ft@gmail.com',
+            subject: 'test nodemailer',
+            text: 'email confirmation'
+        };
 
-        //         transporter.sendMail({
-        //             to: args.email,
-        //             subject: 'ASKookie Email Confirmation',
-        //             html: `Please click this link to confirm your email: <a href="${url}">${url}</a>`
-        //         });
-        //     },
-        // );
+        transporter.sendMail(mailOptions, (err, data) => {
+            if(err) {
+                return log('error in sending email', err);
+            }
+            return log('email sent');
+        });
+
         create(body, (err, results) =>{
             if(err) {
                 console.log(err);
@@ -459,7 +468,22 @@ module.exports = {
             }
             return res.status(200).json({
                 data: results,
-                message: "Category followed"
+                message: "Thread followed"
+            });
+        });
+    },
+    unfollow: (req, res) => {
+        const body = req.body;
+        unfollow(body, (err, results) => {
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Database connection error"
+                });
+            }
+            return res.status(200).json({
+                data: results,
+                message: "Thread unfollowed"
             });
         });
     },

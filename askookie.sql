@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2020 at 02:37 PM
+-- Generation Time: Jul 21, 2020 at 02:07 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -138,8 +138,8 @@ INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `ano
 (1, 2, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0, NULL),
 (2, 3, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, NULL),
 (4, 7, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, NULL),
-(5, 8, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 0, NULL),
-(6, 2, 'another test answer', 'chrisya', '7/19/2020', 1, 1, 0, NULL);
+(5, 8, 'raffles hall', 'chrisya', '7/14/2020', 1, -1, 0, NULL),
+(6, 2, 'another test answer', 'chrisya', '7/19/2020', 1, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -176,12 +176,12 @@ CREATE TABLE `answered` (
 --
 
 INSERT INTO `answered` (`postID`, `type_post`, `category`, `question`, `title`, `post_content`, `asker`, `time`, `anonymous`, `like_count`, `comment_count`, `answerID`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`, `hasLiked`, `hasSave`, `hasFollow`) VALUES
-(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 0, 0, 6, 'another test answer', 'chrisya', '7/19/2020', 1, 1, 0, NULL, NULL, NULL),
+(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 0, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 0, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, -1, 0, NULL, NULL, NULL),
 (14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -224,6 +224,13 @@ CREATE TABLE `comment_table` (
   `like_count` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `comment_table`
+--
+
+INSERT INTO `comment_table` (`commentID`, `postID`, `answerID`, `username`, `comment`, `time`, `anonymous`, `like_count`) VALUES
+(140, 14, NULL, 'chrisya', 'okayy sure', '7/21/2020', 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -262,8 +269,8 @@ INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `po
 (2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 0, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 0, NULL, NULL, NULL),
-(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 0, 0, 6, 'another test answer', 'chrisya', '7/19/2020', 1, 1, 0, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, -1, 0, NULL, NULL, NULL),
+(2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 0, 0, 6, 'another test answer', 'chrisya', '7/19/2020', 1, 0, 0, NULL, NULL, NULL),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -322,8 +329,8 @@ CREATE TABLE `like_table` (
 --
 
 INSERT INTO `like_table` (`username`, `postID`, `answerID`, `commentID`, `hasLiked`) VALUES
-('chrisya', 14, NULL, NULL, 1),
-('chrisya', 2, 6, NULL, 1);
+('chrisya', 2, 6, NULL, 1),
+('chrisya', 14, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -381,7 +388,7 @@ INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `typ
 (7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, NULL, NULL, NULL),
 (8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 0, 0, NULL, NULL, NULL),
 (9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL, NULL, NULL),
-(14, NULL, 'post type', 'integer plz', 2, 'chrisya', '7/17/2020', 6, 0, 1, 0, NULL, NULL, NULL);
+(14, NULL, 'post type', 'integer plz', 2, 'chrisya', '7/17/2020', 6, 0, 1, 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -461,6 +468,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`email`, `username`, `member_type`, `profile_picture`, `password`) VALUES
+('christabelle.ft@gmail.com', 'emailtest', NULL, NULL, '$2b$10$YO8ZBvRz2LGwReOeVPBfj.lVYSeHAgYXhGvUf3LwJnBhPz2wGEek.'),
+('christabelle_ft@yahoo.com', 'name', NULL, NULL, '$2b$10$max6siB4NB5kbIJRqXmlu.7bXPTfIsgi6yMUqV8AL7UjcBUm6rXbC'),
 ('chrisya@gmail.com', 'chrisya', NULL, NULL, '$2b$10$yqzy/tZdzLo8RD0.N/fYJe2cKuLvlFf5.J5kbk1T7Ln2nBHNHreom'),
 ('fredda2@gmail.com', 'fredda2', NULL, NULL, '$2b$10$2ncoq./TF1r9ejlcdCct5OkZbB9IEyirIuQ.7H7fOk34Z67GGUOWu'),
 ('fredda@gmail.com', 'fredda', NULL, NULL, '$2b$10$fW9p4Bskikx3LQMmrEfOue/ouKM.lfQnmdM4ZqjBAet1CvOkW.m7G'),
