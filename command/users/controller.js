@@ -76,9 +76,10 @@ module.exports = {
         
         let mailOptions = {
             from: 'askookieforum@gmail.com',
-            to: 'christabelle.ft@gmail.com',
-            subject: 'test nodemailer',
-            text: 'email confirmation'
+            to: body.email,
+            subject: 'ASKookie Email Confirmation',
+            text: 'Thankyou for registering to ASKookie. Please verify your email by clicking this link:',
+            
         };
 
         transporter.sendMail(mailOptions, (err, data) => {

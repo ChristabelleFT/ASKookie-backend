@@ -355,13 +355,9 @@ module.exports = {
     },
     commentPost:(data, callBack) => {
         pool.query(
-            `SELECT @last_id := commentID from comment_table where postID = ? order by commentID desc limit 1;
-             SELECT @next_id := IFNULL(@last_id + 1, concat(?,0));
-              INSERT INTO comment_table (commentID, postID, username, comment, time, anonymous) VALUES (@next_id,?,?,?,?,?);
+            `INSERT INTO comment_table (postID, username, comment, time, anonymous) VALUES (?,?,?,?,?);
               UPDATE post_question SET comment_count = comment_count + 1 WHERE postID = ?`,
             [
-                data.postID,
-                data.postID,
                 data.postID,
                 data.username,
                 data.comment,
@@ -379,13 +375,9 @@ module.exports = {
     },
     commentAnswer:(data, callBack) => {
         pool.query(
-            `SELECT @last_id := commentID from comment_table where answerID = ? order by commentID desc limit 1;
-             SELECT @next_id := IFNULL(@last_id + 1, concat(?,0));
-              INSERT INTO comment_table (commentID, postID, answerID, username, comment, time, anonymous) VALUES (@next_id,?,?,?,?,?,?);
+            `INSERT INTO comment_table (postID, answerID, username, comment, time, anonymous) VALUES (?,?,?,?,?,?);
               UPDATE answer SET comment_count2 = comment_count2 + 1 WHERE answerID = ?`,
             [
-                data.answerID,
-                data.answerID,
                 data.postID,
                 data.answerID,
                 data.username,
