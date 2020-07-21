@@ -51,7 +51,8 @@ const {
      hasLikedPost,
      hasFollow,
      hasSave,
-     hasLikedAns
+     hasLikedAns,
+     getFollow
 } = require("./controller");
 const router = require("express").Router();
 
@@ -91,6 +92,7 @@ router.post("/save", save);
 router.post("/report", report);
 router.post("/follow", follow);
 router.post("/unfollow", unfollow);
+router.get("/follow/:username", getFollow);
 router.get("/like/post/:postID", likeCountPost);
 router.get("/like/answer/:answerID", likeCountAnswer);
 router.get("/like/comment/:commentID", likeCountComment);

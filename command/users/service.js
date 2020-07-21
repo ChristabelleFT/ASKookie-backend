@@ -440,6 +440,19 @@ module.exports = {
             }
         );
     },
+    getFollow: (username, callBack) => {
+        pool.query(
+            `SELECT follow_table.postID, post_question.question, post_question.title, post_question.post_content
+             FROM follow_table LEFT JOIN post_question ON follow_table.postID = post_question.postID where follow_table.username = ?`,
+             [username],
+             (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
     unfollow:(data, callBack) => {
         pool.query(
             'DELETE FROM follow_table WHERE username = ? AND postID = ?',

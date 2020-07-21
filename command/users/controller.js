@@ -50,7 +50,8 @@ const {
     hasLikedPost,
     hasSave,
     hasFollow,
-    hasLikedAns
+    hasLikedAns,
+    getFollow
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -79,7 +80,7 @@ module.exports = {
             to: body.email,
             subject: 'ASKookie Email Confirmation',
             text: 'Thankyou for registering to ASKookie. Please verify your email by clicking this link:',
-            
+
         };
 
         transporter.sendMail(mailOptions, (err, data) => {
@@ -485,6 +486,20 @@ module.exports = {
             return res.status(200).json({
                 data: results,
                 message: "Thread unfollowed"
+            });
+        });
+    },
+    getFollow: (req, res) => {
+        const username = req.params.username;
+        getFollow(username, (err, results) => {
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "Database connection error"
+                });
+            }
+            return res.status(200).json({
+                data: results,
             });
         });
     },

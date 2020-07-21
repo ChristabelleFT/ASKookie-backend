@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2020 at 05:43 PM
+-- Generation Time: Jul 21, 2020 at 06:44 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -28,8 +28,8 @@ DELIMITER $$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_comment` (IN `id` INT(12))  begin
 select @postid := postID from comment_table where commentID = id;
 select @answerid := answerID from comment_table where commentID = id;
-if isnull(@postid) then update answer set comment_count2 = comment_count2 - 1 where answerID = @answerid;
-else update post_question set comment_count = comment_count - 1 where postID = @postid;
+if isnull(@answerid) then update post_question set comment_count = comment_count - 1 where postID = @postid;
+else update answer set comment_count2 = comment_count2 - 1 where answerID = @answerid;
 end if;
 delete from comment_table where commentID = id;
 end$$
@@ -181,7 +181,7 @@ INSERT INTO `answered` (`postID`, `type_post`, `category`, `question`, `title`, 
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, -2, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 0, NULL, NULL, NULL),
 (14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -262,7 +262,7 @@ INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `po
 (2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 0, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, 0, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 1, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, -2, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 0, NULL, NULL, NULL),
 (2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 0, 0, 6, 'another test answer', 'chrisya', '7/19/2020', 1, 0, 0, NULL, NULL, NULL),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -279,6 +279,13 @@ CREATE TABLE `follow_table` (
   `postID` int(10) DEFAULT NULL,
   `hasFollow` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `follow_table`
+--
+
+INSERT INTO `follow_table` (`username`, `postID`, `hasFollow`) VALUES
+('chrisya', 14, 1);
 
 -- --------------------------------------------------------
 
@@ -380,7 +387,7 @@ INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `typ
 (5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0, NULL, NULL, NULL),
 (6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0, NULL, NULL, NULL),
 (7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, NULL, NULL, NULL),
-(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 0, 0, NULL, NULL, NULL),
+(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 0, -2, NULL, NULL, NULL),
 (9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL, NULL, NULL),
 (14, NULL, 'post type', 'integer plz', 2, 'chrisya', '7/17/2020', 6, 0, 1, 0, NULL, NULL, NULL);
 
@@ -567,7 +574,7 @@ ALTER TABLE `answer`
 -- AUTO_INCREMENT for table `comment_table`
 --
 ALTER TABLE `comment_table`
-  MODIFY `commentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `commentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `post_question`
