@@ -57,38 +57,68 @@ const {
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const { sign } = require("jsonwebtoken");
 const nodemailer = require('nodemailer');
+const fs = require('fs');
+const ejs = require('ejs');
 require("dotenv").config();
 const log = console.log;
+const emailTemplate = __dirname;
 
 module.exports = {
     createUser: (req, res) => {
         const body = req.body;
+        const user = body.username;
         const salt = genSaltSync(10);//generate token for password
         body.password = hashSync(body.password, salt);
        // let nodemail = require("./emailer");
         
+        const file = fs.readFileSync(
+            emailTemplate + '\\confirmEmail.ejs', 'ascii'
+        );
+
         let transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'askookieforum@gmail.com',
-                pass: 'ASKookie30!!'
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_PASS
             }
         });
-        
-        let mailOptions = {
+        const token = sign(
+                        {
+                            user: body.username,
+                         },
+                            body.email,
+                        {
+                            expiresIn: '1d',
+                        },
+                        // (err, emailToken) => {
+                        //     console.log(emailToken);
+                        //     verifURL = `http://localhost:3000/confirmation/${emailToken}`;
+                        // }
+                    );
+        const verifURL = `http://localhost:3000/confirmation/` + token;
+        const emailOption = {
             from: 'askookieforum@gmail.com',
             to: body.email,
             subject: 'ASKookie Email Confirmation',
-            text: 'Thankyou for registering to ASKookie. Please verify your email by clicking this link:',
-
+            text: 'Thankyou for registering to ASKookie!',
+            html: ejs.render(file, {user, verifURL}),
         };
-
-        transporter.sendMail(mailOptions, (err, data) => {
+    
+        transporter.sendMail(emailOption, (err, data) => {
             if(err) {
                 return log('error in sending email', err);
             }
+            console.log(user);
+            console.log(token);
             return log('email sent');
         });
+
+        // transporter.sendMail(mailOptions, (err, data) => {
+        //     if(err) {
+        //         return log('error in sending email', err);
+        //     }
+        //     return log('email sent');
+        // });
 
         create(body, (err, results) =>{
             if(err) {
