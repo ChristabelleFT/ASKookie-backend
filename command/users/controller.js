@@ -51,11 +51,13 @@ const {
     hasSave,
     hasFollow,
     hasLikedAns,
-    getFollow
+    getFollow,
+    confirmation
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
-const { sign } = require("jsonwebtoken");
+const { sign, verify } = require("jsonwebtoken");
+//const jwt = require("jsonwebtoken");
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const ejs = require('ejs');
@@ -82,20 +84,19 @@ module.exports = {
                 pass: process.env.GMAIL_PASS
             }
         });
+
+        const payload = {
+            user: body.username,
+            email: body.email,
+        }
         const token = sign(
-                        {
-                            user: body.username,
-                         },
-                            body.email,
+                        payload,
+                        "askookie",
                         {
                             expiresIn: '1d',
                         },
-                        // (err, emailToken) => {
-                        //     console.log(emailToken);
-                        //     verifURL = `http://localhost:3000/confirmation/${emailToken}`;
-                        // }
                     );
-        const verifURL = `http://localhost:3000/confirmation/` + token;
+        const verifURL = `http://localhost:5000/confirmation/` + token;
         const emailOption = {
             from: 'askookieforum@gmail.com',
             to: body.email,
@@ -113,13 +114,6 @@ module.exports = {
             return log('email sent');
         });
 
-        // transporter.sendMail(mailOptions, (err, data) => {
-        //     if(err) {
-        //         return log('error in sending email', err);
-        //     }
-        //     return log('email sent');
-        // });
-
         create(body, (err, results) =>{
             if(err) {
                 console.log(err);
@@ -132,11 +126,18 @@ module.exports = {
             });
         });
     },
-    /*confirmation: (req, res) => {
-        try {
-            const {user:{id}} = jwt.verify(req.params.token, )
-        }
-    },*/
+    confirmation: (req, res) => {
+        const token = req.params.token;
+        const decoded = verify(token, "askookie");
+        const username = decoded.user;
+        confirmation(username, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.redirect('http://localhost:3000/signinform');
+        });
+    },
     getUserByName: (req, res) => {
         const username = req.params.username;
         getUserByName(username, (err, results) => {
@@ -174,18 +175,17 @@ module.exports = {
            if(!results) {
                return res.json({
                    success: 0,
-                   data: "Invalid username or password"
+                   data: "Invalid username"
                });
            }
-           /*if(body.verified == 0) {
-               return res.json({
-                   success: 1,
-                   data: "Email is not verified"
-               });
-           }*/
            const result = compareSync(body.password, results.password);
-           console.log(body.password);
            if(result) {
+                if(results.verified != 1) {
+                    return res.json({
+                        success: 1,
+                        data: "Email is not verified"
+                    });
+                }
                results.password = undefined;
                const jsontoken = sign({ result: results }, "qwe1234", {
                    expiresIn: "1h"
@@ -198,7 +198,7 @@ module.exports = {
            } else {
              return res.json({
                 success: 3,
-                data: "Invalid username or password"
+                data: "Invalid password"
             });
            }
        });

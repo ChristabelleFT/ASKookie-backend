@@ -52,7 +52,8 @@ const {
      hasFollow,
      hasSave,
      hasLikedAns,
-     getFollow
+     getFollow,
+     confirmation
 } = require("./controller");
 const router = require("express").Router();
 
@@ -110,5 +111,6 @@ router.get("/hasLiked/post/:id/:name",hasLikedPost);
 router.get("/hasSave/post/:id/:name",hasSave);
 router.get("/hasFollow/post/:id/:name",hasFollow);
 router.get("/hasLiked/answer/:id/:name",hasLikedAns);
+router.get("/confirmation/:token",confirmation);
 
 module.exports = router;

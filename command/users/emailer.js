@@ -40,3 +40,7 @@ exports.sendEmail = (data, callBack) => {
         //         });
         //     },
         // );
+
+        // try {
+        //     const {user:{id}} = jwt.verify(req.params.token)
+        // }

@@ -17,6 +17,18 @@ module.exports = {
             }
         );
     },
+    confirmation:(username, callBack) => {
+        pool.query(
+            'UPDATE user SET verified = 1 WHERE username = ?',
+            [username],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
     getUsers: callBack => {
         pool.query(
             'SELECT username FROM user',
