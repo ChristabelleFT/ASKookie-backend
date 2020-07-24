@@ -45,7 +45,7 @@ module.exports = {
     },
     getUserByName: (username, callBack) => {
         pool.query(
-            'SELECT * FROM user WHERE username = ?',
+            'SELECT * FROM user WHERE BINARY username = BINARY ?',
             [username],
             (error, results, fields) => {
                 if(error) {
@@ -243,12 +243,13 @@ module.exports = {
             }
         );
     },
-    answer:(data, callBack) => {
+    answer:(data, url, callBack) => {
         pool.query(
-            `INSERT INTO answer (postID2, answer, answerer, time2, anonymous2) VALUES (?,?,?,?,?)`,
+            `INSERT INTO answer (postID2, answer, image, answerer, time2, anonymous2) VALUES (?,?,?,?,?,?)`,
             [
                 data.postID2,
                 data.answer,
+                url,
                 data.answerer,
                 data.time,
                 data.anonymous
@@ -838,7 +839,7 @@ module.exports = {
             }
         );
     },
-    uploadImages: (username, url, callBack) => {
+    uploadProfiles: (username, url, callBack) => {
         pool.query(
             `UPDATE user SET profile_picture = ? WHERE username = ?`,
             [url, username],

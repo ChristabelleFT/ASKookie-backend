@@ -11,7 +11,6 @@ const {
     getOthers,
     search,
     ask,
-    answer,
     deletePost,
     deleteAns,
     deleteComment,
@@ -308,21 +307,6 @@ module.exports = {
             return res.status(200).json({
                 data: results,
                 message: "Post added"
-            });
-        });
-    },
-    answer: (req, res) => {
-        const body = req.body;
-        answer(body, (err, results) =>{
-            if(err) {
-                console.log(err);
-                return res.status(500).json({
-                    message: "Database connection error"
-                });
-            }
-            return res.status(200).json({
-                data: results,
-                message: "Answer added"
             });
         });
     },

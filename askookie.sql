@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2020 at 11:10 AM
+-- Generation Time: Jul 24, 2020 at 08:25 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -129,6 +129,7 @@ CREATE TABLE `answer` (
   `answerID` int(11) NOT NULL,
   `postID2` int(10) DEFAULT NULL,
   `answer` text DEFAULT NULL,
+  `image` text DEFAULT NULL,
   `answerer` varchar(25) DEFAULT NULL,
   `time2` varchar(10) DEFAULT NULL,
   `anonymous2` tinyint(1) DEFAULT NULL,
@@ -141,12 +142,14 @@ CREATE TABLE `answer` (
 -- Dumping data for table `answer`
 --
 
-INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`, `hasLiked2`) VALUES
-(1, 2, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0, NULL),
-(2, 3, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, NULL),
-(4, 7, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, NULL),
-(5, 8, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 0, NULL),
-(6, 2, 'another test answer', 'chrisya', '7/19/2020', 1, 0, 0, NULL);
+INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `image`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`, `hasLiked2`) VALUES
+(1, 2, 'testinggg', NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL),
+(2, 3, 'test answer', NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL),
+(4, 7, 'everytime', NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL),
+(5, 8, 'raffles hall', NULL, 'chrisya', '7/14/2020', 1, 0, 0, NULL),
+(6, 2, 'another test answer', NULL, 'chrisya', '7/19/2020', 1, 0, 0, NULL),
+(8, 4, 'in image', 'http://res.cloudinary.com/askookie/image/upload/v1595612651/askookie/ucwv8yr0kvu7ozyymrh2.jpg', 'thevandi', '7/25/2020', 1, 0, 0, NULL),
+(10, 8, 'sheares', NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -185,11 +188,12 @@ CREATE TABLE `answered` (
 INSERT INTO `answered` (`postID`, `type_post`, `category`, `question`, `title`, `post_content`, `asker`, `time`, `anonymous`, `like_count`, `comment_count`, `answerID`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`, `hasLiked`, `hasSave`, `hasFollow`) VALUES
 (2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 0, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
+(4, 1, '2', 'how', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 8, 'in image', 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
 (8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, -2, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 0, NULL, NULL, NULL),
-(14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -231,6 +235,13 @@ CREATE TABLE `comment_table` (
   `like_count` int(10) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `comment_table`
+--
+
+INSERT INTO `comment_table` (`commentID`, `postID`, `answerID`, `username`, `comment`, `time`, `anonymous`, `like_count`) VALUES
+(7, 14, NULL, 'chrisya', 'yeay', '7/25/2020', 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -267,13 +278,15 @@ CREATE TABLE `feeds` (
 
 INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `post_content`, `asker`, `time`, `anonymous`, `like_count`, `comment_count`, `answerID`, `answer`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`, `hasLiked`, `hasSave`, `hasFollow`) VALUES
 (2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 0, 0, 1, 'testinggg', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
-(3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
-(7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, -2, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 0, NULL, NULL, NULL),
 (2, 1, '1', 'testing', NULL, NULL, NULL, '0000-00-00', NULL, 0, 0, 6, 'another test answer', 'chrisya', '7/19/2020', 1, 0, 0, NULL, NULL, NULL),
+(3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
+(4, 1, '2', 'how', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 8, 'in image', 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, -2, 5, 'raffles hall', 'chrisya', '7/14/2020', 1, 0, 0, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, -2, 10, 'sheares', 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
+(14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -311,10 +324,11 @@ CREATE TABLE `id` (
 INSERT INTO `id` (`postID`) VALUES
 (2),
 (3),
-(7),
-(8),
+(4),
 (5),
 (6),
+(7),
+(8),
 (14);
 
 -- --------------------------------------------------------
@@ -396,7 +410,7 @@ INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `typ
 (7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, NULL, NULL, NULL),
 (8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 0, -2, NULL, NULL, NULL),
 (9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL, NULL, NULL),
-(14, NULL, 'post type', 'integer plz', 2, 'chrisya', '7/17/2020', 6, 0, 1, 0, NULL, NULL, NULL);
+(14, NULL, 'post type', 'integer plz', 2, 'chrisya', '7/17/2020', 6, 0, 1, 1, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -468,9 +482,9 @@ INSERT INTO `save` (`username`, `postID`, `hasSave`) VALUES
 
 CREATE TABLE `user` (
   `email` varchar(30) NOT NULL,
-  `username` varchar(25) DEFAULT NULL,
+  `username` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `member_type` varchar(10) DEFAULT NULL,
-  `profile_picture` text DEFAULT NULL,
+  `profile_picture` text DEFAULT 'https://res.cloudinary.com/askookie/image/upload/v1595604061/askookie/WhatsApp_Image_2020-07-24_at_22.38.55_qciuxc.jpg',
   `password` text DEFAULT NULL,
   `verified` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -480,14 +494,14 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`email`, `username`, `member_type`, `profile_picture`, `password`, `verified`) VALUES
-('christabelle.ft@gmail.com', 'thevandi', '1', NULL, '$2b$10$Ts2UeLCtoD0WVJUFEbeQ.OdU1FfUXZscEtSAMLA3S/4D6sKU5WDp2', 1),
-('christabelle_ft@yahoo.com', 'chrisyaaa', NULL, NULL, '$2b$10$0MZSy29.Vrhlp4bX/CkNv.hfMKpzr/HQzheWZIyAj70zhJBgliOWK', 1),
-('christopherrobinong@gmail.com', 'christrobinong', NULL, NULL, '$2b$10$jTgrx.KutYzMP5jggj5NE.luLW2ucAxr8Sz.NIjS1j01w8AilVuMy', NULL),
-('chrisya@gmail.com', 'chrisya', NULL, NULL, '$2b$10$yqzy/tZdzLo8RD0.N/fYJe2cKuLvlFf5.J5kbk1T7Ln2nBHNHreom', 1),
-('e0407768@u.nus.edu', 'christabelle', '2', NULL, '$2b$10$9ct1Ys8DO2iyjoS0F.l5ye0chuircOlYFRnRyEcQyvhnHxWgrd1lm', 1),
-('fredda2@gmail.com', 'fredda2', NULL, NULL, '$2b$10$2ncoq./TF1r9ejlcdCct5OkZbB9IEyirIuQ.7H7fOk34Z67GGUOWu', NULL),
-('fredda@gmail.com', 'fredda', NULL, NULL, '$2b$10$fW9p4Bskikx3LQMmrEfOue/ouKM.lfQnmdM4ZqjBAet1CvOkW.m7G', NULL),
-('test@gmail.com', 'test', NULL, NULL, NULL, NULL);
+('christabelle.ft@gmail.com', 'thevandi', '3', 'http://res.cloudinary.com/askookie/image/upload/v1595586762/askookie/ikjrzxdbyt29tiubcz3r.jpg', '$2b$10$Ts2UeLCtoD0WVJUFEbeQ.OdU1FfUXZscEtSAMLA3S/4D6sKU5WDp2', 1),
+('christabelle_ft@yahoo.com', 'chrisyaaa', '3', NULL, '$2b$10$0MZSy29.Vrhlp4bX/CkNv.hfMKpzr/HQzheWZIyAj70zhJBgliOWK', 1),
+('christopherrobinong@gmail.com', 'christrobinong', '3', NULL, '$2b$10$jTgrx.KutYzMP5jggj5NE.luLW2ucAxr8Sz.NIjS1j01w8AilVuMy', NULL),
+('chrisya@gmail.com', 'chrisya', '3', NULL, '$2b$10$yqzy/tZdzLo8RD0.N/fYJe2cKuLvlFf5.J5kbk1T7Ln2nBHNHreom', 1),
+('e0407768@u.nus.edu', 'christabelle', '3', NULL, '$2b$10$9ct1Ys8DO2iyjoS0F.l5ye0chuircOlYFRnRyEcQyvhnHxWgrd1lm', 1),
+('fredda2@gmail.com', 'fredda2', '3', NULL, '$2b$10$2ncoq./TF1r9ejlcdCct5OkZbB9IEyirIuQ.7H7fOk34Z67GGUOWu', NULL),
+('fredda@gmail.com', 'fredda', '3', NULL, '$2b$10$fW9p4Bskikx3LQMmrEfOue/ouKM.lfQnmdM4ZqjBAet1CvOkW.m7G', NULL),
+('test@gmail.com', 'test', '3', NULL, NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -570,7 +584,8 @@ ALTER TABLE `save`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`email`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD UNIQUE KEY `username` (`username`),
+  ADD UNIQUE KEY `username_2` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -580,13 +595,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `answer`
 --
 ALTER TABLE `answer`
-  MODIFY `answerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `answerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `comment_table`
 --
 ALTER TABLE `comment_table`
-  MODIFY `commentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `commentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `post_question`

@@ -1,8 +1,8 @@
 const { cloudinary } = require('../../config/cloudinary_config');
-const { uploadImages } = require("./service");
+const { uploadProfiles, answer } = require("./service");
 
 module.exports = {
-    uploadImg: async (req, res) => {
+    uploadProfile: async (req, res) => {
         try {
             const fileStr = req.body.data;
             const username = req.params.username;
@@ -14,7 +14,7 @@ module.exports = {
 
             const url = uploadResponse.url;
 
-            await uploadImages(username, url, (err, results) => {
+            await uploadProfiles(username, url, (err, results) => {
                 if(err) {
                     console.log(err);
                     return err;
@@ -25,4 +25,47 @@ module.exports = {
             console.error(error); 
         }
     },
+    answer: async(req, res) => {
+        try {
+            const body = req.body;
+            const fileStr = req.body.image;
+
+            if(fileStr != '') {
+                const uploadResponse = await cloudinary.uploader.upload(
+                    fileStr, {
+                        upload_preset: 'askookie'
+                    })
+
+                const url = uploadResponse.url;
+
+                await answer(body, url, (err, results) =>{
+                    if(err) {
+                        console.log(err);
+                        return res.status(500).json({
+                            message: "Database connection error"
+                        });
+                    }
+                    return res.status(200).json({
+                        data: results,
+                        message: "Answer added"
+                    });
+                });
+            } else {
+                await answer(body, null, (err, results) =>{
+                    if(err) {
+                        console.log(err);
+                        return res.status(500).json({
+                            message: "Database connection error"
+                        });
+                    }
+                    return res.status(200).json({
+                        data: results,
+                        message: "Answer added"
+                    });
+                });
+            }
+        } catch (error) {
+            console.error(error); 
+        }
+    }
 };
