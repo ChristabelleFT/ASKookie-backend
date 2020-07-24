@@ -57,7 +57,6 @@ const {
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const { sign, verify } = require("jsonwebtoken");
-//const jwt = require("jsonwebtoken");
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const ejs = require('ejs');

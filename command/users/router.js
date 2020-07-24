@@ -55,6 +55,7 @@ const {
      getFollow,
      confirmation
 } = require("./controller");
+const { uploadImg } = require("./uploadImage");
 const router = require("express").Router();
 
 router.post("/register", createUser);
@@ -112,5 +113,6 @@ router.get("/hasSave/post/:id/:name",hasSave);
 router.get("/hasFollow/post/:id/:name",hasFollow);
 router.get("/hasLiked/answer/:id/:name",hasLikedAns);
 router.get("/confirmation/:token",confirmation);
+router.post("/upload/profile/:username", uploadImg);
 
 module.exports = router;

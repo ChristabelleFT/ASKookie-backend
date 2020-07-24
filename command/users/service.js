@@ -3,10 +3,12 @@ const pool = require("../../config/database");
 module.exports = {
     create: (data, callBack) => {
         pool.query(
-            'INSERT INTO user(username, password, email) values(?,?,?)',
+            `INSERT INTO user(username, password, email) values(?,?,?);
+             CALL member(?);`,
             [
                 data.username,
                 data.password,
+                data.email,
                 data.email
             ],
             (error, results, fields) => {
@@ -828,6 +830,18 @@ module.exports = {
         pool.query(
             `SELECT EXISTS (SELECT * FROM like_table WHERE answerID = ? AND username = ?) AS hasLikedAns`,
             [id, name],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    uploadImages: (username, url, callBack) => {
+        pool.query(
+            `UPDATE user SET profile_picture = ? WHERE username = ?`,
+            [url, username],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);

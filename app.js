@@ -4,9 +4,12 @@ const app = express();
 const userRouter = require("./command/users/router");
 const path = require("path");
 const {cors, corsConfig} = require("./cors");
+const bodyParser = require('body-parser');
 
-app.use(express.json());
+app.use(express.json({limit: '50mb'}));
 app.use(cors(corsConfig));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
+app.use(bodyParser.json({limit: '50mb'}));
 
 app.use('', userRouter);
 

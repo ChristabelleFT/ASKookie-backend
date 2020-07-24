@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2020 at 06:44 PM
+-- Generation Time: Jul 24, 2020 at 11:10 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -92,6 +92,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `home` ()  begin
              set i = i+1;
              end while;
              end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `member` (IN `email` VARCHAR(50))  begin
+if email like '%u.nus.edu' then update user set member_type = 2 where user.email = email;
+elseif email like 'christabelle.ft@gmail.com' or email like 'michela.vieri.hp@gmail.com' then update user set member_type = 1 where user.email = email;
+else update user set member_type = 3;
+end if;
+end$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `temp_table` ()  BEGIN
 DROP TABLE IF EXISTS feeds;
@@ -448,7 +455,10 @@ CREATE TABLE `save` (
 --
 
 INSERT INTO `save` (`username`, `postID`, `hasSave`) VALUES
-('chrisya', 14, 1);
+('chrisya', 2, 1),
+('chrisya', 3, 1),
+('chrisya', 14, 1),
+('fredda', 5, 1);
 
 -- --------------------------------------------------------
 
@@ -460,7 +470,7 @@ CREATE TABLE `user` (
   `email` varchar(30) NOT NULL,
   `username` varchar(25) DEFAULT NULL,
   `member_type` varchar(10) DEFAULT NULL,
-  `profile_picture` longblob DEFAULT NULL,
+  `profile_picture` text DEFAULT NULL,
   `password` text DEFAULT NULL,
   `verified` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -470,9 +480,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`email`, `username`, `member_type`, `profile_picture`, `password`, `verified`) VALUES
-('christabelle.ft@gmail.com', 'emailtest', NULL, NULL, '$2b$10$YO8ZBvRz2LGwReOeVPBfj.lVYSeHAgYXhGvUf3LwJnBhPz2wGEek.', NULL),
-('christabelle_ft@yahoo.com', 'chrisyaa', NULL, NULL, '$2b$10$ZPEb3ApdXyttwD7tEryV7uodDEHTzMsoE8O2RLSqwue0SFB9YAMZe', NULL),
-('chrisya@gmail.com', 'chrisya', NULL, NULL, '$2b$10$yqzy/tZdzLo8RD0.N/fYJe2cKuLvlFf5.J5kbk1T7Ln2nBHNHreom', NULL),
+('christabelle.ft@gmail.com', 'thevandi', '1', NULL, '$2b$10$Ts2UeLCtoD0WVJUFEbeQ.OdU1FfUXZscEtSAMLA3S/4D6sKU5WDp2', 1),
+('christabelle_ft@yahoo.com', 'chrisyaaa', NULL, NULL, '$2b$10$0MZSy29.Vrhlp4bX/CkNv.hfMKpzr/HQzheWZIyAj70zhJBgliOWK', 1),
+('christopherrobinong@gmail.com', 'christrobinong', NULL, NULL, '$2b$10$jTgrx.KutYzMP5jggj5NE.luLW2ucAxr8Sz.NIjS1j01w8AilVuMy', NULL),
+('chrisya@gmail.com', 'chrisya', NULL, NULL, '$2b$10$yqzy/tZdzLo8RD0.N/fYJe2cKuLvlFf5.J5kbk1T7Ln2nBHNHreom', 1),
+('e0407768@u.nus.edu', 'christabelle', '2', NULL, '$2b$10$9ct1Ys8DO2iyjoS0F.l5ye0chuircOlYFRnRyEcQyvhnHxWgrd1lm', 1),
 ('fredda2@gmail.com', 'fredda2', NULL, NULL, '$2b$10$2ncoq./TF1r9ejlcdCct5OkZbB9IEyirIuQ.7H7fOk34Z67GGUOWu', NULL),
 ('fredda@gmail.com', 'fredda', NULL, NULL, '$2b$10$fW9p4Bskikx3LQMmrEfOue/ouKM.lfQnmdM4ZqjBAet1CvOkW.m7G', NULL),
 ('test@gmail.com', 'test', NULL, NULL, NULL, NULL);
