@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2020 at 12:06 PM
+-- Generation Time: Jul 25, 2020 at 02:05 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -377,6 +377,29 @@ INSERT INTO `member_type` (`id`, `type`) VALUES
 (1, 'admin'),
 (2, 'nus_member'),
 (3, 'non-nus_member');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notification`
+--
+
+CREATE TABLE `notification` (
+  `postID` int(10) NOT NULL DEFAULT 0,
+  `question` text DEFAULT NULL,
+  `title` text DEFAULT NULL,
+  `post_content` text DEFAULT NULL,
+  `type_post` int(1) DEFAULT NULL,
+  `asker` varchar(25) DEFAULT NULL,
+  `time` varchar(10) DEFAULT NULL,
+  `category` int(1) DEFAULT NULL,
+  `anonymous` tinyint(1) DEFAULT NULL,
+  `like_count` int(10) DEFAULT 0,
+  `comment_count` int(10) DEFAULT 0,
+  `hasLiked` tinyint(4) DEFAULT NULL,
+  `hasSave` tinyint(4) DEFAULT NULL,
+  `hasFollow` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
