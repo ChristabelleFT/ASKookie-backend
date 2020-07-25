@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2020 at 04:55 PM
+-- Generation Time: Jul 25, 2020 at 05:46 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -105,7 +105,8 @@ declare x int;
 set x = 0;
 while exists(select username from follow_table where postID = id limit x,1) do
 select @name:=username from follow_table where postID = id limit x,1;
-insert into notification (username, postID, type) values (@name, id, type);
+select @asker:=asker from post_question where postID = id;
+insert into notification (username, postID, asker, type) values (@name, id, @asker,type);
 set x = x+1;
 end while;
 end$$
@@ -207,7 +208,7 @@ INSERT INTO `answered` (`postID`, `type_post`, `category`, `question`, `title`, 
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 18, 'today', 'http://res.cloudinary.com/askookie/image/upload/v1595670893/askookie/cpz1gcfbiytlodq38spr.jpg', 'askookie/cpz1gcfbiytlodq38spr', 'christabelle', '7/25/2020', 1, 1, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 2, 0, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 2, 1, NULL, NULL, NULL),
 (14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -257,7 +258,8 @@ CREATE TABLE `comment_table` (
 INSERT INTO `comment_table` (`commentID`, `postID`, `answerID`, `username`, `comment`, `time`, `anonymous`, `like_count`) VALUES
 (7, 14, NULL, 'chrisya', 'yeay', '7/25/2020', 0, 0),
 (9, 14, NULL, 'christabelle', 'hello', '7/25/2020', 0, 0),
-(14, 8, 5, 'thevandi', 'yup', '7/25/2020', 0, 0);
+(14, 8, 5, 'thevandi', 'yup', '7/25/2020', 0, 0),
+(15, 6, NULL, 'thevandi', 'test also', '7/25/2020', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -304,7 +306,7 @@ INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `po
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 18, 'today', 'http://res.cloudinary.com/askookie/image/upload/v1595670893/askookie/cpz1gcfbiytlodq38spr.jpg', 'askookie/cpz1gcfbiytlodq38spr', 'christabelle', '7/25/2020', 1, 1, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 2, 0, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 2, 1, NULL, NULL, NULL),
 (8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 10, 'sheares', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
 (8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 19, 'eusoff', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
 (14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -404,10 +406,10 @@ INSERT INTO `member_type` (`id`, `type`) VALUES
 --
 
 CREATE TABLE `notification` (
-  `notificationID` int(10) NOT NULL,
+  `notificationID` int(15) NOT NULL,
   `username` varchar(25) NOT NULL,
   `postID` int(10) NOT NULL DEFAULT 0,
-  `hasRead` int(1) NOT NULL DEFAULT 0,
+  `asker` varchar(25) DEFAULT NULL,
   `type` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -415,9 +417,34 @@ CREATE TABLE `notification` (
 -- Dumping data for table `notification`
 --
 
-INSERT INTO `notification` (`notificationID`, `username`, `postID`, `hasRead`, `type`) VALUES
-(1, 'chrisya', 14, 0, NULL),
-(5, 'christabelle', 8, 0, 2);
+INSERT INTO `notification` (`notificationID`, `username`, `postID`, `asker`, `type`) VALUES
+(1, 'chrisya', 14, NULL, NULL),
+(5, 'christabelle', 8, NULL, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notif_type`
+--
+
+CREATE TABLE `notif_type` (
+  `typeID` int(2) DEFAULT NULL,
+  `type` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `notif_type`
+--
+
+INSERT INTO `notif_type` (`typeID`, `type`) VALUES
+(1, 'answer'),
+(2, 'comment'),
+(3, 'self_answer'),
+(4, 'self_likePost'),
+(5, 'self_likeAnswer'),
+(6, 'self_likeComment'),
+(7, 'self_commentPost'),
+(8, 'self_commentAns');
 
 -- --------------------------------------------------------
 
@@ -451,7 +478,7 @@ INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `typ
 (3, 'what', '', '', 1, 'chrisya', '0000-00-00', 6, 1, 0, 0, NULL, NULL, NULL),
 (4, 'how', '', '', 1, 'chrisya', '0000-00-00', 2, 1, 0, 0, NULL, NULL, NULL),
 (5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0, NULL, NULL, NULL),
-(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0, NULL, NULL, NULL),
+(6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 1, NULL, NULL, NULL),
 (7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, NULL, NULL, NULL),
 (8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 1, -2, NULL, NULL, NULL),
 (9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL, NULL, NULL),
@@ -652,13 +679,13 @@ ALTER TABLE `answer`
 -- AUTO_INCREMENT for table `comment_table`
 --
 ALTER TABLE `comment_table`
-  MODIFY `commentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `commentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `notificationID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `notificationID` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `post_question`

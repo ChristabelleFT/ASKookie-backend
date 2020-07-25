@@ -317,12 +317,16 @@ module.exports = {
         pool.query(
             `set @bool := not exists(select * from like_table where username = ? and postID = ?);
             update post_question set like_count = like_count + 1 where postID = ? and @bool;
-            insert into like_table(username, postID) values (?,?) on duplicate key update postID = postID`,
+            insert into like_table(username, postID) values (?,?) on duplicate key update postID = postID;
+            select @asker := asker from post_question where postID = ?;
+            insert into notification (asker, postID, type) values (@asker,?,4)`,
             [
                 data.username,
                 data.postID,
                 data.postID,
                 data.username,
+                data.postID,
+                data.postID,
                 data.postID
             ],
             (error, results, fields) => {
@@ -337,14 +341,18 @@ module.exports = {
         pool.query(
             `set @bool := not exists(select * from like_table where username = ? and answerID = ?);
             update answer set like_count2 = like_count2 + 1 where answerID = ? and @bool;
-            insert into like_table(username, postID, answerID) values (?,?,?) on duplicate key update answerID = answerID`,
+            insert into like_table(username, postID, answerID) values (?,?,?) on duplicate key update answerID = answerID;
+            select @asker := answerer from answer where answerID = ?;
+            insert into notification (asker, postID, type) values (@asker,?,5)`,
             [
                 data.username,
                 data.answerID,
                 data.answerID,
                 data.username,
                 data.postID,
-                data.answerID
+                data.answerID,
+                data.answerID,
+                data.postID
             ],
             (error, results, fields) => {
                 if(error) {
@@ -356,12 +364,16 @@ module.exports = {
     },
     likeComment: (data, callBack) => {
         pool.query(
-            `insert into like_table(username, postID, answerID, commentID) values (?,?,?,?) on duplicate key update answerID = answerID`,
+            `insert into like_table(username, postID, answerID, commentID) values (?,?,?,?) on duplicate key update answerID = answerID;
+            select @asker := username from comment_table where commentID = ?;
+            insert into notification (asker, postID, type) values (@asker,?,6)`,
             [
                 data.username,
                 data.postID,
                 data.answerID,
                 data.commentID,
+                data.commentID,
+                data.postID
             ],
             (error, results, fields) => {
                 if(error) {
@@ -375,13 +387,17 @@ module.exports = {
         pool.query(
             `INSERT INTO comment_table (postID, username, comment, time, anonymous) VALUES (?,?,?,?,?);
               UPDATE post_question SET comment_count = comment_count + 1 WHERE postID = ?;
-              call notif(?,2);`,
+              call notif(?,2);
+              select @asker := asker from post_question where postID = ?;
+              insert into notification (asker, postID, type) values (@asker,?,7)`,
             [
                 data.postID,
                 data.username,
                 data.comment,
                 data.time,
                 data.anonymous,
+                data.postID,
+                data.postID,
                 data.postID,
                 data.postID
             ],
@@ -397,7 +413,9 @@ module.exports = {
         pool.query(
             `INSERT INTO comment_table (postID, answerID, username, comment, time, anonymous) VALUES (?,?,?,?,?,?);
               UPDATE answer SET comment_count2 = comment_count2 + 1 WHERE answerID = ?;
-              call notif(?,2);`,
+              call notif(?,2);
+              select @asker := answerer answer where answerID = ?;
+              insert into notification (asker, postID, type) values (@asker,?,8)`,
             [
                 data.postID,
                 data.answerID,
@@ -405,6 +423,8 @@ module.exports = {
                 data.comment,
                 data.time,
                 data.anonymous,
+                data.answerID,
+                data.postID,
                 data.answerID,
                 data.postID
             ],
@@ -860,20 +880,8 @@ module.exports = {
     },
     getNotification: (username, callBack) => {
         pool.query(
-            'SELECT * FROM notification LEFT JOIN post_question ON notification.postID = post_question.postID WHERE notification.username = ? AND notification.hasRead = 0',
-            [username],
-            (error, results, fields) => {
-                if(error) {
-                    return callBack(error);
-                }
-                return callBack(null, results);
-            }
-        );
-    },
-    getMyPost: (username, callBack) => {
-        pool.query(
-            'SELECT * FROM post_question WHERE asker = ?',
-            [username],
+            'SELECT * FROM notification LEFT JOIN post_question ON notification.postID = post_question.postID WHERE notification.username = ? OR notification.asker = ?',
+            [username, username],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);
@@ -896,8 +904,20 @@ module.exports = {
     },
     readNotif: (notificationID, callBack) => {
         pool.query(
-            'UPDATE notification SET hasRead = 1 WHERE notificationID = ?',
+            'DELETE FROM notification where notificationID = ?',
             [notificationID],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    myNotif: (username, callBack) => {
+        pool.query(
+            'SELECT * FROM post_question WHERE asker = ?',
+            [username],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);
