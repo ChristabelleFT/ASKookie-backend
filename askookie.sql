@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2020 at 05:46 PM
+-- Generation Time: Jul 25, 2020 at 06:40 PM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.5
+-- PHP Version: 7.4.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -163,7 +163,12 @@ INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `image`, `publicID`, `ans
 (8, 4, 'in image', 'http://res.cloudinary.com/askookie/image/upload/v1595612651/askookie/ucwv8yr0kvu7ozyymrh2.jpg', NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL),
 (10, 8, 'sheares', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL),
 (18, 7, 'today', 'http://res.cloudinary.com/askookie/image/upload/v1595670893/askookie/cpz1gcfbiytlodq38spr.jpg', 'askookie/cpz1gcfbiytlodq38spr', 'christabelle', '7/25/2020', 1, 1, 0, NULL),
-(19, 8, 'eusoff', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL);
+(19, 8, 'eusoff', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL),
+(20, 8, 'ds', NULL, NULL, 'miki', '7/25/2020', 1, 1, 1, NULL),
+(21, 15, 'hi', NULL, NULL, 'miki', '7/26/2020', 1, 2, 4, NULL),
+(22, 15, 's', NULL, NULL, 'miki', '7/26/2020', 1, 1, 1, NULL),
+(23, 15, 'hey', NULL, NULL, 'miki', '7/26/2020', 1, 1, 1, NULL),
+(24, 15, 'the', NULL, NULL, 'miki', '7/26/2020', 1, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -206,10 +211,12 @@ INSERT INTO `answered` (`postID`, `type_post`, `category`, `question`, `title`, 
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
 (4, 1, '2', 'how', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 8, 'in image', 'http://res.cloudinary.com/askookie/image/upload/v1595612651/askookie/ucwv8yr0kvu7ozyymrh2.jpg', NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 18, 'today', 'http://res.cloudinary.com/askookie/image/upload/v1595670893/askookie/cpz1gcfbiytlodq38spr.jpg', 'askookie/cpz1gcfbiytlodq38spr', 'christabelle', '7/25/2020', 1, 1, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 2, 1, NULL, NULL, NULL),
-(14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 2, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 2, 1, NULL, NULL, NULL),
+(14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(15, 1, '2', 'hy?', '', '', 'miki', '7/25/2020', 1, 0, 0, 21, 'hi', NULL, NULL, 'miki', '7/26/2020', 1, 2, 4, NULL, NULL, NULL),
+(16, 2, '2', NULL, 'sd', 'df', 'miki', '7/25/2020', 0, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -259,7 +266,18 @@ INSERT INTO `comment_table` (`commentID`, `postID`, `answerID`, `username`, `com
 (7, 14, NULL, 'chrisya', 'yeay', '7/25/2020', 0, 0),
 (9, 14, NULL, 'christabelle', 'hello', '7/25/2020', 0, 0),
 (14, 8, 5, 'thevandi', 'yup', '7/25/2020', 0, 0),
-(15, 6, NULL, 'thevandi', 'test also', '7/25/2020', 0, 0);
+(15, 6, NULL, 'thevandi', 'test also', '7/25/2020', 0, 0),
+(16, 14, NULL, 'miki', 'd', '7/25/2020', 0, 0),
+(17, 16, NULL, 'miki', 'hey', '7/26/2020', 0, 0),
+(18, 15, 21, 'miki', 'd', '7/26/2020', 0, 0),
+(19, 15, 21, 'miki', 'd', '7/26/2020', 0, 0),
+(20, 15, 21, 'miki', 'd', '7/26/2020', 0, 0),
+(21, 15, 22, 'miki', 'd', '7/26/2020', 0, 0),
+(22, 16, NULL, 'miki', 'd', '7/26/2020', 0, 0),
+(23, 16, NULL, 'miki', 'sdfsdf', '7/26/2020', 0, 0),
+(24, 15, 21, 'miki', 'ddddd', '7/26/2020', 0, 0),
+(25, 8, 20, 'miki', 'sdsf', '7/26/2020', 0, 0),
+(26, 15, 23, 'miki', 'sdf', '7/26/2020', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -303,13 +321,18 @@ INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `po
 (3, 1, '6', 'what', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 2, 'test answer', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
 (4, 1, '2', 'how', '', '', 'chrisya', '0000-00-00', 1, 0, 0, 8, 'in image', 'http://res.cloudinary.com/askookie/image/upload/v1595612651/askookie/ucwv8yr0kvu7ozyymrh2.jpg', NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 18, 'today', 'http://res.cloudinary.com/askookie/image/upload/v1595670893/askookie/cpz1gcfbiytlodq38spr.jpg', 'askookie/cpz1gcfbiytlodq38spr', 'christabelle', '7/25/2020', 1, 1, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 2, 1, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 10, 'sheares', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 19, 'eusoff', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
-(14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 2, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 2, 1, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 2, -2, 10, 'sheares', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 2, -2, 19, 'eusoff', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 2, -2, 20, 'ds', NULL, NULL, 'miki', '7/25/2020', 1, 1, 1, NULL, NULL, NULL),
+(14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(15, 1, '2', 'hy?', '', '', 'miki', '7/25/2020', 1, 0, 0, 21, 'hi', NULL, NULL, 'miki', '7/26/2020', 1, 2, 4, NULL, NULL, NULL),
+(15, 1, '2', 'hy?', '', '', 'miki', '7/25/2020', 1, 0, 0, 22, 's', NULL, NULL, 'miki', '7/26/2020', 1, 1, 1, NULL, NULL, NULL),
+(15, 1, '2', 'hy?', '', '', 'miki', '7/25/2020', 1, 0, 0, 23, 'hey', NULL, NULL, 'miki', '7/26/2020', 1, 0, 0, NULL, NULL, NULL),
+(16, 2, '2', NULL, 'sd', 'df', 'miki', '7/25/2020', 0, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -329,7 +352,9 @@ CREATE TABLE `follow_table` (
 
 INSERT INTO `follow_table` (`username`, `postID`, `hasFollow`) VALUES
 ('chrisya', 14, 1),
-('christabelle', 8, 1);
+('christabelle', 8, 1),
+('miki', 14, 1),
+('miki', 8, 1);
 
 -- --------------------------------------------------------
 
@@ -353,7 +378,9 @@ INSERT INTO `id` (`postID`) VALUES
 (6),
 (7),
 (8),
-(14);
+(14),
+(15),
+(16);
 
 -- --------------------------------------------------------
 
@@ -377,7 +404,14 @@ INSERT INTO `like_table` (`username`, `postID`, `answerID`, `commentID`, `hasLik
 ('chrisya', 2, 6, NULL, 1),
 ('chrisya', 14, NULL, NULL, 1),
 ('christabelle', 8, 5, NULL, 1),
-('thevandi', 8, 5, NULL, 1);
+('thevandi', 8, 5, NULL, 1),
+('miki', 16, NULL, NULL, 1),
+('miki', 15, NULL, NULL, 1),
+('miki', 15, 21, NULL, 1),
+('miki', 15, 22, NULL, 1),
+('miki', 8, NULL, NULL, 1),
+('miki', 8, 20, NULL, 1),
+('miki', 15, 23, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -419,7 +453,15 @@ CREATE TABLE `notification` (
 
 INSERT INTO `notification` (`notificationID`, `username`, `postID`, `asker`, `type`) VALUES
 (1, 'chrisya', 14, NULL, NULL),
-(5, 'christabelle', 8, NULL, 2);
+(5, 'christabelle', 8, NULL, 2),
+(6, 'chrisya', 14, 'chrisya', 2),
+(9, 'christabelle', 8, 'chrisya', 1),
+(16, '', 16, 'miki', 7),
+(22, '', 8, 'chrisya', 4),
+(25, 'christabelle', 8, 'chrisya', 2),
+(28, '', 15, 'miki', 5),
+(29, '', 15, 'miki', 8),
+(30, '', 15, 'miki', 3);
 
 -- --------------------------------------------------------
 
@@ -480,9 +522,11 @@ INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `typ
 (5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0, NULL, NULL, NULL),
 (6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 1, NULL, NULL, NULL),
 (7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, NULL, NULL, NULL),
-(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 1, -2, NULL, NULL, NULL),
+(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 2, -2, NULL, NULL, NULL),
 (9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL, NULL, NULL),
-(14, NULL, 'post type', 'integer plz', 2, 'chrisya', '7/17/2020', 6, 0, 1, 2, NULL, NULL, NULL);
+(14, NULL, 'post type', 'integer plz', 2, 'chrisya', '7/17/2020', 6, 0, 1, 3, NULL, NULL, NULL),
+(15, 'hy?', '', '', 1, 'miki', '7/25/2020', 2, 1, 0, 0, NULL, NULL, NULL),
+(16, NULL, 'sd', 'df', 2, 'miki', '7/25/2020', 2, 0, 1, 3, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -544,7 +588,8 @@ INSERT INTO `save` (`username`, `postID`, `hasSave`) VALUES
 ('chrisya', 2, 1),
 ('chrisya', 3, 1),
 ('chrisya', 14, 1),
-('fredda', 5, 1);
+('fredda', 5, 1),
+('miki', 8, 1);
 
 -- --------------------------------------------------------
 
@@ -574,6 +619,7 @@ INSERT INTO `user` (`email`, `username`, `member_type`, `profile_picture`, `publ
 ('e0407768@u.nus.edu', 'christabelle', '2', NULL, NULL, '$2b$10$9ct1Ys8DO2iyjoS0F.l5ye0chuircOlYFRnRyEcQyvhnHxWgrd1lm', 1),
 ('fredda2@gmail.com', 'fredda2', '3', NULL, NULL, '$2b$10$2ncoq./TF1r9ejlcdCct5OkZbB9IEyirIuQ.7H7fOk34Z67GGUOWu', NULL),
 ('fredda@gmail.com', 'fredda', '3', NULL, NULL, '$2b$10$fW9p4Bskikx3LQMmrEfOue/ouKM.lfQnmdM4ZqjBAet1CvOkW.m7G', NULL),
+('michela.vieri.hp@gmail.com', 'miki', '1', 'https://res.cloudinary.com/askookie/image/upload/v1595604061/askookie/WhatsApp_Image_2020-07-24_at_22.38.55_qciuxc.jpg', 'askookie/WhatsApp_Image_2020-07-24_at_22.38.55_qciuxc.jpg', '$2b$10$Ag5k9CVOorW/TH/xXzBNZ.V9P.oNGMgmTcrzVPzhFBilmHDypzVdm', 1),
 ('test@gmail.com', 'test', '3', NULL, NULL, NULL, NULL);
 
 --
@@ -649,7 +695,8 @@ ALTER TABLE `post_type`
 -- Indexes for table `report_table`
 --
 ALTER TABLE `report_table`
-  ADD KEY `report_table_ibfk_2` (`username`);
+  ADD KEY `report_table_ibfk_2` (`username`),
+  ADD KEY `report_table_ibfk_1` (`postID`);
 
 --
 -- Indexes for table `save`
@@ -673,25 +720,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `answer`
 --
 ALTER TABLE `answer`
-  MODIFY `answerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `answerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `comment_table`
 --
 ALTER TABLE `comment_table`
-  MODIFY `commentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `commentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `notificationID` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `notificationID` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `post_question`
 --
 ALTER TABLE `post_question`
-  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Constraints for dumped tables
@@ -740,7 +787,7 @@ ALTER TABLE `post_question`
 --
 ALTER TABLE `report_table`
   ADD CONSTRAINT `report_table_ibfk_1` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `report_table_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE;
+  ADD CONSTRAINT `report_table_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `save`
