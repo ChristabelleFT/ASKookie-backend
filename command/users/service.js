@@ -246,7 +246,7 @@ module.exports = {
     answer:(data, publicID, url, callBack) => {
         pool.query(
             `INSERT INTO answer (postID2, answer, image, publicID, answerer, time2, anonymous2) VALUES (?,?,?,?,?,?,?);
-            call notif(?);`,
+            call notif(?,1);`,
             [
                 data.postID2,
                 data.answer,
@@ -375,7 +375,7 @@ module.exports = {
         pool.query(
             `INSERT INTO comment_table (postID, username, comment, time, anonymous) VALUES (?,?,?,?,?);
               UPDATE post_question SET comment_count = comment_count + 1 WHERE postID = ?;
-              call notif(?);`,
+              call notif(?,2);`,
             [
                 data.postID,
                 data.username,
@@ -397,7 +397,7 @@ module.exports = {
         pool.query(
             `INSERT INTO comment_table (postID, answerID, username, comment, time, anonymous) VALUES (?,?,?,?,?,?);
               UPDATE answer SET comment_count2 = comment_count2 + 1 WHERE answerID = ?;
-              call notif(?);`,
+              call notif(?,2);`,
             [
                 data.postID,
                 data.answerID,

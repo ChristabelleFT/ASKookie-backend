@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2020 at 03:54 PM
+-- Generation Time: Jul 25, 2020 at 04:35 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -100,12 +100,12 @@ else update user set member_type = 3 where user.email = email;
 end if;
 end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `notif` (IN `id` INT(10))  begin
+CREATE DEFINER=`root`@`localhost` PROCEDURE `notif` (IN `id` INT(10), IN `type` INT(1))  begin
 declare x int;
 set x = 0;
 while exists(select username from follow_table where postID = id limit x,1) do
 select @name:=username from follow_table where postID = id limit x,1;
-insert into notification (username, postID) values (@name, id);
+insert into notification (username, postID, type) values (@name, id, type);
 set x = x+1;
 end while;
 end$$
@@ -157,11 +157,12 @@ INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `image`, `publicID`, `ans
 (1, 2, 'testinggg', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL),
 (2, 3, 'test answer', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL),
 (4, 7, 'everytime', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL),
-(5, 8, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 0, 0, NULL),
+(5, 8, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 2, 0, NULL),
 (6, 2, 'another test answer', NULL, NULL, 'chrisya', '7/19/2020', 1, 0, 0, NULL),
 (8, 4, 'in image', 'http://res.cloudinary.com/askookie/image/upload/v1595612651/askookie/ucwv8yr0kvu7ozyymrh2.jpg', NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL),
 (10, 8, 'sheares', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL),
-(18, 7, 'today', 'http://res.cloudinary.com/askookie/image/upload/v1595670893/askookie/cpz1gcfbiytlodq38spr.jpg', 'askookie/cpz1gcfbiytlodq38spr', 'christabelle', '7/25/2020', 1, 1, 0, NULL);
+(18, 7, 'today', 'http://res.cloudinary.com/askookie/image/upload/v1595670893/askookie/cpz1gcfbiytlodq38spr.jpg', 'askookie/cpz1gcfbiytlodq38spr', 'christabelle', '7/25/2020', 1, 1, 0, NULL),
+(19, 8, 'eusoff', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -206,7 +207,7 @@ INSERT INTO `answered` (`postID`, `type_post`, `category`, `question`, `title`, 
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 18, 'today', 'http://res.cloudinary.com/askookie/image/upload/v1595670893/askookie/cpz1gcfbiytlodq38spr.jpg', 'askookie/cpz1gcfbiytlodq38spr', 'christabelle', '7/25/2020', 1, 1, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 0, 0, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 1, 0, NULL, NULL, NULL),
 (14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -302,8 +303,9 @@ INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `po
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 18, 'today', 'http://res.cloudinary.com/askookie/image/upload/v1595670893/askookie/cpz1gcfbiytlodq38spr.jpg', 'askookie/cpz1gcfbiytlodq38spr', 'christabelle', '7/25/2020', 1, 1, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 0, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 0, -2, 10, 'sheares', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 1, 0, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 10, 'sheares', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 19, 'eusoff', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
 (14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -323,7 +325,8 @@ CREATE TABLE `follow_table` (
 --
 
 INSERT INTO `follow_table` (`username`, `postID`, `hasFollow`) VALUES
-('chrisya', 14, 1);
+('chrisya', 14, 1),
+('christabelle', 8, 1);
 
 -- --------------------------------------------------------
 
@@ -370,7 +373,8 @@ CREATE TABLE `like_table` (
 INSERT INTO `like_table` (`username`, `postID`, `answerID`, `commentID`, `hasLiked`) VALUES
 ('chrisya', 2, 6, NULL, 1),
 ('chrisya', 14, NULL, NULL, 1),
-('chrisya', 14, NULL, NULL, 1);
+('christabelle', 8, 5, NULL, 1),
+('thevandi', 8, 5, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -402,15 +406,16 @@ CREATE TABLE `notification` (
   `notificationID` int(10) NOT NULL,
   `username` varchar(25) NOT NULL,
   `postID` int(10) NOT NULL DEFAULT 0,
-  `hasRead` int(1) NOT NULL DEFAULT 0
+  `hasRead` int(1) NOT NULL DEFAULT 0,
+  `type` int(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `notification`
 --
 
-INSERT INTO `notification` (`notificationID`, `username`, `postID`, `hasRead`) VALUES
-(1, 'chrisya', 14, 0);
+INSERT INTO `notification` (`notificationID`, `username`, `postID`, `hasRead`, `type`) VALUES
+(1, 'chrisya', 14, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -446,7 +451,7 @@ INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `typ
 (5, NULL, NULL, 'test edit', 2, 'chrisya', NULL, 3, NULL, 0, 0, NULL, NULL, NULL),
 (6, NULL, 'testtt', 'testtt', 2, 'chrisya', '7/10/2020', 1, 0, 0, 0, NULL, NULL, NULL),
 (7, 'when', '', '', 1, 'chrisya', '7/13/2020', 3, 1, 0, 0, NULL, NULL, NULL),
-(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 0, -2, NULL, NULL, NULL),
+(8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 1, -2, NULL, NULL, NULL),
 (9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL, NULL, NULL),
 (14, NULL, 'post type', 'integer plz', 2, 'chrisya', '7/17/2020', 6, 0, 1, 2, NULL, NULL, NULL);
 
@@ -552,7 +557,7 @@ INSERT INTO `user` (`email`, `username`, `member_type`, `profile_picture`, `publ
 ALTER TABLE `answer`
   ADD PRIMARY KEY (`answerID`),
   ADD KEY `idx1` (`postID2`),
-  ADD KEY `answerer` (`answerer`);
+  ADD KEY `answer_ibfk_1` (`answerer`);
 
 --
 -- Indexes for table `category`
@@ -639,19 +644,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `answer`
 --
 ALTER TABLE `answer`
-  MODIFY `answerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `answerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `comment_table`
 --
 ALTER TABLE `comment_table`
-  MODIFY `commentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `commentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `notificationID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `notificationID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `post_question`
@@ -667,7 +672,7 @@ ALTER TABLE `post_question`
 -- Constraints for table `answer`
 --
 ALTER TABLE `answer`
-  ADD CONSTRAINT `answer_ibfk_1` FOREIGN KEY (`answerer`) REFERENCES `user` (`username`),
+  ADD CONSTRAINT `answer_ibfk_1` FOREIGN KEY (`answerer`) REFERENCES `user` (`username`) ON UPDATE CASCADE,
   ADD CONSTRAINT `idx1` FOREIGN KEY (`postID2`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -683,13 +688,13 @@ ALTER TABLE `comment_table`
 --
 ALTER TABLE `follow_table`
   ADD CONSTRAINT `postID` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE;
+  ADD CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `like_table`
 --
 ALTER TABLE `like_table`
-  ADD CONSTRAINT `like_table_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE,
+  ADD CONSTRAINT `like_table_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `like_table_ibfk_2` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
   ADD CONSTRAINT `like_table_ibfk_4` FOREIGN KEY (`commentID`) REFERENCES `comment_table` (`commentID`) ON DELETE CASCADE,
   ADD CONSTRAINT `like_table_ibfk_5` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`) ON DELETE CASCADE;
