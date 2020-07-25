@@ -53,7 +53,8 @@ const {
     getFollow,
     confirmation,
     getNotification,
-    getMyPost
+    getMyPost,
+    readNotif
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -887,6 +888,18 @@ module.exports = {
     getMyPost: (req, res) => {
         const username = req.params.username;
         getMyPost(username, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    readNotif: (req, res) => {
+        const notificationID = req.params.notifID;
+        readNotif(notificationID, (err, results) => {
             if(err) {
                 console.log(err);
                 return;

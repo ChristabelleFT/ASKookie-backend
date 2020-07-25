@@ -860,7 +860,7 @@ module.exports = {
     },
     getNotification: (username, callBack) => {
         pool.query(
-            'SELECT * FROM notification LEFT JOIN post_question ON notification.postID = post_question.postID WHERE notification.username = ?',
+            'SELECT * FROM notification LEFT JOIN post_question ON notification.postID = post_question.postID WHERE notification.username = ? AND notification.hasRead = 0',
             [username],
             (error, results, fields) => {
                 if(error) {
@@ -874,6 +874,30 @@ module.exports = {
         pool.query(
             'SELECT * FROM post_question WHERE asker = ?',
             [username],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    getMyPost: (username, callBack) => {
+        pool.query(
+            'SELECT * FROM post_question WHERE asker = ?',
+            [username],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    readNotif: (notificationID, callBack) => {
+        pool.query(
+            'UPDATE notification SET hasRead = 1 WHERE notificationID = ?',
+            [notificationID],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);

@@ -54,7 +54,8 @@ const {
      getFollow,
      confirmation,
      getNotification,
-     getMyPost
+     getMyPost,
+     readNotif
 } = require("./controller");
 const { uploadProfile, answer } = require("./uploadImage");
 const router = require("express").Router();
@@ -117,5 +118,6 @@ router.get("/confirmation/:token",confirmation);
 router.post("/upload/profile/:username", uploadProfile);
 router.get("/notification/:username",getNotification);
 router.get("/post/:username",getMyPost);
+router.post("/read/:notifID",readNotif);
 
 module.exports = router;
