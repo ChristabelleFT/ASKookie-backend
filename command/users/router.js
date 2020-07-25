@@ -52,7 +52,9 @@ const {
      hasSave,
      hasLikedAns,
      getFollow,
-     confirmation
+     confirmation,
+     getNotification,
+     getMyPost
 } = require("./controller");
 const { uploadProfile, answer } = require("./uploadImage");
 const router = require("express").Router();
@@ -113,5 +115,7 @@ router.get("/hasFollow/post/:id/:name",hasFollow);
 router.get("/hasLiked/answer/:id/:name",hasLikedAns);
 router.get("/confirmation/:token",confirmation);
 router.post("/upload/profile/:username", uploadProfile);
+router.get("/notification/:username",getNotification);
+router.get("/post/:username",getMyPost);
 
 module.exports = router;

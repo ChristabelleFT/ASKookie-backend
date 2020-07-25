@@ -245,7 +245,8 @@ module.exports = {
     },
     answer:(data, publicID, url, callBack) => {
         pool.query(
-            `INSERT INTO answer (postID2, answer, image, publicID, answerer, time2, anonymous2) VALUES (?,?,?,?,?,?,?)`,
+            `INSERT INTO answer (postID2, answer, image, publicID, answerer, time2, anonymous2) VALUES (?,?,?,?,?,?,?);
+            call notif(?);`,
             [
                 data.postID2,
                 data.answer,
@@ -253,7 +254,8 @@ module.exports = {
                 publicID,
                 data.answerer,
                 data.time,
-                data.anonymous
+                data.anonymous,
+                data.postID2
             ],
             (error, results, fields) => {
                 if(error) {
@@ -372,13 +374,15 @@ module.exports = {
     commentPost:(data, callBack) => {
         pool.query(
             `INSERT INTO comment_table (postID, username, comment, time, anonymous) VALUES (?,?,?,?,?);
-              UPDATE post_question SET comment_count = comment_count + 1 WHERE postID = ?`,
+              UPDATE post_question SET comment_count = comment_count + 1 WHERE postID = ?;
+              call notif(?);`,
             [
                 data.postID,
                 data.username,
                 data.comment,
                 data.time,
                 data.anonymous,
+                data.postID,
                 data.postID
             ],
             (error, results, fields) => {
@@ -392,7 +396,8 @@ module.exports = {
     commentAnswer:(data, callBack) => {
         pool.query(
             `INSERT INTO comment_table (postID, answerID, username, comment, time, anonymous) VALUES (?,?,?,?,?,?);
-              UPDATE answer SET comment_count2 = comment_count2 + 1 WHERE answerID = ?`,
+              UPDATE answer SET comment_count2 = comment_count2 + 1 WHERE answerID = ?;
+              call notif(?);`,
             [
                 data.postID,
                 data.answerID,
@@ -400,7 +405,8 @@ module.exports = {
                 data.comment,
                 data.time,
                 data.anonymous,
-                data.answerID
+                data.answerID,
+                data.postID
             ],
             (error, results, fields) => {
                 if(error) {
@@ -844,6 +850,30 @@ module.exports = {
         pool.query(
             `UPDATE user SET profile_picture = ?, publicID = ?, WHERE username = ?`,
             [url, publicID, username],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    getNotification: (username, callBack) => {
+        pool.query(
+            'SELECT * FROM notification LEFT JOIN post_question ON notification.postID = post_question.postID WHERE notification.username = ?',
+            [username],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    getMyPost: (username, callBack) => {
+        pool.query(
+            'SELECT * FROM post_question WHERE asker = ?',
+            [username],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);

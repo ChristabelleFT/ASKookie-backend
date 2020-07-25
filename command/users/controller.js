@@ -51,7 +51,9 @@ const {
     hasFollow,
     hasLikedAns,
     getFollow,
-    confirmation
+    confirmation,
+    getNotification,
+    getMyPost
 } = require("./service");
 
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
@@ -861,6 +863,30 @@ module.exports = {
         const id = req.params.id;
         const name = req.params.name;
         hasLikedAns(id, name,(err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    getNotification: (req, res) => {
+        const username = req.params.username;
+        getNotification(username, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            return res.json({
+                data: results
+            });
+        });
+    },
+    getMyPost: (req, res) => {
+        const username = req.params.username;
+        getMyPost(username, (err, results) => {
             if(err) {
                 console.log(err);
                 return;
