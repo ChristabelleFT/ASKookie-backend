@@ -247,8 +247,8 @@ module.exports = {
         pool.query(
             `INSERT INTO answer (postID2, answer, image, publicID, answerer, time2, anonymous2) VALUES (?,?,?,?,?,?,?);
             call notif(?,1);
-            select @asker := asker from post_question where postID2 = ?;
-            insert into notification (asker, postID, type) values (@asker,?,3)`,
+            select @asker := asker from post_question where postID = ?;
+            insert into notification (asker, postID, type) values (@asker,?,3);`,
             [
                 data.postID2,
                 data.answer,
