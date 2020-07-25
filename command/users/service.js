@@ -246,7 +246,9 @@ module.exports = {
     answer:(data, publicID, url, callBack) => {
         pool.query(
             `INSERT INTO answer (postID2, answer, image, publicID, answerer, time2, anonymous2) VALUES (?,?,?,?,?,?,?);
-            call notif(?,1);`,
+            call notif(?,1);
+            select @asker := asker from post_question where postID2 = ?;
+            insert into notification (asker, postID, type) values (@asker,?,3)`,
             [
                 data.postID2,
                 data.answer,
@@ -255,6 +257,8 @@ module.exports = {
                 data.answerer,
                 data.time,
                 data.anonymous,
+                data.postID2,
+                data.postID2,
                 data.postID2
             ],
             (error, results, fields) => {
@@ -414,7 +418,7 @@ module.exports = {
             `INSERT INTO comment_table (postID, answerID, username, comment, time, anonymous) VALUES (?,?,?,?,?,?);
               UPDATE answer SET comment_count2 = comment_count2 + 1 WHERE answerID = ?;
               call notif(?,2);
-              select @asker := answerer answer where answerID = ?;
+              select @asker := answerer from answer where answerID = ?;
               insert into notification (asker, postID, type) values (@asker,?,8)`,
             [
                 data.postID,
