@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2020 at 08:25 PM
+-- Generation Time: Jul 25, 2020 at 09:26 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -96,7 +96,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `home` ()  begin
 CREATE DEFINER=`root`@`localhost` PROCEDURE `member` (IN `email` VARCHAR(50))  begin
 if email like '%u.nus.edu' then update user set member_type = 2 where user.email = email;
 elseif email like 'christabelle.ft@gmail.com' or email like 'michela.vieri.hp@gmail.com' then update user set member_type = 1 where user.email = email;
-else update user set member_type = 3;
+else update user set member_type = 3 where user.email = email;
 end if;
 end$$
 
