@@ -243,13 +243,14 @@ module.exports = {
             }
         );
     },
-    answer:(data, url, callBack) => {
+    answer:(data, publicID, url, callBack) => {
         pool.query(
-            `INSERT INTO answer (postID2, answer, image, answerer, time2, anonymous2) VALUES (?,?,?,?,?,?)`,
+            `INSERT INTO answer (postID2, answer, image, publicID, answerer, time2, anonymous2) VALUES (?,?,?,?,?,?,?)`,
             [
                 data.postID2,
                 data.answer,
                 url,
+                publicID,
                 data.answerer,
                 data.time,
                 data.anonymous
@@ -839,10 +840,10 @@ module.exports = {
             }
         );
     },
-    uploadProfiles: (username, url, callBack) => {
+    uploadProfiles: (username, publicID, url, callBack) => {
         pool.query(
-            `UPDATE user SET profile_picture = ? WHERE username = ?`,
-            [url, username],
+            `UPDATE user SET profile_picture = ?, publicID = ?, WHERE username = ?`,
+            [url, publicID, username],
             (error, results, fields) => {
                 if(error) {
                     return callBack(error);

@@ -13,8 +13,9 @@ module.exports = {
                 })
 
             const url = uploadResponse.url;
+            const publicID = uploadResponse.public_id;
 
-            await uploadProfiles(username, url, (err, results) => {
+            await uploadProfiles(username, publicID, url, (err, results) => {
                 if(err) {
                     console.log(err);
                     return err;
@@ -36,9 +37,10 @@ module.exports = {
                         upload_preset: 'askookie'
                     })
 
+                const publicID = uploadResponse.public_id;
                 const url = uploadResponse.url;
 
-                await answer(body, url, (err, results) =>{
+                await answer(body, publicID, url, (err, results) =>{
                     if(err) {
                         console.log(err);
                         return res.status(500).json({
@@ -51,7 +53,7 @@ module.exports = {
                     });
                 });
             } else {
-                await answer(body, null, (err, results) =>{
+                await answer(body, null, null, (err, results) =>{
                     if(err) {
                         console.log(err);
                         return res.status(500).json({
