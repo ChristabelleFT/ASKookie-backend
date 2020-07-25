@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2020 at 04:35 PM
+-- Generation Time: Jul 25, 2020 at 04:55 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -157,7 +157,7 @@ INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `image`, `publicID`, `ans
 (1, 2, 'testinggg', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL),
 (2, 3, 'test answer', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL),
 (4, 7, 'everytime', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL),
-(5, 8, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 2, 0, NULL),
+(5, 8, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 2, 1, NULL),
 (6, 2, 'another test answer', NULL, NULL, 'chrisya', '7/19/2020', 1, 0, 0, NULL),
 (8, 4, 'in image', 'http://res.cloudinary.com/askookie/image/upload/v1595612651/askookie/ucwv8yr0kvu7ozyymrh2.jpg', NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL),
 (10, 8, 'sheares', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL),
@@ -207,7 +207,7 @@ INSERT INTO `answered` (`postID`, `type_post`, `category`, `question`, `title`, 
 (5, 2, '3', NULL, NULL, 'test edit', 'chrisya', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 18, 'today', 'http://res.cloudinary.com/askookie/image/upload/v1595670893/askookie/cpz1gcfbiytlodq38spr.jpg', 'askookie/cpz1gcfbiytlodq38spr', 'christabelle', '7/25/2020', 1, 1, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 1, 0, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 2, 0, NULL, NULL, NULL),
 (14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -256,7 +256,8 @@ CREATE TABLE `comment_table` (
 
 INSERT INTO `comment_table` (`commentID`, `postID`, `answerID`, `username`, `comment`, `time`, `anonymous`, `like_count`) VALUES
 (7, 14, NULL, 'chrisya', 'yeay', '7/25/2020', 0, 0),
-(9, 14, NULL, 'christabelle', 'hello', '7/25/2020', 0, 0);
+(9, 14, NULL, 'christabelle', 'hello', '7/25/2020', 0, 0),
+(14, 8, 5, 'thevandi', 'yup', '7/25/2020', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -303,7 +304,7 @@ INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `po
 (6, 2, '1', NULL, 'testtt', 'testtt', 'chrisya', '7/10/2020', 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 4, 'everytime', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL, NULL, NULL),
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 18, 'today', 'http://res.cloudinary.com/askookie/image/upload/v1595670893/askookie/cpz1gcfbiytlodq38spr.jpg', 'askookie/cpz1gcfbiytlodq38spr', 'christabelle', '7/25/2020', 1, 1, 0, NULL, NULL, NULL),
-(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 1, 0, NULL, NULL, NULL),
+(8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 2, 0, NULL, NULL, NULL),
 (8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 10, 'sheares', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
 (8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 1, -2, 19, 'eusoff', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
 (14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -415,7 +416,8 @@ CREATE TABLE `notification` (
 --
 
 INSERT INTO `notification` (`notificationID`, `username`, `postID`, `hasRead`, `type`) VALUES
-(1, 'chrisya', 14, 0, NULL);
+(1, 'chrisya', 14, 0, NULL),
+(5, 'christabelle', 8, 0, 2);
 
 -- --------------------------------------------------------
 
@@ -650,13 +652,13 @@ ALTER TABLE `answer`
 -- AUTO_INCREMENT for table `comment_table`
 --
 ALTER TABLE `comment_table`
-  MODIFY `commentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `commentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `notificationID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `notificationID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `post_question`
