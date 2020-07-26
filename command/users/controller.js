@@ -75,7 +75,7 @@ module.exports = {
        // let nodemail = require("./emailer");
         
         const file = fs.readFileSync(
-            emailTemplate + '\\confirmEmail.ejs', 'ascii'
+            emailTemplate + '//confirmEmail.ejs', 'ascii'
         );
 
         let transporter = nodemailer.createTransport({
