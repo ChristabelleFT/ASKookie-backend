@@ -25,7 +25,7 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_comment` (IN `id` INT(12))  begin
+CREATE PROCEDURE `delete_comment` (IN `id` INT(12))  begin
 select @postid := postID from comment_table where commentID = id;
 select @answerid := answerID from comment_table where commentID = id;
 if isnull(@answerid) then update post_question set comment_count = comment_count - 1 where postID = @postid;
@@ -34,7 +34,7 @@ end if;
 delete from comment_table where commentID = id;
 end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `hasLiked` (IN `name` VARCHAR(25), IN `id` INT(10))  begin
+CREATE PROCEDURE `hasLiked` (IN `name` VARCHAR(25), IN `id` INT(10))  begin
 if exists (select * from like_table where like_table.username = name and like_table.postID = id) then
     if exists (select * from save where save.username = name and save.postID = id) then
             if exists (select * from follow_table where follow_table.username = name and follow_table.postID = id) then
@@ -74,14 +74,14 @@ else
 end if;
 end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `hasLikedAns` (IN `name` VARCHAR(25), IN `id` INT(10))  begin
+CREATE PROCEDURE `hasLikedAns` (IN `name` VARCHAR(25), IN `id` INT(10))  begin
 if exists (select * from like_table where like_table.username = name and like_table.postID = id) then select * from answer left join like_table on answer.answerID = like_table.answerID where postID2 = id;
 else
 select * from answer where postID2 = id;
 end if;
 end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `home` ()  begin
+CREATE PROCEDURE `home` ()  begin
              declare n int default 0;
              declare i int default 0;
              set i = 0;
@@ -93,14 +93,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `home` ()  begin
              end while;
              end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `member` (IN `email` VARCHAR(50))  begin
+CREATE PROCEDURE `member` (IN `email` VARCHAR(50))  begin
 if email like '%u.nus.edu' then update user set member_type = 2 where user.email = email;
 elseif email like 'christabelle.ft@gmail.com' or email like 'michela.vieri.hp@gmail.com' then update user set member_type = 1 where user.email = email;
 else update user set member_type = 3 where user.email = email;
 end if;
 end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `notif` (IN `id` INT(10), IN `type` INT(1))  begin
+CREATE PROCEDURE `notif` (IN `id` INT(10), IN `type` INT(1))  begin
 declare x int;
 set x = 0;
 while exists(select username from follow_table where postID = id limit x,1) do
@@ -111,7 +111,7 @@ set x = x+1;
 end while;
 end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `temp_table` ()  BEGIN
+CREATE PROCEDURE `temp_table` ()  BEGIN
 DROP TABLE IF EXISTS feeds;
              DROP TABLE IF EXISTS id;
              DROP TABLE IF EXISTS answered;
