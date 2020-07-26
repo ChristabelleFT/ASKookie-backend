@@ -457,7 +457,7 @@ module.exports = {
     },
     report:(data, callBack) => {
         pool.query(
-            'INSERT INTO report_table (postID, username, type) VALUES (?,?,?)',
+            'INSERT INTO report (postID, username, type) VALUES (?,?,?)',
             [
                 data.postID,
                 data.username,
@@ -872,7 +872,7 @@ module.exports = {
     },
     uploadProfiles: (username, publicID, url, callBack) => {
         pool.query(
-            `UPDATE user SET profile_picture = ?, publicID = ?, WHERE username = ?`,
+            `UPDATE user SET profile_picture = ?, publicID = ? WHERE username = ?`,
             [url, publicID, username],
             (error, results, fields) => {
                 if(error) {
@@ -921,6 +921,18 @@ module.exports = {
     myNotif: (username, callBack) => {
         pool.query(
             'SELECT * FROM post_question WHERE asker = ?',
+            [username],
+            (error, results, fields) => {
+                if(error) {
+                    return callBack(error);
+                }
+                return callBack(null, results);
+            }
+        );
+    },
+    getProfilePicture: (username, callBack) => {
+        pool.query(
+            'SELECT publicID FROM user WHERE username = ?',
             [username],
             (error, results, fields) => {
                 if(error) {

@@ -57,7 +57,7 @@ const {
      getMyPost,
      readNotif
 } = require("./controller");
-const { uploadProfile, answer } = require("./uploadImage");
+const { uploadProfile, answer, getProfilePicture } = require("./uploadImage");
 const router = require("express").Router();
 
 router.post("/register", createUser);
@@ -119,5 +119,6 @@ router.post("/upload/profile/:username", uploadProfile);
 router.get("/notification/:username",getNotification);
 router.get("/post/:username",getMyPost);
 router.post("/read/:notifID",readNotif);
+router.get("/profile/:username",getProfilePicture);
 
 module.exports = router;

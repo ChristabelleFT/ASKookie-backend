@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2020 at 06:40 PM
+-- Generation Time: Jul 26, 2020 at 09:01 AM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.6
+-- PHP Version: 7.4.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -155,6 +155,7 @@ CREATE TABLE `answer` (
 --
 
 INSERT INTO `answer` (`answerID`, `postID2`, `answer`, `image`, `publicID`, `answerer`, `time2`, `anonymous2`, `like_count2`, `comment_count2`, `hasLiked2`) VALUES
+(0, 15, 'hello', 'http://res.cloudinary.com/askookie/image/upload/v1595740274/askookie/dmurtnskbr4vi4asdg8v.jpg', 'askookie/dmurtnskbr4vi4asdg8v', 'christabelle', '7/26/2020', 1, 0, 0, NULL),
 (1, 2, 'testinggg', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL),
 (2, 3, 'test answer', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL),
 (4, 7, 'everytime', NULL, NULL, 'chrisya', '7/13/2020', 1, 0, 0, NULL),
@@ -215,8 +216,9 @@ INSERT INTO `answered` (`postID`, `type_post`, `category`, `question`, `title`, 
 (7, 1, '3', 'when', '', '', 'chrisya', '7/13/2020', 1, 0, 0, 18, 'today', 'http://res.cloudinary.com/askookie/image/upload/v1595670893/askookie/cpz1gcfbiytlodq38spr.jpg', 'askookie/cpz1gcfbiytlodq38spr', 'christabelle', '7/25/2020', 1, 1, 0, NULL, NULL, NULL),
 (8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 2, -2, 5, 'raffles hall', NULL, NULL, 'chrisya', '7/14/2020', 1, 2, 1, NULL, NULL, NULL),
 (14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(15, 1, '2', 'hy?', '', '', 'miki', '7/25/2020', 1, 0, 0, 21, 'hi', NULL, NULL, 'miki', '7/26/2020', 1, 2, 4, NULL, NULL, NULL),
-(16, 2, '2', NULL, 'sd', 'df', 'miki', '7/25/2020', 0, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(15, 1, '2', 'hy?', '', '', 'miki', '7/25/2020', 1, 1, 0, 21, 'hi', NULL, NULL, 'miki', '7/26/2020', 1, 2, 4, NULL, NULL, NULL),
+(16, 2, '2', NULL, 'sd', 'df', 'miki', '7/25/2020', 0, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(17, 2, '1', NULL, 'attention', 'new information', 'christabelle', '7/26/2020', 0, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -329,10 +331,13 @@ INSERT INTO `feeds` (`postID`, `type_post`, `category`, `question`, `title`, `po
 (8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 2, -2, 19, 'eusoff', NULL, NULL, 'thevandi', '7/25/2020', 1, 0, 0, NULL, NULL, NULL),
 (8, 1, '2', 'what it the best hall?', '', '', 'chrisya', '7/14/2020', 1, 2, -2, 20, 'ds', NULL, NULL, 'miki', '7/25/2020', 1, 1, 1, NULL, NULL, NULL),
 (14, 2, '6', NULL, 'post type', 'integer plz', 'chrisya', '7/17/2020', 0, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(15, 1, '2', 'hy?', '', '', 'miki', '7/25/2020', 1, 0, 0, 21, 'hi', NULL, NULL, 'miki', '7/26/2020', 1, 2, 4, NULL, NULL, NULL),
-(15, 1, '2', 'hy?', '', '', 'miki', '7/25/2020', 1, 0, 0, 22, 's', NULL, NULL, 'miki', '7/26/2020', 1, 1, 1, NULL, NULL, NULL),
-(15, 1, '2', 'hy?', '', '', 'miki', '7/25/2020', 1, 0, 0, 23, 'hey', NULL, NULL, 'miki', '7/26/2020', 1, 0, 0, NULL, NULL, NULL),
-(16, 2, '2', NULL, 'sd', 'df', 'miki', '7/25/2020', 0, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(15, 1, '2', 'hy?', '', '', 'miki', '7/25/2020', 1, 1, 0, 0, 'hello', 'http://res.cloudinary.com/askookie/image/upload/v1595740274/askookie/dmurtnskbr4vi4asdg8v.jpg', 'askookie/dmurtnskbr4vi4asdg8v', 'christabelle', '7/26/2020', 1, 0, 0, NULL, NULL, NULL),
+(15, 1, '2', 'hy?', '', '', 'miki', '7/25/2020', 1, 1, 0, 21, 'hi', NULL, NULL, 'miki', '7/26/2020', 1, 2, 4, NULL, NULL, NULL),
+(15, 1, '2', 'hy?', '', '', 'miki', '7/25/2020', 1, 1, 0, 22, 's', NULL, NULL, 'miki', '7/26/2020', 1, 1, 1, NULL, NULL, NULL),
+(15, 1, '2', 'hy?', '', '', 'miki', '7/25/2020', 1, 1, 0, 23, 'hey', NULL, NULL, 'miki', '7/26/2020', 1, 1, 1, NULL, NULL, NULL),
+(15, 1, '2', 'hy?', '', '', 'miki', '7/25/2020', 1, 1, 0, 24, 'the', NULL, NULL, 'miki', '7/26/2020', 1, 0, 0, NULL, NULL, NULL),
+(16, 2, '2', NULL, 'sd', 'df', 'miki', '7/25/2020', 0, 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(17, 2, '1', NULL, 'attention', 'new information', 'christabelle', '7/26/2020', 0, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -380,7 +385,8 @@ INSERT INTO `id` (`postID`) VALUES
 (8),
 (14),
 (15),
-(16);
+(16),
+(17);
 
 -- --------------------------------------------------------
 
@@ -411,7 +417,10 @@ INSERT INTO `like_table` (`username`, `postID`, `answerID`, `commentID`, `hasLik
 ('miki', 15, 22, NULL, 1),
 ('miki', 8, NULL, NULL, 1),
 ('miki', 8, 20, NULL, 1),
-('miki', 15, 23, NULL, 1);
+('miki', 15, 23, NULL, 1),
+('christabelle', 15, NULL, NULL, 1),
+('christabelle', 0, NULL, NULL, 1),
+('christabelle', 17, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -461,7 +470,14 @@ INSERT INTO `notification` (`notificationID`, `username`, `postID`, `asker`, `ty
 (25, 'christabelle', 8, 'chrisya', 2),
 (28, '', 15, 'miki', 5),
 (29, '', 15, 'miki', 8),
-(30, '', 15, 'miki', 3);
+(30, '', 15, 'miki', 3),
+(0, '', 15, 'miki', 4),
+(0, '', 15, 'miki', 4),
+(0, '', 15, 'miki', 4),
+(0, '', 0, 'christabelle', 4),
+(0, '', 17, 'christabelle', 4),
+(0, '', 15, 'miki', 3),
+(0, '', 15, 'miki', 3);
 
 -- --------------------------------------------------------
 
@@ -525,8 +541,9 @@ INSERT INTO `post_question` (`postID`, `question`, `title`, `post_content`, `typ
 (8, 'what it the best hall?', '', '', 1, 'chrisya', '7/14/2020', 2, 1, 2, -2, NULL, NULL, NULL),
 (9, 'what is the best rc', '', '', 1, 'chrisya', '7/16/2020', 2, 1, 0, 0, NULL, NULL, NULL),
 (14, NULL, 'post type', 'integer plz', 2, 'chrisya', '7/17/2020', 6, 0, 1, 3, NULL, NULL, NULL),
-(15, 'hy?', '', '', 1, 'miki', '7/25/2020', 2, 1, 0, 0, NULL, NULL, NULL),
-(16, NULL, 'sd', 'df', 2, 'miki', '7/25/2020', 2, 0, 1, 3, NULL, NULL, NULL);
+(15, 'hy?', '', '', 1, 'miki', '7/25/2020', 2, 1, 1, 0, NULL, NULL, NULL),
+(16, NULL, 'sd', 'df', 2, 'miki', '7/25/2020', 2, 0, 1, 3, NULL, NULL, NULL),
+(17, NULL, 'attention', 'new information', 2, 'christabelle', '7/26/2020', 1, 0, 1, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -550,23 +567,14 @@ INSERT INTO `post_type` (`id`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `report_table`
+-- Table structure for table `report`
 --
 
-CREATE TABLE `report_table` (
+CREATE TABLE `report` (
   `postID` int(10) DEFAULT NULL,
   `username` varchar(25) DEFAULT NULL,
   `type` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `report_table`
---
-
-INSERT INTO `report_table` (`postID`, `username`, `type`) VALUES
-(2, 'test', 'inappropriate'),
-(5, 'test', 'spam'),
-(6, 'chrisya', 'Plagiarism');
 
 -- --------------------------------------------------------
 
@@ -601,8 +609,8 @@ CREATE TABLE `user` (
   `email` varchar(30) NOT NULL,
   `username` varchar(25) DEFAULT NULL,
   `member_type` varchar(10) DEFAULT NULL,
-  `profile_picture` text DEFAULT 'https://res.cloudinary.com/askookie/image/upload/v1595604061/askookie/WhatsApp_Image_2020-07-24_at_22.38.55_qciuxc.jpg',
-  `publicID` text DEFAULT 'askookie/WhatsApp_Image_2020-07-24_at_22.38.55_qciuxc.jpg',
+  `profile_picture` text DEFAULT NULL,
+  `publicID` text DEFAULT 'askookie/dmurtnskbr4vi4asdg8v',
   `password` text DEFAULT NULL,
   `verified` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -612,15 +620,15 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`email`, `username`, `member_type`, `profile_picture`, `publicID`, `password`, `verified`) VALUES
-('christabelle.ft@gmail.com', 'thevandi', '1', 'http://res.cloudinary.com/askookie/image/upload/v1595586762/askookie/ikjrzxdbyt29tiubcz3r.jpg', NULL, '$2b$10$Ts2UeLCtoD0WVJUFEbeQ.OdU1FfUXZscEtSAMLA3S/4D6sKU5WDp2', 1),
-('christabelle_ft@yahoo.com', 'chrisyaaa', '3', NULL, NULL, '$2b$10$0MZSy29.Vrhlp4bX/CkNv.hfMKpzr/HQzheWZIyAj70zhJBgliOWK', 1),
-('christopherrobinong@gmail.com', 'christrobinong', '3', NULL, NULL, '$2b$10$jTgrx.KutYzMP5jggj5NE.luLW2ucAxr8Sz.NIjS1j01w8AilVuMy', NULL),
-('chrisya@gmail.com', 'chrisya', '3', NULL, NULL, '$2b$10$yqzy/tZdzLo8RD0.N/fYJe2cKuLvlFf5.J5kbk1T7Ln2nBHNHreom', 1),
-('e0407768@u.nus.edu', 'christabelle', '2', NULL, NULL, '$2b$10$9ct1Ys8DO2iyjoS0F.l5ye0chuircOlYFRnRyEcQyvhnHxWgrd1lm', 1),
-('fredda2@gmail.com', 'fredda2', '3', NULL, NULL, '$2b$10$2ncoq./TF1r9ejlcdCct5OkZbB9IEyirIuQ.7H7fOk34Z67GGUOWu', NULL),
-('fredda@gmail.com', 'fredda', '3', NULL, NULL, '$2b$10$fW9p4Bskikx3LQMmrEfOue/ouKM.lfQnmdM4ZqjBAet1CvOkW.m7G', NULL),
-('michela.vieri.hp@gmail.com', 'miki', '1', 'https://res.cloudinary.com/askookie/image/upload/v1595604061/askookie/WhatsApp_Image_2020-07-24_at_22.38.55_qciuxc.jpg', 'askookie/WhatsApp_Image_2020-07-24_at_22.38.55_qciuxc.jpg', '$2b$10$Ag5k9CVOorW/TH/xXzBNZ.V9P.oNGMgmTcrzVPzhFBilmHDypzVdm', 1),
-('test@gmail.com', 'test', '3', NULL, NULL, NULL, NULL);
+('christabelle.ft@gmail.com', 'thevandi', '1', 'http://res.cloudinary.com/askookie/image/upload/v1595586762/askookie/ikjrzxdbyt29tiubcz3r.jpg', 'askookie/dmurtnskbr4vi4asdg8v', '$2b$10$Ts2UeLCtoD0WVJUFEbeQ.OdU1FfUXZscEtSAMLA3S/4D6sKU5WDp2', 1),
+('christabelle_ft@yahoo.com', 'chrisyaaa', '3', NULL, 'askookie/dmurtnskbr4vi4asdg8v', '$2b$10$0MZSy29.Vrhlp4bX/CkNv.hfMKpzr/HQzheWZIyAj70zhJBgliOWK', 1),
+('christopherrobinong@gmail.com', 'christrobinong', '3', NULL, 'askookie/dmurtnskbr4vi4asdg8v', '$2b$10$jTgrx.KutYzMP5jggj5NE.luLW2ucAxr8Sz.NIjS1j01w8AilVuMy', NULL),
+('chrisya@gmail.com', 'chrisya', '3', NULL, 'askookie/dmurtnskbr4vi4asdg8v', '$2b$10$yqzy/tZdzLo8RD0.N/fYJe2cKuLvlFf5.J5kbk1T7Ln2nBHNHreom', 1),
+('e0407768@u.nus.edu', 'christabelle', '2', 'http://res.cloudinary.com/askookie/image/upload/v1595746025/askookie/d4ui2y67sunax65960gx.jpg', 'askookie/d4ui2y67sunax65960gx', '$2b$10$9ct1Ys8DO2iyjoS0F.l5ye0chuircOlYFRnRyEcQyvhnHxWgrd1lm', 1),
+('fredda2@gmail.com', 'fredda2', '3', NULL, 'askookie/dmurtnskbr4vi4asdg8v', '$2b$10$2ncoq./TF1r9ejlcdCct5OkZbB9IEyirIuQ.7H7fOk34Z67GGUOWu', NULL),
+('fredda@gmail.com', 'fredda', '3', NULL, 'askookie/dmurtnskbr4vi4asdg8v', '$2b$10$fW9p4Bskikx3LQMmrEfOue/ouKM.lfQnmdM4ZqjBAet1CvOkW.m7G', NULL),
+('michela.vieri.hp@gmail.com', 'miki', '1', 'https://res.cloudinary.com/askookie/image/upload/v1595604061/askookie/WhatsApp_Image_2020-07-24_at_22.38.55_qciuxc.jpg', 'askookie/dmurtnskbr4vi4asdg8v', '$2b$10$Ag5k9CVOorW/TH/xXzBNZ.V9P.oNGMgmTcrzVPzhFBilmHDypzVdm', 1),
+('test@gmail.com', 'test', '3', NULL, 'askookie/dmurtnskbr4vi4asdg8v', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -666,135 +674,36 @@ ALTER TABLE `like_table`
   ADD KEY `like_table_ibfk_4` (`commentID`);
 
 --
--- Indexes for table `member_type`
---
-ALTER TABLE `member_type`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `notification`
---
-ALTER TABLE `notification`
-  ADD PRIMARY KEY (`notificationID`);
-
---
 -- Indexes for table `post_question`
 --
 ALTER TABLE `post_question`
-  ADD PRIMARY KEY (`postID`),
-  ADD KEY `post_question_ibfk_1` (`category`),
-  ADD KEY `asker` (`asker`);
+  ADD PRIMARY KEY (`postID`);
 
 --
--- Indexes for table `post_type`
+-- Indexes for table `report`
 --
-ALTER TABLE `post_type`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `report_table`
---
-ALTER TABLE `report_table`
-  ADD KEY `report_table_ibfk_2` (`username`),
-  ADD KEY `report_table_ibfk_1` (`postID`);
-
---
--- Indexes for table `save`
---
-ALTER TABLE `save`
-  ADD UNIQUE KEY `save_idx` (`username`,`postID`),
-  ADD KEY `save_ibfk_2` (`postID`);
-
---
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`email`),
-  ADD UNIQUE KEY `username` (`username`);
+ALTER TABLE `report`
+  ADD KEY `postID` (`postID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `answer`
---
-ALTER TABLE `answer`
-  MODIFY `answerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
--- AUTO_INCREMENT for table `comment_table`
---
-ALTER TABLE `comment_table`
-  MODIFY `commentID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
-
---
--- AUTO_INCREMENT for table `notification`
---
-ALTER TABLE `notification`
-  MODIFY `notificationID` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
---
 -- AUTO_INCREMENT for table `post_question`
 --
 ALTER TABLE `post_question`
-  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `postID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `answer`
+-- Constraints for table `report`
 --
-ALTER TABLE `answer`
-  ADD CONSTRAINT `answer_ibfk_1` FOREIGN KEY (`answerer`) REFERENCES `user` (`username`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `idx1` FOREIGN KEY (`postID2`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `comment_table`
---
-ALTER TABLE `comment_table`
-  ADD CONSTRAINT `comment_table_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `comment_table_ibfk_3` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `comment_table_ibfk_4` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`) ON DELETE CASCADE;
-
---
--- Constraints for table `follow_table`
---
-ALTER TABLE `follow_table`
-  ADD CONSTRAINT `postID` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `username` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `like_table`
---
-ALTER TABLE `like_table`
-  ADD CONSTRAINT `like_table_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `like_table_ibfk_2` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `like_table_ibfk_4` FOREIGN KEY (`commentID`) REFERENCES `comment_table` (`commentID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `like_table_ibfk_5` FOREIGN KEY (`answerID`) REFERENCES `answer` (`answerID`) ON DELETE CASCADE;
-
---
--- Constraints for table `post_question`
---
-ALTER TABLE `post_question`
-  ADD CONSTRAINT `asker` FOREIGN KEY (`asker`) REFERENCES `user` (`username`) ON DELETE CASCADE,
-  ADD CONSTRAINT `post_question_ibfk_1` FOREIGN KEY (`category`) REFERENCES `category` (`categoryID`) ON DELETE CASCADE;
-
---
--- Constraints for table `report_table`
---
-ALTER TABLE `report_table`
-  ADD CONSTRAINT `report_table_ibfk_1` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE,
-  ADD CONSTRAINT `report_table_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `save`
---
-ALTER TABLE `save`
-  ADD CONSTRAINT `save_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE,
-  ADD CONSTRAINT `save_ibfk_2` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE;
+ALTER TABLE `report`
+  ADD CONSTRAINT `postID` FOREIGN KEY (`postID`) REFERENCES `post_question` (`postID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

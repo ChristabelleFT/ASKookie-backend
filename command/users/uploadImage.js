@@ -1,5 +1,5 @@
 const { cloudinary } = require('../../config/cloudinary_config');
-const { uploadProfiles, answer } = require("./service");
+const { uploadProfiles, answer, getProfilePicture } = require("./service");
 
 module.exports = {
     uploadProfile: async (req, res) => {
@@ -40,6 +40,8 @@ module.exports = {
                 const publicID = uploadResponse.public_id;
                 const url = uploadResponse.url;
 
+                console.log(publicID);
+
                 await answer(body, publicID, url, (err, results) =>{
                     if(err) {
                         console.log(err);
@@ -69,5 +71,23 @@ module.exports = {
         } catch (error) {
             console.error(error); 
         }
+    },
+    getProfilePicture:(req, res) => {
+        const username = req.params.username;
+        getProfilePicture(username, (err, results) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            if(!results) {
+                return res.json({
+                    message: "Record not found"
+                });
+            }
+            return res.json({
+                data: results
+            });
+        });
     }
+    
 };
