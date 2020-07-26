@@ -97,7 +97,7 @@ module.exports = {
                             expiresIn: '1d',
                         },
                     );
-        const verifURL = `http://localhost:5000/confirmation/` + token;
+        const verifURL = `https://whispering-hamlet-08619.herokuapp.com/confirmation/` + token;
         const emailOption = {
             from: 'askookieforum@gmail.com',
             to: body.email,
@@ -136,7 +136,7 @@ module.exports = {
                 console.log(err);
                 return;
             }
-            return res.redirect('http://localhost:3000/signinform');
+            return res.redirect('https://askookie.netlify.app/signinform');
         });
     },
     getUserByName: (req, res) => {
