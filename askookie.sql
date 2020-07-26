@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2020 at 09:01 AM
+-- Generation Time: Jul 26, 2020 at 09:19 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -610,7 +610,7 @@ CREATE TABLE `user` (
   `username` varchar(25) DEFAULT NULL,
   `member_type` varchar(10) DEFAULT NULL,
   `profile_picture` text DEFAULT NULL,
-  `publicID` text DEFAULT 'askookie/dmurtnskbr4vi4asdg8v',
+  `publicID` text DEFAULT NULL,
   `password` text DEFAULT NULL,
   `verified` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
