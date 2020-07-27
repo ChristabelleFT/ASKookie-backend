@@ -272,8 +272,8 @@ module.exports = {
     deletePost: (id, callBack) => {
         pool.query(
             `DELETE FROM post_question WHERE postID = ?;
-            DELETE FROM follow_table WHERE postID = ?,
-            DELETE FROM save WHERE postID = ?,
+            DELETE FROM follow_table WHERE postID = ?;
+            DELETE FROM save WHERE postID = ?;
             DELETE FROM notification WHERE postID = ?`,
             [ id, id, id, id ],
             (error, results, fields) => {
